@@ -2,89 +2,162 @@
 <html lang="es">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contáctenos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctenos</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="contactenos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="contactenos.css">
 </head>
 
 <body>
 
-<!-- Botón menú -->
-<div class="menu-btn" id="menuBtn">
-  <img src="img/logo.png"alt="Logo One Click Service"> 
-</div>
+    <!-- Botón menú -->
+    <div class="menu-btn" id="menuBtn">
+        <img src="img/logo.png" alt="Logo One Click Service">
+    </div>
 
-<!-- Menú lateral -->
-<nav class="menu" id="menu">
-<a href="index.html">Inicio</a>
-<a href="nosotros.html">Sobre Nosotros</a>
-<a href="servicios.html">Servicios</a>
-<a href="Preguntas.html">Preguntas Frecuentes</a>
-<a href="contactenos.html">Contáctenos</a>
-</nav>
+    <!-- Menú lateral -->
+    <nav class="menu" id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Sobre Nosotros</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="preguntas.html">Preguntas Frecuentes</a>
+        <a href="contactenos.html">Contáctenos</a>
+    </nav>
 
-<section class="contacto">
+    <section class="contacto">
 
-<h1>Contáctenos</h1>
+        <h1>Contáctenos</h1>
 
-<p class="descripcion">
-Estamos aquí para ayudarte.
-<br>
-Escríbenos y te responderemos lo antes posible.
-</p>
+        <p class="descripcion">
+            Estamos aquí para ayudarte.
+            <br>
+            Escríbenos y te responderemos lo antes posible.
+        </p>
 
-<div class="contenedor">
+        <div class="contenedor">
 
-<!-- IZQUIERDA -->
-<div class="informacion">
+            <!-- INFORMACIÓN -->
+            <div class="informacion">
 
-<div class="imagen">
-<img src="img/contacto.png" alt="Sobre de contacto">
-</div>
+                <div class="imagen">
+                    <img src="img/contacto.png" alt="Sobre de contacto">
+                </div>
 
-<div class="datos">
-<p>📧 Correo electrónico<br>oneclickservice@gmail.com</p>
-<p>☎ Teléfono<br>+57 3001234567</p>
-<p>📍 Ubicación<br>Bogotá, Colombia</p>
-</div>
+                <div class="datos">
 
-</div>
+                    <p>
+                        📧 Correo electrónico
+                        <br>
+                        oneclickservice@gmail.com
+                    </p>
 
-<!-- DERECHA FORMULARIO -->
-<div class="formulario">
+                    <p>
+                        ☎ Teléfono
+                        <br>
+                        +57 3001234567
+                    </p>
 
-<form id="formulario">
+                    <p>
+                        📍 Ubicación
+                        <br>
+                        Bogotá, Colombia
+                    </p>
 
-<label>Nombre</label>
-<input type="text" id="nombre" placeholder="Tu Nombre">
-<small id="errorNombre"></small>
+                </div>
 
-<label>Correo electrónico</label>
-<input type="email" id="correo" placeholder="Tu correo">
-<small id="errorCorreo"></small>
+            </div>
 
-<label>Teléfono</label>
-<input type="text" id="telefono" placeholder="Tu teléfono">
-<small id="errorTelefono"></small>
+            <!-- FORMULARIO -->
+            <div class="formulario">
 
-<label>Mensaje</label>
-<textarea id="mensaje" placeholder="Escribe tu mensaje"></textarea>
-<small id="errorMensaje"></small>
+                <form id="formulario">
 
-<button type="submit">Enviar Mensaje</button>
+                    <!-- NOMBRE -->
 
-</form>
+                    <label for="nombre">
+                        Nombre
+                    </label>
 
-</div>
+                    <input
+                        type="text"
+                        id="nombre"
+                        placeholder="Mínimo 10 - Máximo 50 caracteres">
 
-</div>
+                    <small id="errorNombre"></small>
 
-</section>
+                    <!-- CORREO -->
 
-<script src="contactenos.js"></script>
+                    <label for="correo">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="correo"
+                        placeholder="ejemplo@correo.com">
+
+                    <small id="errorCorreo"></small>
+
+                    <!-- TELÉFONO -->
+
+                    <label for="telefono">
+                        Teléfono
+                    </label>
+
+                    <input
+                        type="text"
+                        id="telefono"
+                        placeholder="Entre 7 y 10 números">
+
+                    <small id="errorTelefono"></small>
+
+                    <!-- MENSAJE -->
+
+                    <label for="mensaje">
+                        Mensaje
+                    </label>
+
+                    <textarea
+                        id="mensaje"
+                        placeholder="Mínimo 15 - Máximo 100 caracteres"></textarea>
+
+                    <small id="errorMensaje"></small>
+
+                    <!-- PDF -->
+
+                    <label for="archivo">
+                        Adjuntar documento PDF
+                    </label>
+
+                    <input
+                        type="file"
+                        id="archivo"
+                        accept=".pdf,application/pdf">
+
+                    <small id="errorArchivo"></small>
+
+                    <!-- BOTÓN -->
+
+                    <button type="submit">
+                        Enviar Mensaje
+                    </button>
+
+                    <!-- MENSAJE GENERAL -->
+
+                    <p id="mensajeFormulario"></p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="contactenos.js"></script>
 
 </body>
+
 </html>

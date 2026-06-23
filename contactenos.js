@@ -1,81 +1,266 @@
+// ================= VARIABLES =================
+
 const formulario = document.getElementById("formulario");
 
 const nombre = document.getElementById("nombre");
 const correo = document.getElementById("correo");
 const telefono = document.getElementById("telefono");
 const mensaje = document.getElementById("mensaje");
+const archivo = document.getElementById("archivo");
 
 const errorNombre = document.getElementById("errorNombre");
 const errorCorreo = document.getElementById("errorCorreo");
 const errorTelefono = document.getElementById("errorTelefono");
 const errorMensaje = document.getElementById("errorMensaje");
+const errorArchivo = document.getElementById("errorArchivo");
 
-formulario.addEventListener("submit", function(e){
-e.preventDefault();
+const mensajeFormulario =
+document.getElementById("mensajeFormulario");
 
-let valido = true;
+// ================= MENÚ =================
 
-// NOMBRE
-if(!/^[a-zA-ZÀ-ÿ\s]+$/.test(nombre.value.trim())){
-errorNombre.textContent = "❌ Solo letras";
-nombre.classList.add("errorInput");
-valido = false;
-} else {
-errorNombre.textContent = "✔ Correcto";
-nombre.classList.add("successInput");
-}
-
-// CORREO
-const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-if(!regex.test(correo.value)){
-errorCorreo.textContent = "❌ Correo inválido";
-correo.classList.add("errorInput");
-valido = false;
-} else {
-errorCorreo.textContent = "✔ Correcto";
-correo.classList.add("successInput");
-}
-
-// TELEFONO
-if(!/^\d{7,10}$/.test(telefono.value)){
-errorTelefono.textContent = "❌ Solo números";
-telefono.classList.add("errorInput");
-valido = false;
-} else {
-errorTelefono.textContent = "✔ Correcto";
-telefono.classList.add("successInput");
-}
-
-// MENSAJE
-if(mensaje.value.trim().length < 10){
-errorMensaje.textContent = "❌ Mínimo 10 caracteres";
-mensaje.classList.add("errorInput");
-valido = false;
-} else {
-errorMensaje.textContent = "✔ Correcto";
-mensaje.classList.add("successInput");
-}
-
-// ENVIAR
-if(valido){
-alert("Mensaje enviado correctamente");
-formulario.reset();
-
-document.querySelectorAll("input, textarea").forEach(el=>{
-el.classList.remove("errorInput","successInput");
-});
-
-document.querySelectorAll("small").forEach(el=>{
-el.textContent="";
-});
-}
-});
-
-/* MENÚ */
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
 
-menuBtn.addEventListener("click", ()=>{
-menu.classList.toggle("activo");
+menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("activo");
+});
+
+// ================= VALIDACIÓN =================
+
+formulario.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    let valido = true;
+
+    mensajeFormulario.textContent = "";
+    mensajeFormulario.className = "";
+
+    // LIMPIAR MENSAJES
+    document.querySelectorAll("small").forEach(campo=>{
+        campo.textContent = "";
+    });
+
+    // LIMPIAR ESTILOS
+    document.querySelectorAll("input, textarea").forEach(campo=>{
+        campo.classList.remove("errorInput");
+        campo.classList.remove("successInput");
+    });
+
+    if(archivo){
+        archivo.classList.remove("errorInput");
+        archivo.classList.remove("successInput");
+    }
+
+    // ================= NOMBRE =================
+
+    const nombreValor = nombre.value.trim();
+
+    if(nombreValor === ""){
+
+        errorNombre.textContent = "❌ El nombre es obligatorio";
+        nombre.classList.add("errorInput");
+        valido = false;
+
+    }else if(nombreValor.length < 10){
+
+        errorNombre.textContent = "❌ Mínimo 10 caracteres";
+        nombre.classList.add("errorInput");
+        valido = false;
+
+    }else if(nombreValor.length > 50){
+
+        errorNombre.textContent = "❌ Máximo 50 caracteres";
+        nombre.classList.add("errorInput");
+        valido = false;
+
+    }else if(!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(nombreValor)){
+
+        errorNombre.textContent = "❌ Solo letras y espacios";
+        nombre.classList.add("errorInput");
+        valido = false;
+
+    }else if(!/(?=.*[a-z])(?=.*[A-Z])/.test(nombreValor)){
+
+        errorNombre.textContent = "❌ Debe contener mayúsculas y minúsculas";
+        nombre.classList.add("errorInput");
+        valido = false;
+
+    }else{
+
+        errorNombre.textContent = "✔ Nombre válido";
+        nombre.classList.add("successInput");
+    }
+
+    // ================= CORREO =================
+
+    const correoValor = correo.value.trim();
+
+    const regexCorreo =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co|org|net|edu|gov|info|biz)$/i;
+
+    if(correoValor === ""){
+
+        errorCorreo.textContent = "❌ El correo es obligatorio";
+        correo.classList.add("errorInput");
+        valido = false;
+
+    }else if(!correoValor.includes("@")){
+
+        errorCorreo.textContent = "❌ Debe contener el símbolo @";
+        correo.classList.add("errorInput");
+        valido = false;
+
+    }else if(!regexCorreo.test(correoValor)){
+
+        errorCorreo.textContent =
+        "❌ Ingrese un correo válido (ejemplo@gmail.com)";
+
+        correo.classList.add("errorInput");
+        valido = false;
+
+    }else{
+
+        errorCorreo.textContent = "✔ Correo válido";
+        correo.classList.add("successInput");
+    }
+
+    // ================= TELÉFONO =================
+
+    const telefonoValor = telefono.value.trim();
+
+    if(telefonoValor === ""){
+
+        errorTelefono.textContent = "❌ El teléfono es obligatorio";
+        telefono.classList.add("errorInput");
+        valido = false;
+
+    }else if(!/^\d+$/.test(telefonoValor)){
+
+        errorTelefono.textContent = "❌ Solo se permiten números";
+        telefono.classList.add("errorInput");
+        valido = false;
+
+    }else if(telefonoValor.length < 7){
+
+        errorTelefono.textContent = "❌ Mínimo 7 dígitos";
+        telefono.classList.add("errorInput");
+        valido = false;
+
+    }else if(telefonoValor.length > 10){
+
+        errorTelefono.textContent = "❌ Máximo 10 dígitos";
+        telefono.classList.add("errorInput");
+        valido = false;
+
+    }else{
+
+        errorTelefono.textContent = "✔ Teléfono válido";
+        telefono.classList.add("successInput");
+    }
+
+    // ================= MENSAJE =================
+
+    const mensajeValor = mensaje.value.trim();
+
+    if(mensajeValor === ""){
+
+        errorMensaje.textContent = "❌ El mensaje es obligatorio";
+        mensaje.classList.add("errorInput");
+        valido = false;
+
+    }else if(mensajeValor.length < 15){
+
+        errorMensaje.textContent = "❌ Mínimo 15 caracteres";
+        mensaje.classList.add("errorInput");
+        valido = false;
+
+    }else if(mensajeValor.length > 100){
+
+        errorMensaje.textContent = "❌ Máximo 100 caracteres";
+        mensaje.classList.add("errorInput");
+        valido = false;
+
+    }else{
+
+        errorMensaje.textContent = "✔ Mensaje válido";
+        mensaje.classList.add("successInput");
+    }
+
+    // ================= PDF (OPCIONAL) =================
+
+    if(archivo){
+
+        if(archivo.files.length === 0){
+
+            // ✅ OPCIONAL: no genera error
+            errorArchivo.textContent = "";
+            archivo.classList.remove("errorInput");
+            archivo.classList.remove("successInput");
+
+        }else{
+
+            const pdf = archivo.files[0];
+
+            if(pdf.type !== "application/pdf"){
+
+                errorArchivo.textContent = "❌ Solo se permiten archivos PDF";
+                archivo.classList.add("errorInput");
+                valido = false;
+
+            }else if(pdf.size > 5000000){
+
+                errorArchivo.textContent = "❌ El PDF no puede superar 5 MB";
+                archivo.classList.add("errorInput");
+                valido = false;
+
+            }else{
+
+                errorArchivo.textContent = "✔ PDF válido";
+                archivo.classList.add("successInput");
+            }
+        }
+    }
+
+    // ================= RESULTADO =================
+
+    if(valido){
+
+        mensajeFormulario.textContent =
+        "✔ Formulario validado correctamente.";
+
+        mensajeFormulario.classList.remove("mensajeError");
+        mensajeFormulario.classList.add("mensajeExito");
+
+        alert("Formulario enviado correctamente. Gracias por contactarnos.");
+
+        formulario.reset();
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 500);
+
+    }else{
+
+        mensajeFormulario.textContent =
+        "❌ Corrija los campos marcados en rojo.";
+
+        mensajeFormulario.classList.remove("mensajeExito");
+        mensajeFormulario.classList.add("mensajeError");
+    }
+
+});
+
+// ================= LIMPIAR MENSAJES =================
+
+[nombre, correo, telefono, mensaje].forEach(campo=>{
+
+    campo.addEventListener("input", ()=>{
+
+        mensajeFormulario.textContent = "";
+        mensajeFormulario.className = "";
+
+    });
+
 });
