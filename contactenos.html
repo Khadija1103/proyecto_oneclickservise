@@ -72,80 +72,61 @@
             <!-- FORMULARIO -->
             <div class="formulario">
 
-                <form id="formulario">
+                <!-- 🔥 FORM CON FORMSPREE -->
+                <form id="formulario"
+                      action="https://formspree.io/f/mrewbabj"
+                      method="POST">
 
                     <!-- NOMBRE -->
-
-                    <label for="nombre">
-                        Nombre
-                    </label>
-
-                    <input
-                        type="text"
-                        id="nombre"
-                        placeholder="Mínimo 10 - Máximo 50 caracteres">
+                    <label for="nombre">Nombre</label>
+                    <input type="text"
+                           id="nombre"
+                           name="nombre"
+                           placeholder="Mínimo 10 - Máximo 50 caracteres">
 
                     <small id="errorNombre"></small>
 
                     <!-- CORREO -->
-
-                    <label for="correo">
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        type="email"
-                        id="correo"
-                        placeholder="ejemplo@correo.com">
+                    <label for="correo">Correo electrónico</label>
+                    <input type="email"
+                           id="correo"
+                           name="correo"
+                           placeholder="ejemplo@correo.com">
 
                     <small id="errorCorreo"></small>
 
                     <!-- TELÉFONO -->
-
-                    <label for="telefono">
-                        Teléfono
-                    </label>
-
-                    <input
-                        type="text"
-                        id="telefono"
-                        placeholder="Entre 7 y 10 números">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text"
+                           id="telefono"
+                           name="telefono"
+                           placeholder="Entre 7 y 10 números">
 
                     <small id="errorTelefono"></small>
 
                     <!-- MENSAJE -->
-
-                    <label for="mensaje">
-                        Mensaje
-                    </label>
-
-                    <textarea
-                        id="mensaje"
-                        placeholder="Mínimo 15 - Máximo 100 caracteres"></textarea>
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje"
+                              name="mensaje"
+                              placeholder="Mínimo 15 - Máximo 100 caracteres"></textarea>
 
                     <small id="errorMensaje"></small>
 
                     <!-- PDF -->
-
-                    <label for="archivo">
-                        Adjuntar documento PDF
-                    </label>
-
-                    <input
-                        type="file"
-                        id="archivo"
-                        accept=".pdf,application/pdf">
+                    <label for="archivo">Adjuntar documento PDF</label>
+                    <input type="file"
+                           id="archivo"
+                           name="archivo"
+                           accept=".pdf,application/pdf">
 
                     <small id="errorArchivo"></small>
 
                     <!-- BOTÓN -->
-
                     <button type="submit">
                         Enviar Mensaje
                     </button>
 
                     <!-- MENSAJE GENERAL -->
-
                     <p id="mensajeFormulario"></p>
 
                 </form>
