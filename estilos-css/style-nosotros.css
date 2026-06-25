@@ -1,5 +1,10 @@
 * {
-    font-family: 'Nunito' !important;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f8fafc, #eef2ff);
+
 }
 
 body{
@@ -170,7 +175,7 @@ body{
     align-items: center;
     text-align: center;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card.team-card:hover {
@@ -178,10 +183,22 @@ body{
 }
 
 /* Bordes superiores para cada tarjeta dependiendo del color */
-.card-1, .card-5 { border-top: 6px solid #00FCF8 !important; }
-.card-2 { border-top: 6px solid #EC4899 !important; }
-.card-3 { border-top: 6px solid #8B5CF6 !important; }
-.card-4 { border-top: 6px solid #6D28D9 !important; }
+.card-1,
+.card-5 {
+    border-top: 6px solid #00FCF8 !important;
+}
+
+.card-2 {
+    border-top: 6px solid #EC4899 !important;
+}
+
+.card-3 {
+    border-top: 6px solid #8B5CF6 !important;
+}
+
+.card-4 {
+    border-top: 6px solid #6D28D9 !important;
+}
 
 .team-img {
     width: 130px;
@@ -211,6 +228,26 @@ body{
     margin-bottom: 20px;
 }
 
+.badge-scrum {
+    background-color: #E0FDFD;
+    color: #0891B2;
+}
+
+.badge-front {
+    background-color: #FCE7F3;
+    color: #DB2777;
+}
+
+.badge-design {
+    background-color: #F3E8FF;
+    color: #7C3AED;
+}
+
+.badge-back {
+    background-color: #EDE9FE;
+    color: #5B21B6;
+}
+
 .badge-scrum { background-color: #E0FDFD; color: #0891B2; }
 .badge-front { background-color: #FCE7F3; color: #DB2777; }
 .badge-design { background-color: #F3E8FF; color: #7C3AED; }
@@ -235,8 +272,10 @@ body{
 
     /* Si el elemento '.menu' tiene la clase '.activo', desplazamos '.main-content' */
     body:has(.menu.activo) .main-content {
-        margin-left: 250px; /* Desplaza el contenido para dar espacio al menú */
-        width: calc(100% - 250px); /* Ajusta el ancho para evitar overflow horizontal */
+        margin-left: 250px;
+        /* Desplaza el contenido para dar espacio al menú */
+        width: calc(100% - 250px);
+        /* Ajusta el ancho para evitar overflow horizontal */
     }
 }
 
