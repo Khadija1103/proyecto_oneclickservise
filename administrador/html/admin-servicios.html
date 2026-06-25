@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctenos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="../../assets/img/logo.png">
+    <link rel="stylesheet" href="../css/admin-servicios.css">
+</head>
+
+<body>
+
+    <!-- ====== HEADER (RENDERIZADO POR JS) ====== -->
+   
+    <div id="header-container"></div>
+
+    <!-- Botón menú -->
+    
+
+    <!-- Menú lateral -->
+    <!-- <nav class="menu" id="menu">
+        <a href="../inicio/index.html">Inicio</a>
+        <a href="../nosotros/nosotros.html">Sobre Nosotros</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="../preguntas-frecuentes/Preguntas.html">Preguntas Frecuentes</a>
+        <a href="../contactenos/contactenos.html">Contáctenos</a>
+    </nav> -->
+
+    <!-- ============================================
+SECCIÓN PRINCIPAL DE SERVICIOS
+============================================ -->
+<section class="services-container" aria-label="Gestión de servicios">
+    
+    <!-- ============================================
+    ENCABEZADO DE LA SECCIÓN
+    ============================================ -->
+    <header class="page-header">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <h1>
+                    <i class="bi bi-grid-3x3-gap-fill" aria-hidden="true"></i>
+                    Gestión de Servicios
+                </h1>
+                <p>Administra los servicios que se mostrarán en los apartados del usuario.</p>
+            </div>
+            <div>
+                <span class="badge bg-primary bg-opacity-10 text-primary p-2">
+                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                    Total: <span id="totalCount" aria-label="Total de servicios">8</span> servicios
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+    BARRA DE HERRAMIENTAS
+    ============================================ -->
+    <div class="toolbar" role="toolbar" aria-label="Barra de herramientas de servicios">
+        
+        <!-- Buscador -->
+        <div class="search-box" role="search">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="form-control" 
+                placeholder="Buscar servicios..." 
+                aria-label="Buscar servicios por nombre o descripción"
+            />
+        </div>
+
+        <!-- Filtros -->
+        <div class="filter-group" role="group" aria-label="Filtros de estado">
+            <button 
+                class="btn btn-filter btn-outline-secondary" 
+                id="filterAll" 
+                aria-pressed="true"
+            >
+                <i class="bi bi-list" aria-hidden="true"></i> Todos
+            </button>
+            <button 
+                class="btn btn-filter btn-outline-success" 
+                id="filterActive" 
+                aria-pressed="false"
+            >
+                <i class="bi bi-check-circle" aria-hidden="true"></i> Activos
+            </button>
+            <button 
+                class="btn btn-filter btn-outline-danger" 
+                id="filterInactive" 
+                aria-pressed="false"
+            >
+                <i class="bi bi-x-circle" aria-hidden="true"></i> Inactivos
+            </button>
+            <button 
+                class="btn btn-filter btn-outline-secondary" 
+                id="clearFilters"
+            >
+                <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Limpiar
+            </button>
+        </div>
+
+        <!-- Botón Agregar -->
+        <button 
+            class="btn btn-add" 
+            data-bs-toggle="modal" 
+            data-bs-target="#addServiceModal"
+            aria-label="Agregar nuevo servicio"
+        >
+            <i class="bi bi-plus-lg" aria-hidden="true"></i> Agregar servicio
+        </button>
+    </div>
+
+    <!-- ============================================
+    CONTADOR DE RESULTADOS
+    ============================================ -->
+    <div class="results-count" aria-live="polite">
+        Mostrando <span id="visibleCount" aria-label="Servicios visibles">8</span> servicios
+    </div>
+
+    <!-- ============================================
+    GRID DE SERVICIOS
+    ============================================ -->
+    <div class="services-grid" id="servicesGrid" role="list" aria-label="Lista de servicios">
+        <!-- Los servicios se generan dinámicamente con JavaScript -->
+    </div>
+
+</section>
+
+    <!-- <script src="../../js/footer.js"></script> -->
+    
+
+</body>
+
+</html>
