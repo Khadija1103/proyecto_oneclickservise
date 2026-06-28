@@ -7,6 +7,10 @@ body {
 
 }
 
+body{
+    background: linear-gradient(135deg,#f8fafc,#eef2ff);
+}
+
 .containerGeneral {
     display: flex;
     flex-direction: column;
@@ -244,6 +248,11 @@ body {
     color: #5B21B6;
 }
 
+.badge-scrum { background-color: #E0FDFD; color: #0891B2; }
+.badge-front { background-color: #FCE7F3; color: #DB2777; }
+.badge-design { background-color: #F3E8FF; color: #7C3AED; }
+.badge-back { background-color: #EDE9FE; color: #5B21B6; }
+
 .card-text {
     line-height: 1.6;
     color: #666;
@@ -254,7 +263,6 @@ body {
 /* DESPLAZAMIENTO DEL CONTENIDO PRINCIPAL */
 
 @media screen and (min-width: 769px) {
-
     /* Estado por defecto: contenido a pantalla completa */
     .main-content {
         transition: margin-left 0.4s ease, width 0.4s ease;
@@ -373,3 +381,4 @@ body {
         margin-bottom: 30px;
     }
 }
+
