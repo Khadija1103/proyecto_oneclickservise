@@ -1,30 +1,43 @@
+// =========================
+// VARIABLES GLOBALES
+// =========================
 let listaServicios = [];
 let filtroActual = "todos";
 let textoBusqueda = "";
 let indiceServicioEditar = null;
+let modoCatalogo = false;
 
-// Referencias HTML
+// Detectar si estamos en modo catálogo (por la URL o por un ID)
+if (document.getElementById("catalogoMode") !== null) {
+    modoCatalogo = true;
+}
+
+// =========================
+// REFERENCIAS HTML
+// =========================
 const contenedorServicios = document.getElementById("servicesGrid");
 const contadorTotal = document.getElementById("totalCount");
 const contadorVisibles = document.getElementById("visibleCount");
 const buscadorServicios = document.getElementById("searchInput");
 
-// Botones principales
+// Botones principales (solo en modo administración)
 const botonAgregarServicio = document.getElementById("btnAgregarServicio");
 const botonFiltroTodos = document.getElementById("filterAll");
 const botonFiltroActivos = document.getElementById("filterActive");
 const botonFiltroInactivos = document.getElementById("filterInactive");
 const botonLimpiarFiltros = document.getElementById("clearFilters");
 
-// Ventana agregar
+// Ventanas modales (solo en modo administración)
 const modalAgregarServicio = document.getElementById("modalAgregarServicio");
 const cerrarModalAgregar = document.getElementById("cerrarModalAgregar");
 const formularioAgregarServicio = document.getElementById("formularioAgregarServicio");
-
-// Ventana editar
 const modalEditarServicio = document.getElementById("modalEditarServicio");
 const cerrarModalEditar = document.getElementById("cerrarModalEditar");
 const formularioEditarServicio = document.getElementById("formularioEditarServicio");
+
+// Elementos del catálogo
+const tituloCatalogo = document.getElementById("tituloCatalogo");
+const subtituloCatalogo = document.getElementById("subtituloCatalogo");
 
 // =========================
 // CONFIGURACIÓN DE VALIDACIONES
@@ -143,12 +156,11 @@ function bloquearNumerosNombre(input, idError) {
     });
 }
 
-// Bloquear solo números en descripción (ahora permite números, solo bloquea caracteres especiales no permitidos)
+// Bloquear caracteres especiales en descripción
 function bloquearCaracteresEspecialesDescripcion(input, idError) {
     input.addEventListener('keypress', function(e) {
         const charCode = e.which || e.keyCode;
         const char = String.fromCharCode(charCode);
-        // Permitir letras, números, espacios, y signos de puntuación básicos
         if (!/^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s.,;:!?\-]$/.test(char)) {
             e.preventDefault();
             const errorEl = document.getElementById(idError);
@@ -166,7 +178,7 @@ function bloquearCaracteresEspecialesDescripcion(input, idError) {
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
 
-if (menuBtn && menu) {
+if (menuBtn && menu && !modoCatalogo) {
     menuBtn.addEventListener("click", () => {
         menu.classList.toggle("activo");
     });
@@ -179,68 +191,112 @@ if (menuBtn && menu) {
 }
 
 // =========================
-// CONFIGURAR VALIDACIONES EN TIEMPO REAL - AGREGAR
+// CONFIGURAR VALIDACIONES EN TIEMPO REAL - AGREGAR (solo modo admin)
 // =========================
-const nombreAgregar = document.getElementById("nombreServicioAgregar");
-const descripcionAgregar = document.getElementById("descripcionServicioAgregar");
-const precioAgregar = document.getElementById("precioServicioAgregar");
-const imagenAgregar = document.getElementById("imagenServicioAgregar");
+if (!modoCatalogo) {
+    const nombreAgregar = document.getElementById("nombreServicioAgregar");
+    const descripcionAgregar = document.getElementById("descripcionServicioAgregar");
+    const precioAgregar = document.getElementById("precioServicioAgregar");
+    const imagenAgregar = document.getElementById("imagenServicioAgregar");
 
-if (nombreAgregar) {
-    bloquearNumerosNombre(nombreAgregar, 'error-nombreAgregar');
-    nombreAgregar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.nombre, 'nombreAgregar');
-    });
-    nombreAgregar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.nombre, 'nombreAgregar');
-    });
-}
+    if (nombreAgregar) {
+        bloquearNumerosNombre(nombreAgregar, 'error-nombreAgregar');
+        nombreAgregar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.nombre, 'nombreAgregar');
+        });
+        nombreAgregar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.nombre, 'nombreAgregar');
+        });
+    }
 
-if (descripcionAgregar) {
-    bloquearCaracteresEspecialesDescripcion(descripcionAgregar, 'error-descripcionAgregar');
-    descripcionAgregar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.descripcion, 'descripcionAgregar');
-        // Actualizar contador
-        const contador = document.getElementById("contador-descripcionAgregar");
-        if (contador) {
-            const length = this.value.length;
-            contador.textContent = `${length} / 1000 caracteres`;
-            if (length > 1000) {
-                contador.classList.add("excedido");
+    if (descripcionAgregar) {
+        bloquearCaracteresEspecialesDescripcion(descripcionAgregar, 'error-descripcionAgregar');
+        descripcionAgregar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.descripcion, 'descripcionAgregar');
+            const contador = document.getElementById("contador-descripcionAgregar");
+            if (contador) {
+                const length = this.value.length;
+                contador.textContent = `${length} / 1000 caracteres`;
+                if (length > 1000) {
+                    contador.classList.add("excedido");
+                } else {
+                    contador.classList.remove("excedido");
+                }
+            }
+        });
+        descripcionAgregar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.descripcion, 'descripcionAgregar');
+        });
+    }
+
+    if (precioAgregar) {
+        bloquearLetrasPrecio(precioAgregar);
+        precioAgregar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.precio, 'precioAgregar');
+        });
+        precioAgregar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.precio, 'precioAgregar');
+        });
+    }
+
+    if (imagenAgregar) {
+        imagenAgregar.addEventListener("change", function() {
+            const file = this.files[0];
+            const errorEl = document.getElementById("error-imagenAgregar");
+            const exitoEl = document.getElementById("exito-imagenAgregar");
+            const iconoEl = document.getElementById("icono-imagenAgregar");
+
+            this.classList.remove("successInput", "errorInput");
+
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    this.classList.add("errorInput");
+                    if (errorEl) {
+                        errorEl.textContent = "La imagen no debe superar los 2MB";
+                        errorEl.classList.add("visible");
+                    }
+                    if (exitoEl) {
+                        exitoEl.classList.remove("visible");
+                    }
+                    if (iconoEl) {
+                        iconoEl.textContent = "❌";
+                        iconoEl.classList.add("visible");
+                    }
+                    return;
+                }
+                const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!tiposPermitidos.includes(file.type)) {
+                    this.classList.add("errorInput");
+                    if (errorEl) {
+                        errorEl.textContent = "Solo se permiten JPG, PNG o WEBP";
+                        errorEl.classList.add("visible");
+                    }
+                    if (exitoEl) {
+                        exitoEl.classList.remove("visible");
+                    }
+                    if (iconoEl) {
+                        iconoEl.textContent = "❌";
+                        iconoEl.classList.add("visible");
+                    }
+                    return;
+                }
+                this.classList.add("successInput");
+                if (errorEl) {
+                    errorEl.classList.remove("visible");
+                    errorEl.textContent = "";
+                }
+                if (exitoEl) {
+                    exitoEl.textContent = "✓ Imagen válida";
+                    exitoEl.classList.add("visible");
+                }
+                if (iconoEl) {
+                    iconoEl.textContent = "✅";
+                    iconoEl.classList.add("visible");
+                }
             } else {
-                contador.classList.remove("excedido");
-            }
-        }
-    });
-    descripcionAgregar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.descripcion, 'descripcionAgregar');
-    });
-}
-
-if (precioAgregar) {
-    bloquearLetrasPrecio(precioAgregar);
-    precioAgregar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.precio, 'precioAgregar');
-    });
-    precioAgregar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.precio, 'precioAgregar');
-    });
-}
-
-if (imagenAgregar) {
-    imagenAgregar.addEventListener("change", function() {
-        const file = this.files[0];
-        const errorEl = document.getElementById("error-imagenAgregar");
-        const exitoEl = document.getElementById("exito-imagenAgregar");
-        const iconoEl = document.getElementById("icono-imagenAgregar");
-
-        this.classList.remove("successInput", "errorInput");
-
-        if (file) {
-            if (file.size > 2 * 1024 * 1024) {
                 this.classList.add("errorInput");
                 if (errorEl) {
-                    errorEl.textContent = "La imagen no debe superar los 2MB";
+                    errorEl.textContent = "Debe seleccionar una imagen";
                     errorEl.classList.add("visible");
                 }
                 if (exitoEl) {
@@ -250,158 +306,117 @@ if (imagenAgregar) {
                     iconoEl.textContent = "❌";
                     iconoEl.classList.add("visible");
                 }
-                return;
             }
-            const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!tiposPermitidos.includes(file.type)) {
-                this.classList.add("errorInput");
-                if (errorEl) {
-                    errorEl.textContent = "Solo se permiten JPG, PNG o WEBP";
-                    errorEl.classList.add("visible");
-                }
-                if (exitoEl) {
-                    exitoEl.classList.remove("visible");
-                }
-                if (iconoEl) {
-                    iconoEl.textContent = "❌";
-                    iconoEl.classList.add("visible");
-                }
-                return;
-            }
-            this.classList.add("successInput");
-            if (errorEl) {
-                errorEl.classList.remove("visible");
-                errorEl.textContent = "";
-            }
-            if (exitoEl) {
-                exitoEl.textContent = "✓ Imagen válida";
-                exitoEl.classList.add("visible");
-            }
-            if (iconoEl) {
-                iconoEl.textContent = "✅";
-                iconoEl.classList.add("visible");
-            }
-        } else {
-            this.classList.add("errorInput");
-            if (errorEl) {
-                errorEl.textContent = "Debe seleccionar una imagen";
-                errorEl.classList.add("visible");
-            }
-            if (exitoEl) {
-                exitoEl.classList.remove("visible");
-            }
-            if (iconoEl) {
-                iconoEl.textContent = "❌";
-                iconoEl.classList.add("visible");
-            }
-        }
-    });
+        });
+    }
 }
 
 // =========================
-// CONFIGURAR VALIDACIONES EN TIEMPO REAL - EDITAR
+// CONFIGURAR VALIDACIONES EN TIEMPO REAL - EDITAR (solo modo admin)
 // =========================
-const nombreEditar = document.getElementById("nombreServicioEditar");
-const descripcionEditar = document.getElementById("descripcionServicioEditar");
-const precioEditar = document.getElementById("precioServicioEditar");
-const imagenEditar = document.getElementById("imagenServicioEditar");
+if (!modoCatalogo) {
+    const nombreEditar = document.getElementById("nombreServicioEditar");
+    const descripcionEditar = document.getElementById("descripcionServicioEditar");
+    const precioEditar = document.getElementById("precioServicioEditar");
+    const imagenEditar = document.getElementById("imagenServicioEditar");
 
-if (nombreEditar) {
-    bloquearNumerosNombre(nombreEditar, 'error-nombreEditar');
-    nombreEditar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.nombre, 'nombreEditar');
-    });
-    nombreEditar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.nombre, 'nombreEditar');
-    });
-}
+    if (nombreEditar) {
+        bloquearNumerosNombre(nombreEditar, 'error-nombreEditar');
+        nombreEditar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.nombre, 'nombreEditar');
+        });
+        nombreEditar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.nombre, 'nombreEditar');
+        });
+    }
 
-if (descripcionEditar) {
-    bloquearCaracteresEspecialesDescripcion(descripcionEditar, 'error-descripcionEditar');
-    descripcionEditar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.descripcion, 'descripcionEditar');
-        const contador = document.getElementById("contador-descripcionEditar");
-        if (contador) {
-            const length = this.value.length;
-            contador.textContent = `${length} / 1000 caracteres`;
-            if (length > 1000) {
-                contador.classList.add("excedido");
-            } else {
-                contador.classList.remove("excedido");
+    if (descripcionEditar) {
+        bloquearCaracteresEspecialesDescripcion(descripcionEditar, 'error-descripcionEditar');
+        descripcionEditar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.descripcion, 'descripcionEditar');
+            const contador = document.getElementById("contador-descripcionEditar");
+            if (contador) {
+                const length = this.value.length;
+                contador.textContent = `${length} / 1000 caracteres`;
+                if (length > 1000) {
+                    contador.classList.add("excedido");
+                } else {
+                    contador.classList.remove("excedido");
+                }
             }
-        }
-    });
-    descripcionEditar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.descripcion, 'descripcionEditar');
-    });
-}
+        });
+        descripcionEditar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.descripcion, 'descripcionEditar');
+        });
+    }
 
-if (precioEditar) {
-    bloquearLetrasPrecio(precioEditar);
-    precioEditar.addEventListener("input", function() {
-        validarCampo(this, validacionesServicio.precio, 'precioEditar');
-    });
-    precioEditar.addEventListener("blur", function() {
-        validarCampo(this, validacionesServicio.precio, 'precioEditar');
-    });
-}
+    if (precioEditar) {
+        bloquearLetrasPrecio(precioEditar);
+        precioEditar.addEventListener("input", function() {
+            validarCampo(this, validacionesServicio.precio, 'precioEditar');
+        });
+        precioEditar.addEventListener("blur", function() {
+            validarCampo(this, validacionesServicio.precio, 'precioEditar');
+        });
+    }
 
-if (imagenEditar) {
-    imagenEditar.addEventListener("change", function() {
-        const file = this.files[0];
-        const errorEl = document.getElementById("error-imagenEditar");
-        const exitoEl = document.getElementById("exito-imagenEditar");
-        const iconoEl = document.getElementById("icono-imagenEditar");
+    if (imagenEditar) {
+        imagenEditar.addEventListener("change", function() {
+            const file = this.files[0];
+            const errorEl = document.getElementById("error-imagenEditar");
+            const exitoEl = document.getElementById("exito-imagenEditar");
+            const iconoEl = document.getElementById("icono-imagenEditar");
 
-        this.classList.remove("successInput", "errorInput");
+            this.classList.remove("successInput", "errorInput");
 
-        if (file) {
-            if (file.size > 2 * 1024 * 1024) {
-                this.classList.add("errorInput");
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    this.classList.add("errorInput");
+                    if (errorEl) {
+                        errorEl.textContent = "La imagen no debe superar los 2MB";
+                        errorEl.classList.add("visible");
+                    }
+                    if (exitoEl) {
+                        exitoEl.classList.remove("visible");
+                    }
+                    if (iconoEl) {
+                        iconoEl.textContent = "❌";
+                        iconoEl.classList.add("visible");
+                    }
+                    return;
+                }
+                const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!tiposPermitidos.includes(file.type)) {
+                    this.classList.add("errorInput");
+                    if (errorEl) {
+                        errorEl.textContent = "Solo se permiten JPG, PNG o WEBP";
+                        errorEl.classList.add("visible");
+                    }
+                    if (exitoEl) {
+                        exitoEl.classList.remove("visible");
+                    }
+                    if (iconoEl) {
+                        iconoEl.textContent = "❌";
+                        iconoEl.classList.add("visible");
+                    }
+                    return;
+                }
+                this.classList.add("successInput");
                 if (errorEl) {
-                    errorEl.textContent = "La imagen no debe superar los 2MB";
-                    errorEl.classList.add("visible");
+                    errorEl.classList.remove("visible");
+                    errorEl.textContent = "";
                 }
                 if (exitoEl) {
-                    exitoEl.classList.remove("visible");
+                    exitoEl.textContent = "✓ Imagen válida";
+                    exitoEl.classList.add("visible");
                 }
                 if (iconoEl) {
-                    iconoEl.textContent = "❌";
+                    iconoEl.textContent = "✅";
                     iconoEl.classList.add("visible");
                 }
-                return;
             }
-            const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
-            if (!tiposPermitidos.includes(file.type)) {
-                this.classList.add("errorInput");
-                if (errorEl) {
-                    errorEl.textContent = "Solo se permiten JPG, PNG o WEBP";
-                    errorEl.classList.add("visible");
-                }
-                if (exitoEl) {
-                    exitoEl.classList.remove("visible");
-                }
-                if (iconoEl) {
-                    iconoEl.textContent = "❌";
-                    iconoEl.classList.add("visible");
-                }
-                return;
-            }
-            this.classList.add("successInput");
-            if (errorEl) {
-                errorEl.classList.remove("visible");
-                errorEl.textContent = "";
-            }
-            if (exitoEl) {
-                exitoEl.textContent = "✓ Imagen válida";
-                exitoEl.classList.add("visible");
-            }
-            if (iconoEl) {
-                iconoEl.textContent = "✅";
-                iconoEl.classList.add("visible");
-            }
-        }
-    });
+        });
+    }
 }
 
 // =========================
@@ -433,12 +448,13 @@ function formatearPrecio(precio) {
 }
 
 function actualizarContadores() {
-    if (contadorTotal) contadorTotal.textContent = listaServicios.length;
+    if (contadorTotal && !modoCatalogo) contadorTotal.textContent = listaServicios.length;
     const serviciosVisibles = document.querySelectorAll(".service-card");
-    if (contadorVisibles) contadorVisibles.textContent = serviciosVisibles.length;
+    if (contadorVisibles && !modoCatalogo) contadorVisibles.textContent = serviciosVisibles.length;
 }
 
 function activarBotonFiltro(botonSeleccionado) {
+    if (modoCatalogo) return;
     document.querySelectorAll(".btn-filter").forEach(boton => {
         boton.classList.remove("active");
     });
@@ -446,9 +462,11 @@ function activarBotonFiltro(botonSeleccionado) {
 }
 
 // =========================
-// VALIDAR FORMULARIO AGREGAR
+// VALIDAR FORMULARIO AGREGAR (solo modo admin)
 // =========================
 function validarFormularioAgregar() {
+    if (modoCatalogo) return true;
+    
     const nombreInput = document.getElementById("nombreServicioAgregar");
     const descripcionInput = document.getElementById("descripcionServicioAgregar");
     const precioInput = document.getElementById("precioServicioAgregar");
@@ -529,9 +547,11 @@ function validarFormularioAgregar() {
 }
 
 // =========================
-// VALIDAR FORMULARIO EDITAR
+// VALIDAR FORMULARIO EDITAR (solo modo admin)
 // =========================
 function validarFormularioEditar() {
+    if (modoCatalogo) return true;
+    
     const nombreInput = document.getElementById("nombreServicioEditar");
     const descripcionInput = document.getElementById("descripcionServicioEditar");
     const precioInput = document.getElementById("precioServicioEditar");
@@ -544,118 +564,175 @@ function validarFormularioEditar() {
 }
 
 // =========================
-// ELIMINAR SERVICIO
-// =========================
-function eliminarServicio(id) {
-    const servicio = listaServicios.find(s => String(s.id) === String(id));
-    
-    if (!servicio) {
-        alert("❌ Servicio no encontrado");
-        return;
-    }
-
-    if (confirm(`⚠️ ¿Desea eliminar el servicio "${servicio.nombre}"?\n\nEsta acción eliminará permanentemente el servicio.`)) {
-        if (confirm(`❌ ¿Está SEGURO de eliminar "${servicio.nombre}"?\n\nEsta acción NO se puede deshacer.`)) {
-            
-            listaServicios = listaServicios.filter(s => String(s.id) !== String(id));
-            localStorage.setItem("listaServicios", JSON.stringify(listaServicios));
-            
-            alert(`✅ Servicio "${servicio.nombre}" eliminado correctamente`);
-            renderizarServicios();
-            
-            console.log("✅ Servicio eliminado:", servicio.nombre);
-            console.table(listaServicios);
-        } else {
-            alert(`❌ Eliminación cancelada para "${servicio.nombre}"`);
-        }
-    } else {
-        alert(`❌ Eliminación cancelada para "${servicio.nombre}"`);
-    }
-}
-
-// =========================
 // RENDERIZAR SERVICIOS
 // =========================
 function renderizarServicios() {
     if (!contenedorServicios) return;
     contenedorServicios.innerHTML = "";
 
-    const serviciosFiltrados = listaServicios.filter(servicio => {
-        const coincideBusqueda =
-            servicio.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) ||
-            servicio.descripcion.toLowerCase().includes(textoBusqueda.toLowerCase());
+    let serviciosFiltrados;
 
-        let coincideFiltro = true;
-        if (filtroActual === "activos") coincideFiltro = servicio.activo;
-        if (filtroActual === "inactivos") coincideFiltro = !servicio.activo;
-        return coincideBusqueda && coincideFiltro;
-    });
+    if (modoCatalogo) {
+        // Modo CATÁLOGO: solo mostrar servicios activos
+        serviciosFiltrados = listaServicios.filter(servicio => {
+            const coincideBusqueda =
+                servicio.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) ||
+                servicio.descripcion.toLowerCase().includes(textoBusqueda.toLowerCase());
+            return servicio.activo === true && coincideBusqueda;
+        });
+    } else {
+        // Modo ADMINISTRACIÓN: mostrar según filtros
+        serviciosFiltrados = listaServicios.filter(servicio => {
+            const coincideBusqueda =
+                servicio.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) ||
+                servicio.descripcion.toLowerCase().includes(textoBusqueda.toLowerCase());
 
+            let coincideFiltro = true;
+            if (filtroActual === "activos") coincideFiltro = servicio.activo;
+            if (filtroActual === "inactivos") coincideFiltro = !servicio.activo;
+            return coincideBusqueda && coincideFiltro;
+        });
+    }
+
+    // Actualizar contadores
+    if (contadorTotal && !modoCatalogo) contadorTotal.textContent = listaServicios.length;
+    if (contadorVisibles && !modoCatalogo) contadorVisibles.textContent = serviciosFiltrados.length;
+
+    // Mostrar mensaje si no hay resultados
     if (serviciosFiltrados.length === 0) {
+        const mensaje = modoCatalogo ? 
+            "📋 No hay servicios disponibles en el catálogo." :
+            "📋 No se encontraron servicios. Intenta cambiar el filtro o agregar uno nuevo.";
+        
         contenedorServicios.innerHTML = `
             <div class="mensajeSinServicios" style="grid-column:1/-1;text-align:center;padding:40px;">
-                <h3>📋 No se encontraron servicios.</h3>
-                <p>Intenta cambiar el filtro o agregar uno nuevo.</p>
+                <h3>📋 ${mensaje}</h3>
+                ${modoCatalogo ? '<p>Pronto tendremos nuevos servicios disponibles.</p>' : '<p>Intenta cambiar el filtro o agregar uno nuevo.</p>'}
             </div>
         `;
-        actualizarContadores();
         return;
     }
 
+    // Renderizar cada servicio
     serviciosFiltrados.forEach((servicio) => {
         const tarjeta = document.createElement("div");
         tarjeta.className = "col-lg-6 col-md-6 col-12";
 
-        const iconoToggle = servicio.activo ?
-            '<i class="bi bi-toggle-on toggle-icon active"></i>' :
-            '<i class="bi bi-toggle-off toggle-icon inactive"></i>';
-
-        tarjeta.innerHTML = `
-            <div class="service-card ${servicio.activo ? "card-activo" : "card-inactivo"}">
-                <div class="row align-items-center">
-                    <div class="col-4 text-center">
-                        <div class="service-img-container">
-                            <img src="${servicio.imagen}" alt="${servicio.nombre}">
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <h3 class="service-card-title">${servicio.nombre}</h3>
-                        <p class="service-card-desc">${servicio.descripcion}</p>
-                        <div class="service-card-price">${formatearPrecio(servicio.precio)}</div>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="estado" onclick="cambiarEstadoServicio('${servicio.id}')">
-                                <span class="me-2">${servicio.activo ? "Activo" : "Inactivo"}</span>
-                                ${iconoToggle}
+        if (modoCatalogo) {
+            // MODO CATÁLOGO - Solo mostrar información, sin botones de administración
+            tarjeta.innerHTML = `
+                <div class="service-card card-activo catalogo-card">
+                    <div class="row align-items-center">
+                        <div class="col-4 text-center">
+                            <div class="service-img-container">
+                                <img src="${servicio.imagen}" alt="${servicio.nombre}">
                             </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary btn-sm rounded-3"
-                                    onclick="abrirModalEditarServicio('${servicio.id}')">
-                                    <i class="bi bi-pencil-square"></i> Editar
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm rounded-3"
-                                    onclick="eliminarServicio('${servicio.id}')">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
+                        </div>
+                        <div class="col-8">
+                            <h3 class="service-card-title">${servicio.nombre}</h3>
+                            <p class="service-card-desc">${servicio.descripcion}</p>
+                            <div class="service-card-price">${formatearPrecio(servicio.precio)}</div>
+                            <div class="mt-3">
+                                <span class="badge bg-success">✅ Disponible</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            // MODO ADMINISTRACIÓN - Mostrar con botones de edición y estado (SIN ELIMINAR)
+            const iconoToggle = servicio.activo ?
+                '<i class="bi bi-toggle-on toggle-icon active"></i>' :
+                '<i class="bi bi-toggle-off toggle-icon inactive"></i>';
+
+            tarjeta.innerHTML = `
+                <div class="service-card ${servicio.activo ? "card-activo" : "card-inactivo"}">
+                    <div class="row align-items-center">
+                        <div class="col-4 text-center">
+                            <div class="service-img-container">
+                                <img src="${servicio.imagen}" alt="${servicio.nombre}">
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <h3 class="service-card-title">${servicio.nombre}</h3>
+                            <p class="service-card-desc">${servicio.descripcion}</p>
+                            <div class="service-card-price">${formatearPrecio(servicio.precio)}</div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="estado" onclick="cambiarEstadoServicio('${servicio.id}')">
+                                    <span class="me-2">${servicio.activo ? "Activo" : "Inactivo"}</span>
+                                    ${iconoToggle}
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline-primary btn-sm rounded-3"
+                                        onclick="abrirModalEditarServicio('${servicio.id}')">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
         contenedorServicios.appendChild(tarjeta);
     });
-
-    actualizarContadores();
 }
 
 // =========================
-// VENTANA AGREGAR SERVICIO
+// CONFIGURAR MODO CATÁLOGO
 // =========================
-if (botonAgregarServicio) {
+function configurarModoCatalogo() {
+    if (modoCatalogo) {
+        // Cambiar título y subtítulo
+        if (tituloCatalogo) tituloCatalogo.textContent = "🌟 Nuestros Servicios";
+        if (subtituloCatalogo) subtituloCatalogo.textContent = "Encuentra el servicio que necesitas";
+        
+        // Ocultar elementos de administración
+        if (botonAgregarServicio) botonAgregarServicio.style.display = "none";
+        if (botonFiltroTodos) botonFiltroTodos.style.display = "none";
+        if (botonFiltroActivos) botonFiltroActivos.style.display = "none";
+        if (botonFiltroInactivos) botonFiltroInactivos.style.display = "none";
+        if (botonLimpiarFiltros) botonLimpiarFiltros.style.display = "none";
+        
+        // Ocultar contadores de administración
+        if (contadorTotal && contadorTotal.parentElement) {
+            contadorTotal.parentElement.style.display = "none";
+        }
+        if (contadorVisibles && contadorVisibles.parentElement) {
+            contadorVisibles.parentElement.style.display = "none";
+        }
+        
+        // Agregar estilos de catálogo
+        const style = document.createElement('style');
+        style.textContent = `
+            .catalogo-card {
+                border: 2px solid #28a745 !important;
+                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+            .catalogo-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+            }
+            .catalogo-card .service-card-title {
+                color: #28a745;
+            }
+            .catalogo-card .badge {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// =========================
+// VENTANA AGREGAR SERVICIO (solo modo admin)
+// =========================
+if (!modoCatalogo && botonAgregarServicio) {
     botonAgregarServicio.addEventListener("click", () => {
         if (formularioAgregarServicio) {
             formularioAgregarServicio.reset();
-            // Limpiar validaciones
             document.querySelectorAll("#formularioAgregarServicio .successInput, #formularioAgregarServicio .errorInput")
                 .forEach(el => el.classList.remove("successInput", "errorInput"));
             document.querySelectorAll("#formularioAgregarServicio .mensaje-error, #formularioAgregarServicio .mensaje-exito")
@@ -663,7 +740,6 @@ if (botonAgregarServicio) {
             document.querySelectorAll("#formularioAgregarServicio .icono-validacion")
                 .forEach(el => el.classList.remove("visible"));
             
-            // Resetear contador
             const contador = document.getElementById("contador-descripcionAgregar");
             if (contador) {
                 contador.textContent = "0 / 1000 caracteres";
@@ -681,16 +757,16 @@ if (botonAgregarServicio) {
     });
 }
 
-if (cerrarModalAgregar) {
+if (!modoCatalogo && cerrarModalAgregar) {
     cerrarModalAgregar.addEventListener("click", () => {
         if (modalAgregarServicio) modalAgregarServicio.classList.remove("activo");
     });
 }
 
 // =========================
-// GUARDAR NUEVO SERVICIO
+// GUARDAR NUEVO SERVICIO (solo modo admin)
 // =========================
-if (formularioAgregarServicio) {
+if (!modoCatalogo && formularioAgregarServicio) {
     formularioAgregarServicio.addEventListener("submit", async function(evento) {
         evento.preventDefault();
 
@@ -753,9 +829,11 @@ if (formularioAgregarServicio) {
 }
 
 // =========================
-// ABRIR MODAL EDITAR
+// ABRIR MODAL EDITAR (solo modo admin)
 // =========================
 window.abrirModalEditarServicio = function(idServicio) {
+    if (modoCatalogo) return;
+    
     indiceServicioEditar = listaServicios.findIndex(servicio => servicio.id.toString() === idServicio.toString());
     if (indiceServicioEditar === -1) return;
 
@@ -772,7 +850,6 @@ window.abrirModalEditarServicio = function(idServicio) {
     if (precioInput) precioInput.value = servicio.precio;
     if (imagenInput) imagenInput.value = "";
 
-    // Limpiar validaciones
     document.querySelectorAll("#formularioEditarServicio .successInput, #formularioEditarServicio .errorInput")
         .forEach(el => el.classList.remove("successInput", "errorInput"));
     document.querySelectorAll("#formularioEditarServicio .mensaje-error, #formularioEditarServicio .mensaje-exito")
@@ -780,7 +857,6 @@ window.abrirModalEditarServicio = function(idServicio) {
     document.querySelectorAll("#formularioEditarServicio .icono-validacion")
         .forEach(el => el.classList.remove("visible"));
 
-    // Actualizar contador
     const contador = document.getElementById("contador-descripcionEditar");
     if (contador && descripcionInput) {
         const length = descripcionInput.value.length;
@@ -792,7 +868,6 @@ window.abrirModalEditarServicio = function(idServicio) {
         }
     }
 
-    // Validar campos existentes
     if (nombreInput) validarCampo(nombreInput, validacionesServicio.nombre, 'nombreEditar');
     if (descripcionInput) validarCampo(descripcionInput, validacionesServicio.descripcion, 'descripcionEditar');
     if (precioInput) validarCampo(precioInput, validacionesServicio.precio, 'precioEditar');
@@ -807,16 +882,16 @@ window.abrirModalEditarServicio = function(idServicio) {
     if (modalEditarServicio) modalEditarServicio.classList.add("activo");
 };
 
-if (cerrarModalEditar) {
+if (!modoCatalogo && cerrarModalEditar) {
     cerrarModalEditar.addEventListener("click", () => {
         if (modalEditarServicio) modalEditarServicio.classList.remove("activo");
     });
 }
 
 // =========================
-// GUARDAR EDICIÓN
+// GUARDAR EDICIÓN (solo modo admin)
 // =========================
-if (formularioEditarServicio) {
+if (!modoCatalogo && formularioEditarServicio) {
     formularioEditarServicio.addEventListener("submit", async function(evento) {
         evento.preventDefault();
 
@@ -885,46 +960,50 @@ if (buscadorServicios) {
 }
 
 // =========================
-// FILTROS
+// FILTROS (solo modo admin)
 // =========================
-if (botonFiltroTodos) {
-    botonFiltroTodos.addEventListener("click", () => {
-        filtroActual = "todos";
-        activarBotonFiltro(botonFiltroTodos);
-        renderizarServicios();
-    });
-}
+if (!modoCatalogo) {
+    if (botonFiltroTodos) {
+        botonFiltroTodos.addEventListener("click", () => {
+            filtroActual = "todos";
+            activarBotonFiltro(botonFiltroTodos);
+            renderizarServicios();
+        });
+    }
 
-if (botonFiltroActivos) {
-    botonFiltroActivos.addEventListener("click", () => {
-        filtroActual = "activos";
-        activarBotonFiltro(botonFiltroActivos);
-        renderizarServicios();
-    });
-}
+    if (botonFiltroActivos) {
+        botonFiltroActivos.addEventListener("click", () => {
+            filtroActual = "activos";
+            activarBotonFiltro(botonFiltroActivos);
+            renderizarServicios();
+        });
+    }
 
-if (botonFiltroInactivos) {
-    botonFiltroInactivos.addEventListener("click", () => {
-        filtroActual = "inactivos";
-        activarBotonFiltro(botonFiltroInactivos);
-        renderizarServicios();
-    });
-}
+    if (botonFiltroInactivos) {
+        botonFiltroInactivos.addEventListener("click", () => {
+            filtroActual = "inactivos";
+            activarBotonFiltro(botonFiltroInactivos);
+            renderizarServicios();
+        });
+    }
 
-if (botonLimpiarFiltros) {
-    botonLimpiarFiltros.addEventListener("click", () => {
-        textoBusqueda = "";
-        filtroActual = "todos";
-        if (buscadorServicios) buscadorServicios.value = "";
-        activarBotonFiltro(botonFiltroTodos);
-        renderizarServicios();
-    });
+    if (botonLimpiarFiltros) {
+        botonLimpiarFiltros.addEventListener("click", () => {
+            textoBusqueda = "";
+            filtroActual = "todos";
+            if (buscadorServicios) buscadorServicios.value = "";
+            activarBotonFiltro(botonFiltroTodos);
+            renderizarServicios();
+        });
+    }
 }
 
 // =========================
-// CAMBIAR ESTADO SERVICIO
+// CAMBIAR ESTADO SERVICIO (solo modo admin)
 // =========================
 window.cambiarEstadoServicio = function(idServicio) {
+    if (modoCatalogo) return;
+    
     const servicio = listaServicios.find(servicio => servicio.id.toString() === idServicio.toString());
     if (!servicio) return;
 
@@ -944,23 +1023,31 @@ window.cambiarEstadoServicio = function(idServicio) {
 };
 
 // =========================
-// CERRAR MODALES CLICK FUERA
+// CERRAR MODALES CLICK FUERA (solo modo admin)
 // =========================
-window.addEventListener("click", (evento) => {
-    if (evento.target === modalAgregarServicio) {
-        if (modalAgregarServicio) modalAgregarServicio.classList.remove("activo");
-    }
-    if (evento.target === modalEditarServicio) {
-        if (modalEditarServicio) modalEditarServicio.classList.remove("activo");
-    }
-});
+if (!modoCatalogo) {
+    window.addEventListener("click", (evento) => {
+        if (evento.target === modalAgregarServicio) {
+            if (modalAgregarServicio) modalAgregarServicio.classList.remove("activo");
+        }
+        if (evento.target === modalEditarServicio) {
+            if (modalEditarServicio) modalEditarServicio.classList.remove("activo");
+        }
+    });
+}
 
 // =========================
 // INICIALIZACIÓN
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-    activarBotonFiltro(botonFiltroTodos);
+    // Configurar modo catálogo si es necesario
+    configurarModoCatalogo();
+    
+    if (!modoCatalogo) {
+        activarBotonFiltro(botonFiltroTodos);
+    }
 
+    // Cargar datos desde localStorage
     const guardados = localStorage.getItem("listaServicios");
 
     if (guardados) {
@@ -973,8 +1060,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarServicios();
     actualizarContadores();
     
-    console.log("✅ Sistema de servicios inicializado");
+    console.log(`✅ Sistema de servicios inicializado - Modo: ${modoCatalogo ? "CATÁLOGO" : "ADMINISTRACIÓN"}`);
     console.log(`📊 Total de servicios: ${listaServicios.length}`);
+    console.log(`📊 Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
 });
 
 // =========================
@@ -982,4 +1070,3 @@ document.addEventListener("DOMContentLoaded", () => {
 // =========================
 window.abrirModalEditarServicio = abrirModalEditarServicio;
 window.cambiarEstadoServicio = cambiarEstadoServicio;
-window.eliminarServicio = eliminarServicio;
