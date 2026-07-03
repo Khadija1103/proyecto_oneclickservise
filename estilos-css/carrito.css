@@ -440,3 +440,120 @@ body {
     font-size: 0.85rem;
     color: var(--texto-gris);
 }
+
+/* Responsive */
+@media (max-width: 992px){
+
+    .pantalla-carrito{
+        flex-direction: column;
+    }
+
+    .columna-servicios,
+    .columna-resumen{
+        width:100%;
+    }
+
+    .tarjeta-resumen{
+        position: static;
+        width:100%;
+        margin-left:0;
+    }
+
+    .encabezado{
+        flex-direction: column;
+        gap:20px;
+        align-items:flex-start;
+    }
+
+    .contador{
+        align-self:flex-end;
+    }
+}
+
+@media (max-width:768px){
+
+    .contenedor{
+        width:95%;
+        margin:20px auto;
+    }
+
+    .encabezado{
+        padding:20px;
+    }
+
+    .encabezado h1{
+        font-size:28px;
+    }
+
+    .encabezado p{
+        font-size:15px;
+    }
+
+    .contador{
+        align-self:stretch;
+        width:100%;
+        padding:12px;
+    }
+
+    .tarjeta-servicio{
+
+        grid-template-columns:1fr;
+        justify-items:center;
+        text-align:center;
+        gap:15px;
+    }
+
+    .info-servicio{
+        align-items:center;
+    }
+
+    .precio-servicio{
+        font-size:24px;
+    }
+
+    .control-cantidad{
+        width:130px;
+    }
+
+    .boton-eliminar{
+        width:50px;
+        height:50px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .encabezado h1{
+        font-size:24px;
+    }
+
+    .encabezado p{
+        font-size:14px;
+    }
+
+    .tarjeta{
+        padding:16px;
+    }
+
+    .imagen-servicio{
+        width:70px;
+        height:70px;
+    }
+
+    .nombre-servicio{
+        font-size:18px;
+    }
+
+    .descripcion-servicio{
+        font-size:14px;
+    }
+
+    .texto-precio{
+        font-size:22px;
+    }
+
+    .boton-solicitar{
+        font-size:15px;
+    }
+}
