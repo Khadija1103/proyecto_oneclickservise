@@ -1,21 +1,4 @@
 /* ========================================== */
-/* RESET Y FUENTE GLOBAL                      */
-/* ========================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Nunito', sans-serif;
-}
-
-body {
-    background: #f8f9fa;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* ========================================== */
 /* NAVBAR PERSONALIZADO (armonizado con footer) */
 /* ========================================== */
 .navbar-custom {

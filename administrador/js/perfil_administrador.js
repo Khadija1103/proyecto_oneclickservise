@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function() {
+=======
+document.addEventListener("DOMContentLoaded", function () {
+>>>>>>> origin/main
     const contenedor = document.getElementById("contenedorTarjetas");
     const totalUsuariosSpan = document.getElementById("totalUsuarios");
     let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
@@ -12,13 +16,22 @@ document.addEventListener("DOMContentLoaded", function() {
     const menuBtn = document.getElementById("menuBtn");
     const menu = document.getElementById("menu");
     if (menuBtn && menu) {
+<<<<<<< HEAD
         menuBtn.addEventListener("click", function() {
+=======
+        menuBtn.addEventListener("click", function () {
+>>>>>>> origin/main
             menu.classList.toggle("activo");
         });
 
         // Cerrar menú al hacer clic en un enlace
+<<<<<<< HEAD
         menu.querySelectorAll("a").forEach(function(enlace) {
             enlace.addEventListener("click", function() {
+=======
+        menu.querySelectorAll("a").forEach(function (enlace) {
+            enlace.addEventListener("click", function () {
+>>>>>>> origin/main
                 menu.classList.remove("activo");
             });
         });
@@ -36,7 +49,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // =========================
     const agregarBtn = document.getElementById("agregarPerfil");
     if (agregarBtn) {
+<<<<<<< HEAD
         agregarBtn.addEventListener("click", function() {
+=======
+        agregarBtn.addEventListener("click", function () {
+>>>>>>> origin/main
             if (confirm("➕ ¿Desea agregar un nuevo usuario?\n\nSe abrirá el formulario para crear un nuevo perfil.")) {
                 localStorage.removeItem("usuarioEditar");
                 window.location.href = "perfil.html";
@@ -62,7 +79,11 @@ document.addEventListener("DOMContentLoaded", function() {
     // =========================
     // MOSTRAR TARJETAS
     // =========================
+<<<<<<< HEAD
     usuarios.forEach(function(u, index) {
+=======
+    usuarios.forEach(function (u, index) {
+>>>>>>> origin/main
         const card = document.createElement("div");
         card.classList.add("tarjeta");
 
@@ -119,7 +140,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // =========================
         // EDITAR CON CONFIRMACIÓN
         // =========================
+<<<<<<< HEAD
         card.querySelector(".editar").addEventListener("click", function() {
+=======
+        card.querySelector(".editar").addEventListener("click", function () {
+>>>>>>> origin/main
             const nombreUsuario = `${u.nombres} ${u.apellidos}`;
 
             const confirmarEditar = confirm(
@@ -138,7 +163,11 @@ document.addEventListener("DOMContentLoaded", function() {
         // =========================
         // ELIMINAR CON CONFIRMACIÓN (DOBLE)
         // =========================
+<<<<<<< HEAD
         card.querySelector(".eliminar").addEventListener("click", function() {
+=======
+        card.querySelector(".eliminar").addEventListener("click", function () {
+>>>>>>> origin/main
             const nombreUsuario = `${u.nombres} ${u.apellidos}`;
 
             const confirmarEliminar = confirm(
