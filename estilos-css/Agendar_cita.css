@@ -1,0 +1,404 @@
+/* =====================================================
+RESET Y BASE
+===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #FAF9FF;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* =====================================================
+CONTENEDOR PRINCIPAL - MÁS ANCHO
+===================================================== */
+.container-form {
+    background: #fff;
+    border-radius: 30px;
+    padding: 50px 60px;
+    max-width: 850px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(108, 43, 217, .12);
+    border: 1px solid #ECE5FF;
+}
+
+.container-form h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #4C1D95;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* =====================================================
+VOLVER
+===================================================== */
+.volver-container {
+    margin-bottom: 20px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #6C2BD9;
+    font-weight: 700;
+    font-size: 15px;
+    transition: .3s;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: #FAF9FF;
+    border: 2px solid #ECE5FF;
+}
+
+.btn-volver:hover {
+    background: #6C2BD9;
+    color: #fff;
+    border-color: #6C2BD9;
+    transform: translateX(-4px);
+}
+
+.btn-volver i {
+    font-size: 20px;
+}
+
+/* =====================================================
+ETIQUETAS
+===================================================== */
+.container-form label {
+    font-weight: 700;
+    color: #4C1D95;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+    font-size: 15px;
+}
+
+/* =====================================================
+CAMPOS DE ENTRADA
+===================================================== */
+.container-form .form-control,
+.container-form .form-select {
+    border-radius: 14px;
+    border: 2px solid #ECE5FF;
+    padding: 16px 20px;
+    font-size: 16px;
+    transition: .3s;
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+    background: #fff;
+    height: auto;
+}
+
+.container-form .form-control:focus,
+.container-form .form-select:focus {
+    border-color: #6C2BD9;
+    box-shadow: 0 0 0 4px rgba(108, 43, 217, .10);
+    outline: none;
+}
+
+.container-form .form-control::placeholder {
+    color: #B5A8D6;
+}
+
+/* =====================================================
+RADIO BUTTONS - CORREGIDO (no se montan)
+===================================================== */
+.container-form .d-flex.gap-3 {
+    display: flex;
+    gap: 30px !important;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.container-form .form-check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+.container-form .form-check-input {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #D5CCE6;
+    transition: .3s;
+    cursor: pointer;
+    margin: 0;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.container-form .form-check-input:checked {
+    background-color: #6C2BD9;
+    border-color: #6C2BD9;
+    box-shadow: 0 0 0 3px rgba(108, 43, 217, .15);
+}
+
+.container-form .form-check-label {
+    font-weight: 600;
+    color: #1F1F1F;
+    cursor: pointer;
+    margin: 0;
+    font-size: 16px;
+    padding-top: 1px;
+}
+
+/* =====================================================
+HR (separador)
+===================================================== */
+.container-form hr {
+    border: none;
+    border-top: 2px solid #ECE5FF;
+    margin: 25px 0;
+}
+
+/* =====================================================
+MENSAJES DE ERROR Y ÉXITO
+===================================================== */
+.mensaje-error {
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-error.visible {
+    display: block;
+}
+
+.mensaje-exito {
+    color: #28a745;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-exito.visible {
+    display: block;
+}
+
+/* =====================================================
+CAMPOS VALIDACIÓN - ROJO / VERDE
+===================================================== */
+.errorInput {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.20) !important;
+}
+
+.successInput {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.20) !important;
+}
+
+/* =====================================================
+BOTÓN CONFIRMAR
+===================================================== */
+.container-form .btn-primary {
+    background: #6C2BD9;
+    border: none;
+    border-radius: 30px;
+    padding: 18px;
+    font-weight: 800;
+    font-size: 20px;
+    transition: .3s;
+    margin-top: 15px;
+    width: 100%;
+    color: #fff;
+}
+
+.container-form .btn-primary:hover {
+    background: #4C1D95;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(108, 43, 217, .30);
+}
+
+.container-form .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* =====================================================
+CALENDARIO
+===================================================== */
+input[type="date"] {
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.4);
+    cursor: pointer;
+    padding: 4px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.2);
+}
+
+/* =====================================================
+SELECT DE HORA Y PROFESIONAL
+===================================================== */
+.container-form .form-select {
+    appearance: auto;
+    cursor: pointer;
+}
+
+.container-form .form-select option {
+    padding: 8px;
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+@media (max-width: 992px) {
+    .container-form {
+        max-width: 750px;
+        padding: 40px 45px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-form {
+        padding: 30px 25px;
+        max-width: 100%;
+    }
+
+    .container-form h2 {
+        font-size: 28px;
+    }
+
+    .btn-volver {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .container-form .d-flex.gap-3 {
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    .container-form {
+        padding: 22px 16px;
+        border-radius: 20px;
+    }
+
+    .container-form h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .container-form .form-control,
+    .container-form .form-select {
+        font-size: 14px;
+        padding: 12px 14px;
+        border-radius: 12px;
+    }
+
+    .container-form .btn-primary {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .container-form label {
+        font-size: 14px;
+        margin-top: 12px;
+    }
+
+    .container-form .d-flex.gap-3 {
+        gap: 15px !important;
+        flex-wrap: wrap;
+    }
+
+    .container-form .form-check {
+        gap: 8px;
+    }
+
+    .container-form .form-check-input {
+        width: 18px;
+        height: 18px;
+    }
+
+    .container-form .form-check-label {
+        font-size: 14px;
+    }
+
+    .btn-volver {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    .btn-volver i {
+        font-size: 17px;
+    }
+
+    .row .col-md-6 {
+        padding: 0 6px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container-form {
+        padding: 18px 12px;
+    }
+
+    .container-form h2 {
+        font-size: 19px;
+    }
+
+    .container-form .d-flex.gap-3 {
+        flex-direction: column;
+        gap: 10px !important;
+    }
+
+    .container-form .form-check {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+SCROLLBAR PERSONALIZADA
+===================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAF9FF;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6C2BD9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4C1D95;
+}
+
+/* =====================================================
+SELECTION
+===================================================== */
+::selection {
+    background: #6C2BD9;
+    color: #fff;
+}

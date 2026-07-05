@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../estilos-css/registro.css">
+</head>
+<body>
+
+    <div class="registro-card">
+        
+        <!-- ============================================ -->
+        <!-- FLECHA VOLVER -->
+        <!-- ============================================ -->
+        <div class="volver-container">
+            <a href="login.html" class="btn-volver">
+                <i class="bi bi-arrow-left-circle"></i> Volver
+            </a>
+        </div>
+
+        <div class="logo-registro">
+            <img src="../assets/img/logo.png" alt="Logo">
+        </div>
+        
+        <h2>Registrarse</h2>
+        
+        <form id="registroForm">
+            <!-- NOMBRE -->
+            <div class="mb-3">
+                <label for="nombres" class="form-label fw-bold">Nombre</label>
+                <input type="text" id="nombres" class="form-control" placeholder="Ingrese su nombre" maxlength="30" required>
+                <div id="error-nombres" class="mensaje-error"></div>
+                <div id="exito-nombres" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- APELLIDOS -->
+            <div class="mb-3">
+                <label for="apellidos" class="form-label fw-bold">Apellidos</label>
+                <input type="text" id="apellidos" class="form-control" placeholder="Ingrese sus apellidos" maxlength="30" required>
+                <div id="error-apellidos" class="mensaje-error"></div>
+                <div id="exito-apellidos" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label for="correo" class="form-label fw-bold">Email</label>
+                <input type="email" id="correo" class="form-control" placeholder="correo@ejemplo.com" required>
+                <div id="error-correo" class="mensaje-error"></div>
+                <div id="exito-correo" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- DOCUMENTO DE IDENTIDAD - EN UNA SOLA LÍNEA -->
+            <div class="mb-3">
+                <label for="documento" class="form-label fw-bold">Documento de identidad</label>
+                <div class="input-group-documento">
+                    <select id="tipoDocumento" class="form-select-documento">
+                        <option value="CC">C.C</option>
+                        <option value="TI">T.I</option>
+                        <option value="CE">C.E</option>
+                        <option value="NIT">NIT</option>
+                    </select>
+                    <input type="text" id="documento" class="form-control-documento" placeholder="Número de documento" maxlength="15" required>
+                </div>
+                <div id="error-documento" class="mensaje-error"></div>
+                <div id="exito-documento" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- CIUDAD -->
+            <div class="mb-3">
+                <label for="ciudad" class="form-label fw-bold">Ciudad</label>
+                <input type="text" id="ciudad" class="form-control" placeholder="Ingrese su ciudad" maxlength="50" required>
+                <div id="error-ciudad" class="mensaje-error"></div>
+                <div id="exito-ciudad" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- CONTRASEÑA -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">Contraseña</label>
+                <input type="password" id="password" class="form-control" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                <div id="error-password" class="mensaje-error"></div>
+                <div id="exito-password" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- CONFIRMAR CONTRASEÑA -->
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label fw-bold">Confirmar contraseña</label>
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Repita su contraseña" required>
+                <div id="error-confirmPassword" class="mensaje-error"></div>
+                <div id="exito-confirmPassword" class="mensaje-exito">✓ Válido</div>
+            </div>
+
+            <!-- TÉRMINOS Y CONDICIONES -->
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="terminos" required>
+                <label class="form-check-label" for="terminos">
+                    Acepto los <a href="#" class="terminos-link">Términos, Condiciones y Políticas de Privacidad</a>
+                </label>
+                <div id="error-terminos" class="mensaje-error"></div>
+            </div>
+
+            <button type="button" id="btnRegistrar" class="btn-registro">
+                <i class="bi bi-person-plus"></i> Registrarse
+            </button>
+        </form>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/registro.js"></script>
+</body>
+</html>

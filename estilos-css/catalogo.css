@@ -1,74 +1,153 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Nunito', sans-serif;
+/* =====================================================
+RESET
+===================================================== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Nunito',sans-serif;
 }
 
-body {
-    background: white;
-    min-height: 100vh;
+body{
+    background:#FAF9FF;
+    min-height:100vh;
+    color:#333;
 }
 
-.services-container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 120px 35px 60px;
+/* =====================================================
+CONTENEDOR PRINCIPAL
+===================================================== */
+.services-container{
+    max-width:1400px;
+    margin:0 auto;
+    padding:35px 35px 40px;
 }
 
-.page-header {
-    background: white;
-    border-radius: 20px;
-    padding: 35px;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(76, 29, 149, .08);
-    border: 1px solid #ECEAF8;
+/* =====================================================
+BOTÓN VOLVER
+===================================================== */
+.volver-container{
+    margin-bottom:18px;
 }
 
-.page-header h1 {
-    font-size: 2.4rem;
-    font-weight: 800;
-    color: #4C1D95;
+.btn-volver{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 18px;
+    text-decoration:none;
+    border-radius:30px;
+    background:#fff;
+    color:#6C2BD9;
+    border:2px solid #ECE5FF;
+    font-weight:700;
+    font-size:14px;
+    transition:.3s;
 }
 
-.page-header h1 i {
-    color: #EC4899;
-    margin-right: 12px;
+.btn-volver:hover{
+    background:#6C2BD9;
+    color:#fff;
+    border-color:#6C2BD9;
+    transform:translateX(-4px);
 }
 
-.page-header p {
-    color: #6b7280;
-    font-size: 1.05rem;
-    margin-top: 10px;
+.btn-volver i{
+    font-size:18px;
 }
 
-.page-header .badge {
-    background: #F6F3FF !important;
-    color: #4C1D95 !important;
-    border-radius: 50px;
-    padding: 12px 20px !important;
-    font-weight: 700;
+/* =====================================================
+HEADER
+===================================================== */
+.page-header{
+    background:#fff;
+    border-radius:20px;
+    padding:25px 30px;
+    margin-bottom:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+
+    border:1px solid #ECEAF8;
+    box-shadow:0 10px 25px rgba(76,29,149,.08);
 }
 
-.toolbar {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 35px;
-    border: 1px solid #ECEAF8;
-    box-shadow: 0 10px 30px rgba(76, 29, 149, .08);
+.header-left{
+    flex:1;
+}
+
+.header-left h1{
+    color:#4C1D95;
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.header-left p{
+    color:#6b7280;
+    font-size:15px;
+}
+
+/* =====================================================
+CONTADOR
+===================================================== */
+.badge-contador{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 22px;
+
+    border-radius:40px;
+    border:2px solid #00FCF8;
+
+    background:#fff;
+    color:#4C1D95;
+    font-weight:800;
+
+    box-shadow:0 6px 20px rgba(0,252,248,.18);
+
+    transition:.3s;
+}
+
+.badge-contador:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,252,248,.25);
+}
+
+.badge-contador i{
+    color:#00CFCB;
+    font-size:20px;
+}
+
+.badge-contador span{
+    font-size:15px;
+}
+
+/* =====================================================
+BARRA DE BÚSQUEDA
+===================================================== */
+.toolbar{
+    background:#fff;
+    border-radius:20px;
+
+    padding:18px 25px;
+    margin-bottom:22px;
+
+    border:1px solid #ECEAF8;
+    box-shadow:0 10px 25px rgba(76,29,149,.08);
+
+    display:flex;
+    align-items:center;
 }
 
 .search-box{
-    flex:1;
-    min-width:280px;
-    max-width:600px;
     position:relative;
+    width:100%;
+    max-width:520px;
 }
 
 .search-box i{
@@ -76,61 +155,111 @@ body {
     left:18px;
     top:50%;
     transform:translateY(-50%);
-    color:#6b7280;
-    font-size:1rem;
-    pointer-events:none;
+    color:#B5A8D6;
+    font-size:16px;
 }
 
 .search-box input{
     width:100%;
-    height:50px;
-    padding-left:48px;
+    height:46px;
+
     border-radius:30px;
-    border:1px solid #4C1D95;
+    border:2px solid #ECE5FF;
+
     background:#FAFAFC;
+
+    padding:0 18px 0 46px;
+
+    outline:none;
+
+    font-size:14px;
+
     transition:.3s;
 }
 
+.search-box input::placeholder{
+    color:#B5A8D6;
+}
+
 .search-box input:focus{
-    border-color:#EC4899;
-    box-shadow:0 0 0 .2rem rgba(236,72,153,.15);
+    border-color:#6C2BD9;
+    box-shadow:0 0 0 4px rgba(108,43,217,.10);
 }
 
-/* Contenedor de tarjetas de servicios */
+/* =====================================================
+RESULTADOS
+===================================================== */
+.results-count{
+    text-align:right;
+    font-size:14px;
+    color:#6b7280;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.results-count span{
+    color:#4C1D95;
+    font-weight:800;
+}
+
+/* =====================================================
+GRID DE SERVICIOS
+===================================================== */
 #servicesGrid{
-    margin-top:10px;
-    padding:10px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    align-items:start;
 }
+/* =====================================================
+TARJETA DE SERVICIO
+===================================================== */
 
-/* Configuración */
 .service-card{
-    background:white;
+    background:#fff;
     border-radius:20px;
-    padding:28px;
-    border:none;
-    box-shadow:0 10px 30px rgba(76,29,149,.08);
+    border:1px solid #ECEAF8;
+    box-shadow:0 10px 25px rgba(76,29,149,.08);
+
+    padding:24px 20px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+
     transition:.35s;
-    overflow:hidden;
-    height:100%;
+
+    min-height:420px;
 }
 
 .service-card:hover{
     transform:translateY(-8px);
-    box-shadow:0 18px 40px rgba(76,29,149,.18);
+    box-shadow:0 20px 40px rgba(76,29,149,.15);
 }
 
-/* Imagen de cada servicio */
+/* =====================================================
+IMAGEN
+===================================================== */
+
 .service-img-container{
-    width:120px;
-    height:120px;
-    margin:auto;
-    overflow:hidden;
+    width:95px;
+    height:95px;
+
     border-radius:50%;
+    overflow:hidden;
+
     background:#F6F3FF;
+
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:8px;
+
+    padding:6px;
+
+    margin-bottom:18px;
+
+    flex-shrink:0;
 }
 
 .service-img-container img{
@@ -138,41 +267,91 @@ body {
     height:100%;
     object-fit:cover;
     border-radius:50%;
-    transition:.4s;
+    transition:.35s;
 }
 
-.service-card:hover img{
+.service-card:hover .service-img-container img{
     transform:scale(1.08);
 }
 
-.service-card-title {
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: #000000;
-    margin-bottom: 8px;
+/* =====================================================
+TÍTULO
+===================================================== */
+
+.service-card-title{
+    color:#4C1D95;
+    font-size:20px;
+    font-weight:800;
+    line-height:1.35;
+
+    margin-bottom:10px;
+
+    min-height:55px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.service-card-desc {
-    color: #6b7280;
-    font-size: .95rem;
-    line-height: 1.5;
-    margin-bottom: 12px;
+/* =====================================================
+DESCRIPCIÓN
+===================================================== */
+
+.service-card-desc{
+    color:#6B7280;
+
+    font-size:14px;
+    line-height:1.6;
+
+    margin-bottom:18px;
+
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:3;
+
+    overflow:hidden;
+
+    flex:1;
 }
+
+/* =====================================================
+PRECIO
+===================================================== */
 
 .service-card-price{
-    font-size:1.7rem;
     color:#EC4899;
+    font-size:26px;
     font-weight:800;
-    margin-top:10px;
+
+    margin-bottom:18px;
 }
 
+/* =====================================================
+BOTÓN
+===================================================== */
+
 .service-card .btn{
-    margin-top:20px;
+    width:100%;
+    margin-top:auto;
+
     border:none;
-    background:#4C1D95;
     border-radius:30px;
-    padding:10px 25px;
+
+    background:#4C1D95;
+    color:#fff;
+
+    padding:12px 20px;
+
+    font-size:15px;
     font-weight:700;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+
+    cursor:pointer;
+
     transition:.3s;
 }
 
@@ -181,130 +360,278 @@ body {
     transform:translateY(-2px);
 }
 
-.results-count{
-    margin:20px 0 25px;
-    color:#6b7280;
-    font-weight:700;
-    font-size:.95rem;
-}
-/* ================= MENÚ ================= */
+/* =====================================================
+ANIMACIÓN
+===================================================== */
 
-.menu-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1000;
-    padding: 10px;
+.service-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:5px;
+
+    background:linear-gradient(90deg,#6C2BD9,#00FCF8);
+
+    opacity:0;
+
+    transition:.3s;
 }
 
-.menu-btn img {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
+.service-card:hover::before{
+    opacity:1;
 }
+/* =====================================================
+RESPONSIVE - TABLET
+===================================================== */
 
-.menu {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100vh;
-    background: #4C1D95;
-    display: flex;
-    flex-direction: column;
-    padding-top: 100px;
-    transition: .4s;
-    z-index: 999;
-}
-
-.menu.activo {
-    left: 0;
-}
-
-.menu a {
-    color: white;
-    text-decoration: none;
-    padding: 18px;
-    font-weight: 700;
-    transition: .3s;
-}
-
-.menu a:hover {
-    background: #6C2BD9;
-}
-
-/* Responsive */
-@media(max-width:992px){
+@media (max-width:992px){
 
     .services-container{
-        padding:110px 25px 40px;
+        padding:30px 25px;
     }
 
     .page-header{
-        text-align:center;
-    }
-
-    .page-header h1{
-        font-size:2rem;
-    }
-
-    .toolbar{
-        justify-content:center;
-    }
-
-    .search-box{
-        max-width:100%;
-    }
-
-}
-
-@media(max-width:768px){
-
-    .services-container{
-        padding:110px 18px 30px;
-    }
-
-    .page-header{
-        padding:25px;
-    }
-
-    .page-header h1{
-        font-size:1.8rem;
-    }
-
-    .service-card{
         padding:22px;
     }
 
+    .header-left h1{
+        font-size:28px;
+    }
+
+    #servicesGrid{
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        gap:22px;
+    }
+
+    .service-card{
+        min-height:400px;
+        padding:22px 18px;
+    }
+
     .service-img-container{
-        width:100px;
-        height:100px;
+        width:90px;
+        height:90px;
+    }
+
+    .service-card-title{
+        font-size:18px;
+    }
+
+    .service-card-price{
+        font-size:24px;
     }
 
 }
 
-@media(max-width:480px){
+/* =====================================================
+RESPONSIVE - TABLET PEQUEÑA
+===================================================== */
 
-    .page-header h1{
-        font-size:1.5rem;
+@media (max-width:768px){
+
+    .services-container{
+        padding:25px 18px;
     }
 
-    .page-header p{
-        font-size:.95rem;
+    .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:18px;
+    }
+
+    .badge-contador{
+        align-self:flex-start;
+    }
+
+    .toolbar{
+        padding:15px;
+    }
+
+    #servicesGrid{
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:18px;
+    }
+
+    .service-card{
+        min-height:380px;
+        padding:20px 16px;
+    }
+
+    .service-img-container{
+        width:80px;
+        height:80px;
     }
 
     .service-card-title{
-        font-size:1.15rem;
+        font-size:17px;
+        min-height:48px;
+    }
+
+    .service-card-desc{
+        font-size:13px;
+        -webkit-line-clamp:2;
     }
 
     .service-card-price{
-        font-size:1.4rem;
+        font-size:22px;
     }
 
+    .service-card .btn{
+        padding:10px 18px;
+        font-size:14px;
+    }
+
+}
+
+/* =====================================================
+RESPONSIVE - CELULAR
+===================================================== */
+
+@media (max-width:576px){
+
+    .services-container{
+        padding:20px 15px;
+    }
+
+    .header-left h1{
+        font-size:24px;
+    }
+
+    .header-left p{
+        font-size:14px;
+    }
+
+    .toolbar{
+        padding:12px;
+    }
+
+    .search-box input{
+        height:42px;
+    }
+
+    #servicesGrid{
+        grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+        gap:15px;
+    }
+
+    .service-card{
+        min-height:330px;
+        padding:18px 14px;
+        border-radius:16px;
+    }
+
+    .service-img-container{
+        width:70px;
+        height:70px;
+    }
+
+    .service-card-title{
+        font-size:15px;
+        min-height:42px;
+    }
+
+    .service-card-desc{
+        display:none;
+    }
+
+    .service-card-price{
+        font-size:20px;
+        margin-bottom:15px;
+    }
+
+    .service-card .btn{
+        font-size:13px;
+        padding:9px 12px;
+    }
+
+}
+
+/* =====================================================
+CELULARES MUY PEQUEÑOS
+===================================================== */
+
+@media (max-width:400px){
+
+    #servicesGrid{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+
+    .service-card{
+        min-height:300px;
+        padding:15px 10px;
+    }
+
+    .service-img-container{
+        width:60px;
+        height:60px;
+    }
+
+    .service-card-title{
+        font-size:14px;
+        min-height:38px;
+    }
+
+    .service-card-price{
+        font-size:18px;
+    }
+
+    .service-card .btn{
+        font-size:12px;
+        padding:8px;
+    }
+
+}
+
+/* =====================================================
+SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#F3F0FF;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#6C2BD9;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#4C1D95;
+}
+
+/* =====================================================
+SELECCIÓN
+===================================================== */
+
+::selection{
+    background:#6C2BD9;
+    color:#fff;
+}
+
+/* =====================================================
+ANIMACIÓN SUAVE
+===================================================== */
+
+html{
+    scroll-behavior:smooth;
+}
+
+/* =====================================================
+TRANSICIONES
+===================================================== */
+
+button,
+input,
+a,
+.service-card,
+.service-img-container img{
+    transition:all .3s ease;
 }

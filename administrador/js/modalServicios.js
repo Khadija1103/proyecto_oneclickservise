@@ -64,6 +64,89 @@ const validacionesServicio = {
 };
 
 // =========================
+// FUNCIONES DE COMPRESIÓN DE IMÁGENES (NUEVO)
+// =========================
+
+function comprimirImagen(base64, calidad = 0.5, maxWidth = 500, maxHeight = 500) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.src = base64;
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Calcular dimensiones manteniendo proporción
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > maxWidth || height > maxHeight) {
+                const ratio = Math.min(maxWidth / width, maxHeight / height);
+                width = Math.floor(width * ratio);
+                height = Math.floor(height * ratio);
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Comprimir a JPEG con calidad reducida
+            const dataUrl = canvas.toDataURL('image/jpeg', calidad);
+            resolve(dataUrl);
+        };
+        img.onerror = function() {
+            resolve(base64); // Si falla, usar la original
+        };
+    });
+}
+
+// =========================
+// FUNCIÓN PARA VERIFICAR ESPACIO EN LOCALSTORAGE
+// =========================
+function verificarEspacioStorage() {
+    let total = 0;
+    for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+            total += localStorage[key].length * 2; // UTF-16
+        }
+    }
+    const limite = 5 * 1024 * 1024; // 5MB
+    return {
+        usado: total,
+        disponible: limite - total,
+        porcentaje: (total / limite) * 100
+    };
+}
+
+// =========================
+// FUNCIÓN PARA LIMPIAR IMÁGENES ANTIGUAS
+// =========================
+function limpiarImagenesAntiguas() {
+    const espacio = verificarEspacioStorage();
+    if (espacio.porcentaje > 75) {
+        console.warn('⚠️ Almacenamiento casi lleno. Limpiando imágenes antiguas...');
+        
+        // Ordenar servicios por fecha (los más antiguos primero)
+        const serviciosConImagen = listaServicios.filter(s => s.imagen && s.imagen.length > 1000);
+        if (serviciosConImagen.length > 10) {
+            serviciosConImagen.sort((a, b) => {
+                const fechaA = parseInt(a.id) || 0;
+                const fechaB = parseInt(b.id) || 0;
+                return fechaA - fechaB;
+            });
+            
+            // Eliminar imágenes de los servicios más antiguos (dejar solo los 10 más recientes)
+            const eliminar = serviciosConImagen.slice(0, serviciosConImagen.length - 10);
+            eliminar.forEach(s => {
+                s.imagen = ''; // Limpiar imagen
+                console.log(`🧹 Imagen eliminada del servicio: ${s.nombre}`);
+            });
+            
+            localStorage.setItem("listaServicios", JSON.stringify(listaServicios));
+        }
+    }
+}
+
+// =========================
 // FUNCIONES DE VALIDACIÓN
 // =========================
 
@@ -640,7 +723,7 @@ function renderizarServicios() {
                 </div>
             `;
         } else {
-            // MODO ADMINISTRACIÓN - Mostrar con botones de edición y estado (SIN ELIMINAR)
+            // MODO ADMINISTRACIÓN - Mostrar con botones de edición y estado
             const iconoToggle = servicio.activo ?
                 '<i class="bi bi-toggle-on toggle-icon active"></i>' :
                 '<i class="bi bi-toggle-off toggle-icon inactive"></i>';
@@ -764,7 +847,7 @@ if (!modoCatalogo && cerrarModalAgregar) {
 }
 
 // =========================
-// GUARDAR NUEVO SERVICIO (solo modo admin)
+// GUARDAR NUEVO SERVICIO (MODIFICADO CON COMPRESIÓN)
 // =========================
 if (!modoCatalogo && formularioAgregarServicio) {
     formularioAgregarServicio.addEventListener("submit", async function(evento) {
@@ -784,7 +867,15 @@ if (!modoCatalogo && formularioAgregarServicio) {
         const nombreServicio = document.getElementById("nombreServicioAgregar").value.trim();
         const descripcionServicio = document.getElementById("descripcionServicioAgregar").value.trim();
         const precioServicio = document.getElementById("precioServicioAgregar").value;
-        const imagenBase64 = await convertirImagenBase64(archivoImagen);
+        
+        // Obtener imagen Base64 original
+        let imagenBase64 = await convertirImagenBase64(archivoImagen);
+        
+        // COMPRIMIR LA IMAGEN - Esto reduce el tamaño drásticamente
+        imagenBase64 = await comprimirImagen(imagenBase64, 0.5, 500, 500);
+        
+        // Calcular tamaño de la imagen comprimida
+        const tamañoKB = Math.round(imagenBase64.length / 1024);
 
         const nuevoServicio = {
             id: Date.now().toString(),
@@ -798,10 +889,18 @@ if (!modoCatalogo && formularioAgregarServicio) {
         const mensajeConfirmacion = `¿Desea guardar este servicio?\n\n` +
             `📋 Nombre: ${nuevoServicio.nombre}\n` +
             `📝 Descripción: ${nuevoServicio.descripcion.substring(0, 50)}...\n` +
-            `💰 Precio: ${formatearPrecio(nuevoServicio.precio)}`;
+            `💰 Precio: ${formatearPrecio(nuevoServicio.precio)}\n` +
+            `📷 Tamaño imagen: ${tamañoKB} KB (comprimida)`;
 
         if (!confirm(mensajeConfirmacion)) {
             return;
+        }
+
+        // Verificar espacio antes de guardar
+        const espacio = verificarEspacioStorage();
+        if (espacio.porcentaje > 80) {
+            alert('⚠️ El almacenamiento está casi lleno. Se limpiarán imágenes antiguas.');
+            limpiarImagenesAntiguas();
         }
 
         listaServicios.push(nuevoServicio);
@@ -809,7 +908,7 @@ if (!modoCatalogo && formularioAgregarServicio) {
 
         const mensaje = document.getElementById("mensajeAgregar");
         if (mensaje) {
-            mensaje.textContent = "✅ Servicio guardado correctamente";
+            mensaje.textContent = `✅ Servicio guardado correctamente (Imagen: ${tamañoKB} KB)`;
             mensaje.className = "exito";
             mensaje.style.display = "block";
         }
@@ -889,7 +988,7 @@ if (!modoCatalogo && cerrarModalEditar) {
 }
 
 // =========================
-// GUARDAR EDICIÓN (solo modo admin)
+// GUARDAR EDICIÓN (MODIFICADO CON COMPRESIÓN)
 // =========================
 if (!modoCatalogo && formularioEditarServicio) {
     formularioEditarServicio.addEventListener("submit", async function(evento) {
@@ -914,7 +1013,10 @@ if (!modoCatalogo && formularioEditarServicio) {
 
         const nuevaImagen = document.getElementById("imagenServicioEditar").files[0];
         if (nuevaImagen) {
-            servicio.imagen = await convertirImagenBase64(nuevaImagen);
+            let imagenBase64 = await convertirImagenBase64(nuevaImagen);
+            // COMPRIMIR LA IMAGEN NUEVA
+            imagenBase64 = await comprimirImagen(imagenBase64, 0.5, 500, 500);
+            servicio.imagen = imagenBase64;
         }
 
         const mensajeConfirmacion = `¿Desea guardar los cambios del servicio?\n\n` +
@@ -1052,6 +1154,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (guardados) {
         listaServicios = JSON.parse(guardados);
+        
+        // Verificar y limpiar si es necesario
+        if (!modoCatalogo) {
+            limpiarImagenesAntiguas();
+        }
     } else {
         listaServicios = [];
         localStorage.setItem("listaServicios", JSON.stringify(listaServicios));
@@ -1060,9 +1167,23 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarServicios();
     actualizarContadores();
     
-    console.log(`✅ Sistema de servicios inicializado - Modo: ${modoCatalogo ? "CATÁLOGO" : "ADMINISTRACIÓN"}`);
-    console.log(`📊 Total de servicios: ${listaServicios.length}`);
-    console.log(`📊 Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
+    // Mostrar información de almacenamiento
+    if (!modoCatalogo) {
+        const espacio = verificarEspacioStorage();
+        console.log(`✅ Sistema de servicios inicializado - Modo: ADMINISTRACIÓN`);
+        console.log(`📊 Total de servicios: ${listaServicios.length}`);
+        console.log(`📊 Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
+        console.log(`💾 Espacio usado: ${Math.round(espacio.usado / 1024 / 1024)} MB de 5 MB`);
+        console.log(`💾 Porcentaje: ${Math.round(espacio.porcentaje)}%`);
+        
+        if (espacio.porcentaje > 80) {
+            console.warn('⚠️ Almacenamiento casi lleno!');
+        }
+    } else {
+        console.log(`✅ Sistema de servicios inicializado - Modo: CATÁLOGO`);
+        console.log(`📊 Total de servicios: ${listaServicios.length}`);
+        console.log(`📊 Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
+    }
 });
 
 // =========================
@@ -1070,3 +1191,5 @@ document.addEventListener("DOMContentLoaded", () => {
 // =========================
 window.abrirModalEditarServicio = abrirModalEditarServicio;
 window.cambiarEstadoServicio = cambiarEstadoServicio;
+window.comprimirImagen = comprimirImagen;
+window.verificarEspacioStorage = verificarEspacioStorage;

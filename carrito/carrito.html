@@ -6,16 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carrito</title>
 
-    <link rel="stylesheet" href="../estilos-css/carrito.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="../estilos-css/carrito.css">
+    
     <link rel="icon" href="../assets/img/logo.png">
 </head>
 
 <body>
     <main class="contenedor">
+
+        <!-- ============================================ -->
+        <!-- FLECHA VOLVER AL MENÚ -->
+        <!-- ============================================ -->
+        <div class="volver-container">
+            <a href="../inicio/index.html" class="btn-volver">
+                <i class="bi bi-arrow-left-circle"></i> Volver al Menú
+            </a>
+        </div>
+
         <!-- Encabezado -->
         <section class="encabezado">
             <div class="titulo">
@@ -30,19 +50,20 @@
                 <i class="bi bi-cart-fill"></i>
                 <span id="cantidadServicios">0</span>
                 servicios
-            </div>    
+            </div>
         </section>
+
         <a href="../catalogo/catalogo.html" class="boton-volver">
             ← Seguir explorando
         </a>
 
         <!-- inicio -------------------------------------------- -->
         <div class="pantalla-carrito">
-            <!-- Sección inzquierda: servicios agregados -->
+            <!-- Sección izquierda: servicios agregados -->
             <section class="columna-servicios">
                 <div id="contenedorCarrito">
 
-                    <!-- Tarjeta de Servicio (Ejemplo para mostrar como quedan los servicios) -->
+                    <!-- Tarjeta de Servicio (Ejemplo: Cerrajería) -->
                     <div class="tarjeta tarjeta-servicio">
                         <img src="https://puertasblindadascolombia.com/wp-content/uploads/2026/01/Sin-titulo-1_0002_FOTO_2.jpg"
                             alt="Cerrajería" class="imagen-servicio">
@@ -72,34 +93,28 @@
 
                     <!-- Tarjeta de Servicio (Ejemplo 2: Plomería) -->
                     <div class="tarjeta tarjeta-servicio">
-                        <!-- Imagen del servicio -->
                         <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=150&h=150&q=80"
                             alt="Plomería" class="imagen-servicio">
 
-                        <!-- Información -->
                         <div class="info-servicio">
                             <h5 class="nombre-servicio">Plomería General</h5>
                             <p class="descripcion-servicio">Reparación de fugas de agua, destapes y cambio de tuberías.
                             </p>
-                            <!-- Icono bi-clock dibuja un pequeño reloj de urgencia -->
                             <span class="etiqueta-servicio">
                                 <i class="bi bi-clock"></i> Servicio urgente
                             </span>
                         </div>
 
-                        <!-- Precio -->
                         <div class="precio-servicio">
                             <strong class="texto-precio">$80.000</strong>
                         </div>
 
-                        <!-- Cantidad -->
                         <div class="control-cantidad">
                             <button class="boton-cantidad" type="button">−</button>
                             <input type="text" class="numero-cantidad" value="1" readonly>
                             <button class="boton-cantidad" type="button">+</button>
                         </div>
 
-                        <!-- Botón Eliminar -->
                         <button class="boton-eliminar" title="Eliminar servicio">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -145,8 +160,8 @@
 
         </div>
 
-        </div>
     </main>
 
     <script src="../js/footer.js"></script>
 </body>
+</html>

@@ -1,0 +1,628 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #FAF9FF;
+    color: #1F1F1F;
+    min-height: 100vh;
+}
+
+.contenedor {
+    width: 95%;
+    max-width: 1450px;
+    margin: 40px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 25px;
+    padding: 30px 40px;
+    box-shadow: 0 10px 25px rgba(108, 43, 217, .08);
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #4C1D95;
+}
+
+.header p {
+    color: #666;
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+.contador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 2px solid #00FCF8;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #4C1D95;
+    box-shadow: 0 5px 18px rgba(0, 252, 248, .20);
+    transition: .3s;
+}
+
+.contador:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 252, 248, .30);
+}
+
+.contador i {
+    color: #00CFCB;
+    font-size: 22px;
+}
+
+.acciones-superior {
+    margin-bottom: 25px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #6C2BD9;
+    border: 2px solid #6C2BD9;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-weight: 700;
+    transition: .3s;
+    background: #fff;
+}
+
+.btn-volver:hover {
+    background: #6C2BD9;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108, 43, 217, .25);
+}
+
+.btn-volver i {
+    font-size: 20px;
+}
+
+#tablaCitas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 25px;
+}
+
+.cita-card {
+    background: #fff;
+    border-radius: 25px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #ECE5FF;
+    box-shadow: 0 8px 25px rgba(108, 43, 217, .08);
+    transition: .35s;
+    position: relative;
+    overflow: hidden;
+}
+
+.cita-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6C2BD9, #00FCF8, #EC4899);
+    opacity: 0;
+    transition: .3s;
+}
+
+.cita-card:hover::before {
+    opacity: 1;
+}
+
+.cita-card:hover {
+    transform: translateY(-6px);
+    border-color: #6C2BD9;
+    box-shadow: 0 15px 35px rgba(108, 43, 217, .18);
+}
+
+.imgBox {
+    width: 110px;
+    height: 110px;
+    margin: auto;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #6C2BD9;
+    transition: .3s;
+    position: relative;
+}
+
+.imgBox:hover {
+    transform: scale(1.05);
+    border-color: #00FCF8;
+}
+
+.imgBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cita-card h3 {
+    font-size: 27px;
+    font-weight: 800;
+    color: #4C1D95;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.badge-servicio {
+    display: inline-block;
+    background: #DDFCFB;
+    color: #009C98;
+    font-size: 22px;
+    font-weight: 800;
+    padding: 10px 24px;
+    border-radius: 30px;
+    margin-bottom: 18px;
+    box-shadow: 0 5px 15px rgba(0, 252, 248, .18);
+    transition: .3s;
+}
+
+.badge-servicio:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 252, 248, .30);
+}
+
+.info {
+    text-align: left;
+}
+
+.info p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.info p strong {
+    color: #1F1F1F;
+    min-width: 90px;
+}
+
+.estado-cita {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.estado-pendiente {
+    background: #FFC10720;
+    color: #FFC107;
+    border: 2px solid #FFC107;
+}
+
+.estado-confirmada {
+    background: #28A74520;
+    color: #28A745;
+    border: 2px solid #28A745;
+}
+
+.estado-cancelada {
+    background: #DC354520;
+    color: #DC3545;
+    border: 2px solid #DC3545;
+}
+
+.estado-completada {
+    background: #6C2BD920;
+    color: #6C2BD9;
+    border: 2px solid #6C2BD9;
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.btn-editar,
+.btn-eliminar {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-editar {
+    background: #6C2BD9;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(108, 43, 217, .25);
+}
+
+.btn-editar:hover {
+    background: #4C1D95;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(108, 43, 217, .35);
+}
+
+.btn-editar:active {
+    transform: translateY(0);
+}
+
+.btn-eliminar {
+    background: #EC4899;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(236, 72, 153, .25);
+}
+
+.btn-eliminar:hover {
+    background: #D63384;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(236, 72, 153, .35);
+}
+
+.btn-eliminar:active {
+    transform: translateY(0);
+}
+
+.sin-citas {
+    grid-column: 1 / -1;
+    background: #fff;
+    border-radius: 25px;
+    padding: 70px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(108, 43, 217, .08);
+}
+
+.sin-citas .icono-sin-citas {
+    font-size: 80px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.sin-citas h2 {
+    color: #6C2BD9;
+    margin-bottom: 15px;
+    font-size: 32px;
+}
+
+.sin-citas p {
+    color: #666;
+    font-size: 18px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#mensajeFlotante {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 9999;
+    padding: 18px 28px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
+    animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 500px;
+    border: 2px solid;
+    backdrop-filter: blur(10px);
+    font-family: 'Nunito', sans-serif;
+}
+
+#mensajeFlotante.mensaje-exito {
+    background: #DDFCFB;
+    color: #009C98;
+    border-color: #00FCF8;
+}
+
+#mensajeFlotante.mensaje-error {
+    background: #FDE8F2;
+    color: #D63384;
+    border-color: #EC4899;
+}
+
+#mensajeFlotante.mensaje-info {
+    background: #ECE5FF;
+    color: #4C1D95;
+    border-color: #6C2BD9;
+}
+
+#mensajeFlotante.mensaje-advertencia {
+    background: #FFF3CD;
+    color: #856404;
+    border-color: #FFC107;
+}
+
+#mensajeFlotante .icono-mensaje {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+#mensajeFlotante .texto-mensaje {
+    flex: 1;
+}
+
+#mensajeFlotante .btn-cerrar-mensaje {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: inherit;
+    margin-left: auto;
+    opacity: 0.6;
+    transition: .3s;
+    padding: 0 5px;
+    line-height: 1;
+}
+
+#mensajeFlotante .btn-cerrar-mensaje:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(120%) scale(0.8);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    #tablaCitas {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 20px 25px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+
+    .contador {
+        justify-content: center;
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    #tablaCitas {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .cita-card {
+        padding: 20px;
+    }
+
+    .cita-card h3 {
+        font-size: 22px;
+    }
+
+    .badge-servicio {
+        font-size: 18px;
+        padding: 8px 18px;
+    }
+
+    .botones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botones button {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .info p {
+        font-size: 14px;
+    }
+
+    .info p strong {
+        min-width: 80px;
+    }
+
+    #mensajeFlotante {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+        max-width: none;
+        padding: 15px 20px;
+        font-size: 14px;
+        border-radius: 20px;
+    }
+
+    #mensajeFlotante .icono-mensaje {
+        font-size: 22px;
+    }
+
+    .sin-citas {
+        padding: 40px 20px;
+    }
+
+    .sin-citas .icono-sin-citas {
+        font-size: 50px;
+    }
+
+    .sin-citas h2 {
+        font-size: 24px;
+    }
+
+    .sin-citas p {
+        font-size: 16px;
+    }
+
+    .btn-volver {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor {
+        width: 98%;
+        margin: 20px auto;
+    }
+
+    .header {
+        padding: 15px 20px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .contador {
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+
+    .cita-card {
+        padding: 15px;
+    }
+
+    .cita-card h3 {
+        font-size: 20px;
+    }
+
+    .imgBox {
+        width: 80px;
+        height: 80px;
+    }
+
+    .badge-servicio {
+        font-size: 16px;
+        padding: 6px 14px;
+    }
+
+    .info p {
+        font-size: 13px;
+    }
+
+    .info p strong {
+        min-width: 70px;
+    }
+
+    .btn-editar,
+    .btn-eliminar {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    #mensajeFlotante {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        padding: 12px 16px;
+        font-size: 13px;
+        border-radius: 16px;
+        gap: 10px;
+    }
+
+    #mensajeFlotante .icono-mensaje {
+        font-size: 18px;
+    }
+
+    #mensajeFlotante .btn-cerrar-mensaje {
+        font-size: 18px;
+    }
+
+    .sin-citas {
+        padding: 30px 15px;
+    }
+
+    .sin-citas .icono-sin-citas {
+        font-size: 40px;
+    }
+
+    .sin-citas h2 {
+        font-size: 20px;
+    }
+
+    .sin-citas p {
+        font-size: 14px;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAF9FF;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6C2BD9;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4C1D95;
+}
+
+::selection {
+    background: #6C2BD9;
+    color: #fff;
+}

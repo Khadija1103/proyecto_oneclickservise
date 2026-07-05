@@ -1,66 +1,72 @@
-<<<<<<< HEAD
-document.addEventListener("DOMContentLoaded", function() {
-=======
 document.addEventListener("DOMContentLoaded", function () {
->>>>>>> origin/main
+
     const contenedor = document.getElementById("contenedorTarjetas");
     const totalUsuariosSpan = document.getElementById("totalUsuarios");
+
     let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-    console.log("Usuarios en localStorage:", usuarios);
-    console.log("Cantidad de usuarios:", usuarios.length);
+    console.log("Usuarios:", usuarios);
 
     // =========================
     // MENÚ HAMBURGUESA
     // =========================
     const menuBtn = document.getElementById("menuBtn");
     const menu = document.getElementById("menu");
+    const menuOverlay = document.getElementById("menuOverlay");
+
+    function cerrarMenu() {
+        if (menu) menu.classList.remove("activo");
+        if (menuOverlay) menuOverlay.classList.remove("activo");
+    }
+
     if (menuBtn && menu) {
-<<<<<<< HEAD
-        menuBtn.addEventListener("click", function() {
-=======
-        menuBtn.addEventListener("click", function () {
->>>>>>> origin/main
+        menuBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
             menu.classList.toggle("activo");
+            if (menuOverlay) menuOverlay.classList.toggle("activo");
         });
 
-        // Cerrar menú al hacer clic en un enlace
-<<<<<<< HEAD
-        menu.querySelectorAll("a").forEach(function(enlace) {
-            enlace.addEventListener("click", function() {
-=======
-        menu.querySelectorAll("a").forEach(function (enlace) {
-            enlace.addEventListener("click", function () {
->>>>>>> origin/main
-                menu.classList.remove("activo");
-            });
+        if (menuOverlay) {
+            menuOverlay.addEventListener("click", cerrarMenu);
+        }
+
+        menu.querySelectorAll("a").forEach(a => a.addEventListener("click", cerrarMenu));
+
+        document.addEventListener("click", function (e) {
+            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                cerrarMenu();
+            }
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") cerrarMenu();
         });
     }
 
     // =========================
-    // ACTUALIZAR TOTAL DE USUARIOS
+    // TOTAL USUARIOS
     // =========================
     if (totalUsuariosSpan) {
         totalUsuariosSpan.textContent = usuarios.length;
     }
 
     // =========================
-    // BOTÓN AGREGAR PERFIL
+    // BOTÓN AGREGAR
     // =========================
     const agregarBtn = document.getElementById("agregarPerfil");
+
     if (agregarBtn) {
-<<<<<<< HEAD
-        agregarBtn.addEventListener("click", function() {
-=======
         agregarBtn.addEventListener("click", function () {
->>>>>>> origin/main
-            if (confirm("➕ ¿Desea agregar un nuevo usuario?\n\nSe abrirá el formulario para crear un nuevo perfil.")) {
+            if (confirm("➕ ¿Desea agregar un nuevo usuario?")) {
                 localStorage.removeItem("usuarioEditar");
                 window.location.href = "perfil.html";
             }
         });
     }
 
+    // =========================
+    // LIMPIAR CONTENEDOR
+    // =========================
     contenedor.innerHTML = "";
 
     // =========================
@@ -70,67 +76,79 @@ document.addEventListener("DOMContentLoaded", function () {
         contenedor.innerHTML = `
             <div class="sin-datos">
                 <p>📋 No hay usuarios registrados</p>
-                <p class="sub">Haz clic en "Agregar Usuario" para crear uno nuevo</p>
+                <p class="sub">Haz clic en "Agregar Usuario"</p>
             </div>
         `;
         return;
     }
 
     // =========================
-    // MOSTRAR TARJETAS
+    // MOSTRAR USUARIOS
     // =========================
-<<<<<<< HEAD
-    usuarios.forEach(function(u, index) {
-=======
     usuarios.forEach(function (u, index) {
->>>>>>> origin/main
+
         const card = document.createElement("div");
         card.classList.add("tarjeta");
 
-        const fotoUrl = u.foto && u.foto.length > 100 ? u.foto : '../../assets/img/logo.png';
+        const fotoUrl = u.foto && u.foto.length > 100
+            ? u.foto
+            : "../../assets/img/logo.png";
 
-        let badgeHtml = '';
-        if (u.tipoUsuario === 'empleado') {
+        // BADGE
+        let badgeHtml = "";
+
+        if (u.tipoUsuario === "empleado") {
             badgeHtml = `<span class="badge empleado">👔 Empleado</span>`;
-        } else if (u.tipoUsuario === 'cliente') {
+        } else if (u.tipoUsuario === "cliente") {
             badgeHtml = `<span class="badge cliente">👤 Cliente</span>`;
         } else {
             badgeHtml = `<span class="badge">❓ Sin tipo</span>`;
         }
 
-        let servicioHtml = '';
-        if (u.tipoUsuario === 'empleado' && u.servicio) {
+        // SERVICIO
+        let servicioHtml = "";
+
+        if (u.tipoUsuario === "empleado" && u.servicio) {
+
             const servicios = {
-                'limpieza': '🧹 Limpieza',
-                'seguridad': '🔒 Seguridad',
-                'mantenimiento': '🔧 Mantenimiento',
-                'jardineria': '🌿 Jardinería',
-                'cocina': '🍳 Cocina',
-                'recepcion': '📋 Recepción',
-                'mensajeria': '📦 Mensajería',
-                'transporte': '🚗 Transporte',
-                'otro': '📌 Otro'
+                limpieza: "🧹 Limpieza",
+                seguridad: "🔒 Seguridad",
+                mantenimiento: "🔧 Mantenimiento",
+                jardineria: "🌿 Jardinería",
+                cocina: "🍳 Cocina",
+                recepcion: "📋 Recepción",
+                mensajeria: "📦 Mensajería",
+                transporte: "🚗 Transporte",
+                otro: "📌 Otro"
             };
-            const servicioNombre = servicios[u.servicio] || u.servicio;
-            servicioHtml = `<p><strong>🔧 Servicio:</strong> ${servicioNombre}</p>`;
+
+            servicioHtml = `
+                <p><strong>🔧 Servicio:</strong> ${servicios[u.servicio] || u.servicio}</p>
+            `;
         }
 
         card.innerHTML = `
             <div class="imgBox">
-                <img src="${fotoUrl}" class="fotoUsuario" alt="Foto de ${u.nombres}" 
+                <img src="${fotoUrl}" class="fotoUsuario"
+                     alt="${u.nombres}"
                      onerror="this.src='../../assets/img/logo.png'">
             </div>
+
             <div class="info">
-                <h3>${u.nombres || ''} ${u.apellidos || ''}</h3>
+                <h3>${u.nombres || ""} ${u.apellidos || ""}</h3>
+
                 ${badgeHtml}
-                <p><strong>📄 Documento:</strong> ${u.documento || ''}</p>
-                <p><strong>📋 Tipo:</strong> ${u.tipoDocumento || ''}</p>
-                <p><strong>📧 Correo:</strong> ${u.correo || ''}</p>
-                <p><strong>📱 Celular:</strong> ${u.celular || ''}</p>
-                <p><strong>🏠 Dirección:</strong> ${u.direccion || ''}</p>
-                <p><strong>🏙️ Ciudad:</strong> ${u.ciudad || ''}</p>
+
+                <p><strong>📄 Documento:</strong> ${u.documento || ""}</p>
+                <p><strong>📋 Tipo Doc:</strong> ${u.tipoDocumento || ""}</p>
+                <p><strong>📧 Correo:</strong> ${u.correo || ""}</p>
+                <p><strong>📱 Celular:</strong> ${u.celular || ""}</p>
+                <p><strong>🏠 Dirección:</strong> ${u.direccion || ""}</p>
+                <p><strong>🏙️ Ciudad:</strong> ${u.ciudad || ""}</p>
+
                 ${servicioHtml}
             </div>
+
             <div class="acciones">
                 <button class="editar">✏️ Editar</button>
                 <button class="eliminar">🗑️ Eliminar</button>
@@ -138,63 +156,31 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         // =========================
-        // EDITAR CON CONFIRMACIÓN
+        // EDITAR
         // =========================
-<<<<<<< HEAD
-        card.querySelector(".editar").addEventListener("click", function() {
-=======
         card.querySelector(".editar").addEventListener("click", function () {
->>>>>>> origin/main
-            const nombreUsuario = `${u.nombres} ${u.apellidos}`;
 
-            const confirmarEditar = confirm(
-                `✏️ ¿Desea editar el perfil de "${nombreUsuario}"?\n\n` +
-                `📄 Documento: ${u.documento}\n` +
-                `📧 Correo: ${u.correo}\n\n` +
-                `Se abrirá el formulario para modificar sus datos.`
-            );
-
-            if (confirmarEditar) {
+            if (confirm(`✏️ ¿Editar a ${u.nombres}?`)) {
                 localStorage.setItem("usuarioEditar", index);
                 window.location.href = "perfil.html";
             }
         });
 
         // =========================
-        // ELIMINAR CON CONFIRMACIÓN (DOBLE)
+        // ELIMINAR
         // =========================
-<<<<<<< HEAD
-        card.querySelector(".eliminar").addEventListener("click", function() {
-=======
         card.querySelector(".eliminar").addEventListener("click", function () {
->>>>>>> origin/main
-            const nombreUsuario = `${u.nombres} ${u.apellidos}`;
 
-            const confirmarEliminar = confirm(
-                `⚠️ ¿Desea eliminar el usuario "${nombreUsuario}"?\n\n` +
-                `📄 Documento: ${u.documento}\n` +
-                `📧 Correo: ${u.correo}\n\n` +
-                `Esta acción eliminará permanentemente todos sus datos.`
-            );
+            if (confirm(`⚠️ ¿Eliminar a ${u.nombres}?`)) {
 
-            if (confirmarEliminar) {
-                const confirmarSeguro = confirm(
-                    `❌ ¿Está SEGURO de eliminar a "${nombreUsuario}"?\n\n` +
-                    `Esta acción NO se puede deshacer.\n\n` +
-                    `Todos los datos del usuario serán eliminados permanentemente.`
-                );
+                if (confirm("❌ Esta acción no se puede deshacer")) {
 
-                if (confirmarSeguro) {
                     usuarios.splice(index, 1);
                     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-                    alert(`✅ Usuario "${nombreUsuario}" eliminado correctamente`);
+                    alert("Usuario eliminado");
                     location.reload();
-                } else {
-                    alert(`❌ Eliminación cancelada para "${nombreUsuario}"`);
                 }
-            } else {
-                alert(`❌ Eliminación cancelada para "${nombreUsuario}"`);
             }
         });
 
@@ -202,9 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // =========================
-    // RESUMEN EN CONSOLA
+    // RESUMEN
     // =========================
-    console.log(`✅ Total de usuarios: ${usuarios.length}`);
-    console.log(`👤 Clientes: ${usuarios.filter(u => u.tipoUsuario === 'cliente').length}`);
-    console.log(`👔 Empleados: ${usuarios.filter(u => u.tipoUsuario === 'empleado').length}`);
+    console.log("Total:", usuarios.length);
+    console.log("Clientes:", usuarios.filter(u => u.tipoUsuario === "cliente").length);
+    console.log("Empleados:", usuarios.filter(u => u.tipoUsuario === "empleado").length);
 });
