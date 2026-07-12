@@ -1,187 +1,387 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+
     mostrarServicios();
     actualizarTotal();
     mostrarMensajeConfirmacion();
+
 });
 
+//======================================================
+// MOSTRAR MENSAJE
+//======================================================
+
 function mostrarMensajeConfirmacion() {
+
     var mensaje = localStorage.getItem("mensajeCita");
-    if (!mensaje) {
-        return;
-    }
+
+    if (!mensaje) return;
 
     var contenedor = document.createElement("div");
+
     contenedor.id = "mensajeFlotante";
 
-    var esExito = mensaje.includes("correctamente") || mensaje.includes("✅");
-    var esEliminacion = mensaje.includes("eliminada");
+    if (mensaje.toLowerCase().includes("guardada")) {
 
-    if (esExito) {
         contenedor.className = "mensaje-exito";
-    } else if (esEliminacion) {
-        contenedor.className = "mensaje-error";
-    } else {
+
+    } else if (mensaje.toLowerCase().includes("editada")) {
+
         contenedor.className = "mensaje-info";
+
+    } else if (mensaje.toLowerCase().includes("eliminada")) {
+
+        contenedor.className = "mensaje-error";
+
+    } else {
+
+        contenedor.className = "mensaje-info";
+
     }
 
     var icono = "✅";
-    if (mensaje.includes("editada")) icono = "✏️";
-    if (mensaje.includes("eliminada")) icono = "🗑️";
 
-    contenedor.innerHTML = '<span class="icono-mensaje">' + icono + '</span><span class="texto-mensaje">' + mensaje + '</span><button class="btn-cerrar-mensaje" onclick="cerrarMensaje()">✕</button>';
+    if (mensaje.toLowerCase().includes("editada")) {
+
+        icono = "✏️";
+
+    }
+
+    if (mensaje.toLowerCase().includes("eliminada")) {
+
+        icono = "🗑️";
+
+    }
+
+    contenedor.innerHTML = `
+        <span class="icono-mensaje">${icono}</span>
+        <span class="texto-mensaje">${mensaje}</span>
+        <button class="btn-cerrar-mensaje" onclick="cerrarMensaje()">✖</button>
+    `;
 
     document.body.appendChild(contenedor);
 
-    setTimeout(function() {
+    setTimeout(function () {
+
         cerrarMensaje();
+
     }, 5000);
+
 }
+
+
+//======================================================
+// CERRAR MENSAJE
+//======================================================
 
 function cerrarMensaje() {
+
     var mensaje = document.getElementById("mensajeFlotante");
-    if (mensaje) {
-        mensaje.style.animation = "slideOutRight 0.5s ease forwards";
-        setTimeout(function() {
-            mensaje.remove();
-            localStorage.removeItem("mensajeCita");
-        }, 500);
-    }
-}
+
+    if (!mensaje) return;
+
+    mensaje.style.animation = "slideOutRight .5s forwards";
+
+    setTimeout(function () {
+
+        mensaje.remove();
+
+        localStorage.removeItem("mensajeCita");
+
+    }, 500);
+
+}  
+//======================================================
+// MOSTRAR SERVICIOS
+//======================================================
 
 function mostrarServicios() {
+
     var contenedor = document.getElementById("tablaCitas");
+
+    if (!contenedor) return;
+
     var citas = JSON.parse(localStorage.getItem("citas")) || [];
     var listaServicios = JSON.parse(localStorage.getItem("listaServicios")) || [];
 
-    // 🔥 OBTENER USUARIO LOGUEADO
-    var usuarioLogueado = localStorage.getItem("usuarioLogueado");
-    var usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
+    // Usuario logueado
+    var usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+
     var correoUsuario = usuario ? usuario.correo : null;
 
-    // 🔥 FILTRAR CITAS SOLO DEL USUARIO LOGUEADO
-    var citasFiltradas = citas;
-    if (correoUsuario) {
-        citasFiltradas = citas.filter(function(cita) {
-            var correoCita = cita.usuarioCorreo || cita.correo;
-            return correoCita === correoUsuario;
-        });
+    // Filtrar únicamente las citas del usuario
+  // Corregir citas antiguas que no tienen usuarioCorreo
+for (var i = 0; i < citas.length; i++) {
+
+    if (!citas[i].usuarioCorreo) {
+
+        citas[i].usuarioCorreo = correoUsuario;
+
     }
 
+}
+
+// Guardar los cambios
+localStorage.setItem("citas", JSON.stringify(citas));
+
+// Filtrar únicamente las citas del usuario
+var citasFiltradas = citas.filter(function(cita){
+
+    return cita.usuarioCorreo === correoUsuario;
+
+});;
+
     if (citasFiltradas.length === 0) {
-        contenedor.innerHTML = '<div class="sin-citas"><span class="icono-sin-citas">📅</span><h2>No hay servicios agendados</h2><p>Cuando agendes un servicio aparecerá aquí.</p></div>';
+
+        contenedor.innerHTML = `
+            <div class="sin-citas">
+                <span class="icono-sin-citas">📅</span>
+                <h2>No hay servicios agendados</h2>
+                <p>Cuando agendes un servicio aparecerá aquí.</p>
+            </div>
+        `;
+
         return;
+
     }
 
     var html = "";
 
-    for (var i = 0; i < citasFiltradas.length; i++) {
-        var cita = citasFiltradas[i];
-        var indexOriginal = citas.indexOf(cita);
+    citasFiltradas.forEach(function (cita) {
 
-        var servicioInfo = null;
-        for (var j = 0; j < listaServicios.length; j++) {
-            if (listaServicios[j].nombre.trim().toLowerCase() === cita.servicio.trim().toLowerCase()) {
-                servicioInfo = listaServicios[j];
-                break;
-            }
-        }
+        // Índice real dentro del arreglo "citas"
+        var indexOriginal = citas.findIndex(function (item) {
 
-        var imagen = servicioInfo ? servicioInfo.imagen : "../assets/img/persona.png";
+            return item === cita;
 
-        var precio = servicioInfo ? Number(servicioInfo.precio).toLocaleString("es-CO", {
-            style: "currency",
-            currency: "COP",
-            minimumFractionDigits: 0
-        }) : cita.precio || "N/A";
+        });
+
+        var servicioInfo = listaServicios.find(function (servicio) {
+
+            return servicio.nombre &&
+                   cita.servicio &&
+                   servicio.nombre.trim().toLowerCase() ===
+                   cita.servicio.trim().toLowerCase();
+
+        });
+
+        var imagen = servicioInfo
+            ? servicioInfo.imagen
+            : "../assets/img/persona.png";
+
+        var precio = servicioInfo
+            ? Number(servicioInfo.precio).toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0
+            })
+            : (cita.precio || "");
 
         var estado = cita.estado || "Pendiente";
+
         var claseEstado = "estado-pendiente";
 
-        if (estado === "Pendiente") {
-            claseEstado = "estado-pendiente";
-        } else if (estado === "Confirmada") {
+        if (estado === "Confirmada") {
+
             claseEstado = "estado-confirmada";
+
         } else if (estado === "Cancelada") {
+
             claseEstado = "estado-cancelada";
+
         } else if (estado === "Completada") {
+
             claseEstado = "estado-completada";
+
         }
 
-        // 🔥 BOTÓN PAGAR ELIMINADO - SOLO EDITAR Y ELIMINAR
-        html += '<div class="cita-card">';
-        html += '<div style="position: absolute; top: 15px; right: 15px;"><span class="estado-cita ' + claseEstado + '">' + estado + '</span></div>';
-        html += '<div class="imgBox"><img src="' + imagen + '" alt="' + cita.servicio + '" onerror="this.src=\'../assets/img/persona.png\'"></div>';
-        html += '<h3>' + cita.servicio + '</h3>';
-        html += '<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 18px;"><div class="badge-servicio">' + precio + '</div></div>';
-        html += '<div class="info">';
-        html += '<p><strong>👤 Cliente:</strong> ' + cita.nombre + ' ' + cita.apellido + '</p>';
-        html += '<p><strong>📅 Fecha:</strong> ' + cita.fecha + ' - ' + cita.hora + '</p>';
-        html += '<p><strong>👨‍💼 Profesional:</strong> ' + cita.profesional + '</p>';
-        html += '<p><strong>📧 Correo:</strong> ' + cita.correo + '</p>';
-        html += '<p><strong>📞 Teléfono:</strong> ' + cita.telefono + '</p>';
-        html += '<p><strong>📍 Dirección:</strong> ' + cita.direccion + ', ' + cita.ciudad + '</p>';
-        html += '<p><strong>📋 Tipo:</strong> ' + (cita.tipo || "N/A") + ' | <strong>🕐 Jornada:</strong> ' + (cita.jornada || "N/A") + '</p>';
-        html += '</div>';
-        html += '<div class="botones">';
-        html += '<button class="btn-editar" onclick="editarCita(' + indexOriginal + ')">✏️ Editar</button>';
-        html += '<button class="btn-eliminar" onclick="eliminarCita(' + indexOriginal + ')">🗑️ Eliminar</button>';
-        html += '</div>';
-        html += '</div>';
-    }
+        html += `
+
+        <div class="cita-card">
+
+            <div style="position:absolute;top:15px;right:15px;">
+
+                <span class="estado-cita ${claseEstado}">
+                    ${estado}
+                </span>
+
+            </div>
+
+            <div class="imgBox">
+
+                <img src="${imagen}"
+                     alt="${cita.servicio}"
+                     onerror="this.src='../assets/img/persona.png'">
+
+            </div>
+
+            <h3>${cita.servicio}</h3>
+
+            <div style="display:flex;justify-content:center;margin-bottom:18px;">
+
+                <div class="badge-servicio">
+
+                    ${precio}
+
+                </div>
+
+            </div>
+
+            <div class="info">
+
+                <p><strong>👤 Cliente:</strong> ${cita.nombre} ${cita.apellido}</p>
+
+                <p><strong>📅 Fecha:</strong> ${cita.fecha} - ${cita.hora}</p>
+
+                <p><strong>👨‍🔧 Profesional:</strong> ${cita.profesional}</p>
+
+                <p><strong>📧 Correo:</strong> ${cita.correo}</p>
+
+                <p><strong>📱 Teléfono:</strong> ${cita.telefono}</p>
+
+                <p><strong>📍 Dirección:</strong> ${cita.direccion}, ${cita.ciudad}</p>
+
+                <p>
+
+                    <strong>📋 Tipo:</strong> ${cita.tipo}
+
+                    |
+
+                    <strong>🕒 Jornada:</strong> ${cita.jornada}
+
+                </p>
+
+            </div>
+
+            <div class="botones">
+
+                <button
+                    class="btn-editar"
+                    onclick="editarCita(${indexOriginal})">
+
+                    ✏️ Editar
+
+                </button>
+
+                <button
+                    class="btn-eliminar"
+                    onclick="eliminarCita(${indexOriginal})">
+
+                    🗑️ Eliminar
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
 
     contenedor.innerHTML = html;
+
 }
+//======================================================
+// ACTUALIZAR TOTAL
+//======================================================
 
 function actualizarTotal() {
+
     var citas = JSON.parse(localStorage.getItem("citas")) || [];
-    
-    var usuarioLogueado = localStorage.getItem("usuarioLogueado");
-    var usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
+
+    var usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+
     var correoUsuario = usuario ? usuario.correo : null;
-    
-    var citasFiltradas = citas.filter(function(cita) {
-        var correoCita = cita.usuarioCorreo || cita.correo;
-        return correoCita === correoUsuario;
-    });
-    
-    var totalElement = document.getElementById("totalCitas");
-    if (totalElement) {
-        totalElement.textContent = citasFiltradas.length + " cita" + (citasFiltradas.length !== 1 ? 's' : '') + " agendadas";
+
+    var cantidad = citas.filter(function (cita) {
+
+        return (cita.usuarioCorreo || cita.correo) === correoUsuario;
+
+    }).length;
+
+    var total = document.getElementById("totalCitas");
+
+    if (total) {
+
+        total.textContent =
+            cantidad + " cita" + (cantidad !== 1 ? "s" : "") + " agendada" + (cantidad !== 1 ? "s" : "");
+
     }
+
 }
+
+
+//======================================================
+// EDITAR CITA
+//======================================================
 
 function editarCita(index) {
-    if (confirm("✏️ ¿Desea editar esta cita?")) {
-        localStorage.setItem("citaEditar", index);
-        window.location.href = "Agendar_Cita.html";
+
+    var citas = JSON.parse(localStorage.getItem("citas")) || [];
+
+    if (!citas[index]) {
+
+        alert("❌ No se encontró la cita.");
+        return;
+
     }
+
+    localStorage.setItem("citaEditar", index);
+
+    window.location.href = "Agendar_Cita.html";
+
 }
+
+
+//======================================================
+// ELIMINAR CITA
+//======================================================
 
 function eliminarCita(index) {
+
     var citas = JSON.parse(localStorage.getItem("citas")) || [];
+
+    if (!citas[index]) {
+
+        alert("❌ La cita no existe.");
+        return;
+
+    }
+
     var cita = citas[index];
 
-    if (!cita) {
+    if (!confirm(
+        "🗑️ ¿Desea eliminar esta cita?\n\n" +
+        "Servicio: " + cita.servicio + "\n" +
+        "Fecha: " + cita.fecha + "\n" +
+        "Hora: " + cita.hora
+    )) {
+
         return;
+
     }
 
-    var usuarioLogueado = localStorage.getItem("usuarioLogueado");
-    var usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
-    var correoUsuario = usuario ? usuario.correo : null;
-    var correoCita = cita.usuarioCorreo || cita.correo;
+    citas.splice(index, 1);
 
-    if (correoCita !== correoUsuario) {
-        alert("❌ No tienes permiso para eliminar esta cita");
-        return;
-    }
+    localStorage.setItem("citas", JSON.stringify(citas));
 
-    if (confirm("🗑️ ¿Está seguro de eliminar la cita de " + cita.nombre + " " + cita.apellido + "?\n\nServicio: " + cita.servicio + "\nFecha: " + cita.fecha + " - " + cita.hora)) {
-        citas.splice(index, 1);
-        localStorage.setItem("citas", JSON.stringify(citas));
-        localStorage.setItem("mensajeCita", "eliminada");
-        window.location.reload();
-    }
+    localStorage.setItem(
+        "mensajeCita",
+        "🗑️ La cita fue eliminada correctamente."
+    );
+
+    mostrarServicios();
+
+    actualizarTotal();
+
+    mostrarMensajeConfirmacion();
+
 }
+
+
+//======================================================
+// EXPORTAR FUNCIONES
+//======================================================
 
 window.editarCita = editarCita;
 window.eliminarCita = eliminarCita;

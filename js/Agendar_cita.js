@@ -1,57 +1,86 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    var servicioSeleccionado = localStorage.getItem("servicioSeleccionado");
-    var indiceEditar = localStorage.getItem("citaEditar");
+    const servicioSeleccionado = localStorage.getItem("servicioSeleccionado");
+    const indiceEditar = localStorage.getItem("citaEditar");
 
-    localStorage.removeItem("mensajeCita");
+    // No borrar el mensaje cuando venimos de editar
+    if (!indiceEditar) {
+        localStorage.removeItem("mensajeCita");
+    }
 
-    if (indiceEditar === null && servicioSeleccionado) {
-        var servicioInput = document.getElementById("servicio");
+    // Cargar profesionales primero
+    cargarProfesionales();
+
+    // Si es una edición cargar datos
+    if (indiceEditar !== null) {
+        cargarDatosFormulario(parseInt(indiceEditar));
+        document.getElementById("servicio").readOnly = false;
+    }
+    // Si es una cita nueva
+    else if (servicioSeleccionado) {
+        const servicioInput = document.getElementById("servicio");
         servicioInput.value = servicioSeleccionado;
         servicioInput.readOnly = true;
     }
 
-    if (indiceEditar !== null) {
-        cargarDatosFormulario(indiceEditar);
-        document.getElementById("servicio").readOnly = false;
-    }
-
-    var fecha = document.getElementById("fecha");
-    var hoy = new Date().toISOString().split("T")[0];
+    // Fecha mínima = hoy
+    const fecha = document.getElementById("fecha");
+    const hoy = new Date().toISOString().split("T")[0];
     fecha.min = hoy;
-    fecha.value = hoy;
 
-    cargarProfesionales();
+    if (indiceEditar === null) {
+        fecha.value = hoy;
+    }
 
     configurarValidaciones();
 
-    document.getElementById("btnConfirmar").addEventListener("click", function(e) {
-        e.preventDefault();
-        guardarCita();
-    });
+    document
+        .getElementById("btnConfirmar")
+        .addEventListener("click", function (e) {
+            e.preventDefault();
+            guardarCita();
+        });
 
 });
 
+
+//===================================================
+// CARGAR PROFESIONALES
+//===================================================
+
 function cargarProfesionales() {
-    var select = document.getElementById("profesional");
-    var usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    const select = document.getElementById("profesional");
+    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 
     select.innerHTML = '<option value="">Seleccionar profesional</option>';
 
-    for (var i = 0; i < usuarios.length; i++) {
-        if (usuarios[i].tipoUsuario === "empleado") {
-            var nombreCompleto = usuarios[i].nombres + " " + usuarios[i].apellidos;
-            var option = document.createElement("option");
-            option.value = nombreCompleto;
-            option.textContent = nombreCompleto;
+    usuarios.forEach(function (usuario) {
+
+        if (usuario.tipoUsuario === "empleado") {
+
+            const option = document.createElement("option");
+
+            option.value = usuario.nombres + " " + usuario.apellidos;
+            option.textContent = usuario.nombres + " " + usuario.apellidos;
+
             select.appendChild(option);
         }
-    }
+
+    });
+
 }
 
+
+//===================================================
+// CARGAR DATOS AL EDITAR
+//===================================================
+
 function cargarDatosFormulario(indice) {
-    var citas = JSON.parse(localStorage.getItem("citas")) || [];
-    var cita = citas[indice];
+
+    const citas = JSON.parse(localStorage.getItem("citas")) || [];
+
+    const cita = citas[indice];
 
     if (!cita) return;
 
@@ -63,308 +92,492 @@ function cargarDatosFormulario(indice) {
     document.getElementById("ciudad").value = cita.ciudad || "";
     document.getElementById("servicio").value = cita.servicio || "";
     document.getElementById("fecha").value = cita.fecha || "";
+
+    actualizarHorasPorJornada(cita.jornada);
+
     document.getElementById("hora").value = cita.hora || "";
+    document.getElementById("profesional").value = cita.profesional || "";
 
-    var select = document.getElementById("profesional");
-    select.value = cita.profesional || "";
+    const tipo = document.querySelector(
+        'input[name="tipo"][value="' + cita.tipo + '"]'
+    );
 
-    if (select.value !== cita.profesional) {
-        var options = select.options;
-        for (var i = 0; i < options.length; i++) {
-            if (options[i].value === cita.profesional) {
-                options[i].selected = true;
-                break;
-            }
-        }
+    if (tipo) {
+        tipo.checked = true;
     }
 
-    var tipo = document.querySelector('input[name="tipo"][value="' + cita.tipo + '"]');
-    if (tipo) tipo.checked = true;
+    const jornada = document.querySelector(
+        'input[name="jornada"][value="' + cita.jornada + '"]'
+    );
 
-    var jornada = document.querySelector('input[name="jornada"][value="' + cita.jornada + '"]');
     if (jornada) {
         jornada.checked = true;
-        actualizarHorasPorJornada(cita.jornada);
     }
-}
 
-// ============================================
+} 
+
+//===================================================
 // CONFIGURAR VALIDACIONES
-// ============================================
+//===================================================
+
 function configurarValidaciones() {
 
-    // NOMBRE - Solo letras
-    var nombreInput = document.getElementById("nombre");
-    nombreInput.addEventListener("keypress", function(e) {
-        var charCode = e.which || e.keyCode;
-        var char = String.fromCharCode(charCode);
-        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(char)) {
+    //==========================
+    // NOMBRE
+    //==========================
+    const nombre = document.getElementById("nombre");
+
+    nombre.addEventListener("keypress", function (e) {
+
+        const letra = String.fromCharCode(e.which || e.keyCode);
+
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(letra)) {
             e.preventDefault();
             mostrarError("nombre", "Solo letras");
         }
-    });
-    nombreInput.addEventListener("input", function() {
-        if (this.value.trim() === "") {
-            mostrarError("nombre", "Campo obligatorio");
-        } else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(this.value)) {
-            mostrarExito("nombre");
-        } else {
-            mostrarError("nombre", "Mínimo 3 caracteres");
-        }
+
     });
 
-    // APELLIDO - Solo letras
-    var apellidoInput = document.getElementById("apellido");
-    apellidoInput.addEventListener("keypress", function(e) {
-        var charCode = e.which || e.keyCode;
-        var char = String.fromCharCode(charCode);
-        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(char)) {
+    nombre.addEventListener("input", function () {
+
+        if (this.value.trim() === "") {
+            mostrarError("nombre", "Campo obligatorio");
+        }
+        else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(this.value)) {
+            mostrarExito("nombre");
+        }
+        else {
+            mostrarError("nombre", "Mínimo 3 letras");
+        }
+
+    });
+
+
+    //==========================
+    // APELLIDO
+    //==========================
+
+    const apellido = document.getElementById("apellido");
+
+    apellido.addEventListener("keypress", function (e) {
+
+        const letra = String.fromCharCode(e.which || e.keyCode);
+
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(letra)) {
             e.preventDefault();
             mostrarError("apellido", "Solo letras");
         }
+
     });
-    apellidoInput.addEventListener("input", function() {
+
+    apellido.addEventListener("input", function () {
+
         if (this.value.trim() === "") {
             mostrarError("apellido", "Campo obligatorio");
-        } else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(this.value)) {
-            mostrarExito("apellido");
-        } else {
-            mostrarError("apellido", "Mínimo 3 caracteres");
         }
+        else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(this.value)) {
+            mostrarExito("apellido");
+        }
+        else {
+            mostrarError("apellido", "Mínimo 3 letras");
+        }
+
     });
 
-    // CORREO - @ y .com
-    var correoInput = document.getElementById("correo");
-    correoInput.addEventListener("input", function() {
+
+    //==========================
+    // CORREO
+    //==========================
+
+    const correo = document.getElementById("correo");
+
+    correo.addEventListener("input", function () {
+
         if (this.value.trim() === "") {
             mostrarError("correo", "Campo obligatorio");
-        } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)) {
+        }
+        else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value)) {
             mostrarExito("correo");
-        } else {
-            mostrarError("correo", "Debe tener @ y .com");
         }
+        else {
+            mostrarError("correo", "Correo inválido");
+        }
+
     });
 
-    // TELÉFONO - Solo números 7-10 dígitos
-    var telefonoInput = document.getElementById("telefono");
-    telefonoInput.addEventListener("keypress", function(e) {
-        var charCode = e.which || e.keyCode;
-        if (charCode < 48 || charCode > 57) {
+
+    //==========================
+    // TELÉFONO
+    //==========================
+
+    const telefono = document.getElementById("telefono");
+
+    telefono.addEventListener("keypress", function (e) {
+
+        const codigo = e.which || e.keyCode;
+
+        if (codigo < 48 || codigo > 57) {
             e.preventDefault();
-            mostrarError("telefono", "Solo números");
         }
+
     });
-    telefonoInput.addEventListener("input", function() {
-        this.value = this.value.replace(/\D/g, '');
+
+    telefono.addEventListener("input", function () {
+
+        this.value = this.value.replace(/\D/g, "");
+
         if (this.value.length > 10) {
-            this.value = this.value.slice(0, 10);
+            this.value = this.value.substring(0, 10);
         }
-        if (this.value.trim() === "") {
+
+        if (this.value === "") {
             mostrarError("telefono", "Campo obligatorio");
-        } else if (/^\d{7,10}$/.test(this.value)) {
+        }
+        else if (/^\d{7,10}$/.test(this.value)) {
             mostrarExito("telefono");
-        } else {
-            mostrarError("telefono", "Mínimo 7 dígitos");
         }
+        else {
+            mostrarError("telefono", "Debe tener entre 7 y 10 dígitos");
+        }
+
     });
 
-    // CIUDAD - Solo letras
-    var ciudadInput = document.getElementById("ciudad");
-    ciudadInput.addEventListener("keypress", function(e) {
-        var charCode = e.which || e.keyCode;
-        var char = String.fromCharCode(charCode);
-        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(char)) {
-            e.preventDefault();
-            mostrarError("ciudad", "Solo letras");
-        }
-    });
-    ciudadInput.addEventListener("input", function() {
-        if (this.value.trim() === "") {
-            mostrarError("ciudad", "Campo obligatorio");
-        } else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(this.value)) {
-            mostrarExito("ciudad");
-        } else {
-            mostrarError("ciudad", "Mínimo 3 caracteres");
-        }
-    });
 
-    // DIRECCIÓN - Mínimo 5 caracteres
-    var direccionInput = document.getElementById("direccion");
-    direccionInput.addEventListener("input", function() {
+    //==========================
+    // DIRECCIÓN
+    //==========================
+
+    const direccion = document.getElementById("direccion");
+
+    direccion.addEventListener("input", function () {
+
         if (this.value.trim() === "") {
             mostrarError("direccion", "Campo obligatorio");
-        } else if (this.value.trim().length >= 5) {
+        }
+        else if (this.value.trim().length >= 5) {
             mostrarExito("direccion");
-        } else {
+        }
+        else {
             mostrarError("direccion", "Mínimo 5 caracteres");
         }
+
     });
 
-    // JORNADA - Actualizar horas
-    var radiosJornada = document.querySelectorAll('input[name="jornada"]');
-    for (var i = 0; i < radiosJornada.length; i++) {
-        radiosJornada[i].addEventListener("change", function() {
-            actualizarHorasPorJornada(this.value);
-            validarHoraConJornada();
-        });
-    }
 
+    //==========================
+    // CIUDAD
+    //==========================
+
+    const ciudad = document.getElementById("ciudad");
+
+    ciudad.addEventListener("keypress", function (e) {
+
+        const letra = String.fromCharCode(e.which || e.keyCode);
+
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]$/.test(letra)) {
+            e.preventDefault();
+        }
+
+    });
+
+    ciudad.addEventListener("input", function () {
+
+        if (this.value.trim() === "") {
+            mostrarError("ciudad", "Campo obligatorio");
+        }
+        else if (/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(this.value)) {
+            mostrarExito("ciudad");
+        }
+        else {
+            mostrarError("ciudad", "Solo letras");
+        }
+
+    });
+
+
+    //==========================
     // FECHA
-    var fechaInput = document.getElementById("fecha");
-    fechaInput.addEventListener("change", function() {
+    //==========================
+
+    document.getElementById("fecha").addEventListener("change", function () {
+
         if (this.value === "") {
             mostrarError("fecha", "Seleccione una fecha");
-        } else {
+        }
+        else {
             mostrarExito("fecha");
         }
+
     });
 
+
+    //==========================
     // HORA
-    var horaSelect = document.getElementById("hora");
-    horaSelect.addEventListener("change", function() {
+    //==========================
+
+    document.getElementById("hora").addEventListener("change", function () {
+
         if (this.value === "") {
             mostrarError("hora", "Seleccione una hora");
-        } else {
-            mostrarExito("hora");
         }
+        else {
+            mostrarExito("hora");
+            validarHoraConJornada();
+        }
+
     });
 
+
+    //==========================
     // PROFESIONAL
-    var profesionalSelect = document.getElementById("profesional");
-    profesionalSelect.addEventListener("change", function() {
+    //==========================
+
+    document.getElementById("profesional").addEventListener("change", function () {
+
         if (this.value === "") {
             mostrarError("profesional", "Seleccione un profesional");
-        } else {
+        }
+        else {
             mostrarExito("profesional");
         }
+
     });
 
+
+    //==========================
     // TIPO
-    var radiosTipo = document.querySelectorAll('input[name="tipo"]');
-    for (var i = 0; i < radiosTipo.length; i++) {
-        radiosTipo[i].addEventListener("change", function() {
-            var seleccionado = document.querySelector('input[name="tipo"]:checked');
-            if (seleccionado) {
-                mostrarExito("tipo");
-            }
+    //==========================
+
+    document.querySelectorAll('input[name="tipo"]').forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+            mostrarExito("tipo");
         });
+
+    });
+
+
+    //==========================
+    // JORNADA
+    //==========================
+
+    document.querySelectorAll('input[name="jornada"]').forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+
+            actualizarHorasPorJornada(this.value);
+
+            mostrarExito("jornada");
+
+            validarHoraConJornada();
+
+        });
+
+    });
+
+}
+//===================================================
+// ACTUALIZAR HORAS SEGÚN LA JORNADA
+//===================================================
+
+function actualizarHorasPorJornada(jornada) {
+
+    var selectHora = document.getElementById("hora");
+
+    var horasAM = [
+        "07:00 AM",
+        "08:00 AM",
+        "09:00 AM",
+        "10:00 AM",
+        "11:00 AM",
+        "12:00 PM"
+    ];
+
+    var horasPM = [
+        "01:00 PM",
+        "02:00 PM",
+        "03:00 PM",
+        "04:00 PM",
+        "05:00 PM",
+        "06:00 PM",
+        "07:00 PM"
+    ];
+
+    var horaActual = selectHora.value;
+
+    selectHora.innerHTML = '<option value="">Seleccionar hora</option>';
+
+    var horas = (jornada === "AM") ? horasAM : horasPM;
+
+    for (var i = 0; i < horas.length; i++) {
+
+        var option = document.createElement("option");
+        option.value = horas[i];
+        option.textContent = horas[i];
+
+        selectHora.appendChild(option);
+
     }
+
+    // Mantener la hora si existe (al editar)
+
+    for (var j = 0; j < selectHora.options.length; j++) {
+
+        if (selectHora.options[j].value === horaActual) {
+
+            selectHora.value = horaActual;
+            break;
+
+        }
+
+    }
+
 }
 
-// ============================================
-// ACTUALIZAR HORAS SEGÚN JORNADA
-// ============================================
-function actualizarHorasPorJornada(jornada) {
-    var selectHora = document.getElementById("hora");
-    var horasAM = ["07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM"];
-    var horasPM = ["01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"];
-    
-    var horasDisponibles = jornada === "AM" ? horasAM : horasPM;
-    var valorActual = selectHora.value;
-    
-    selectHora.innerHTML = '<option value="">Seleccionar hora</option>';
-    
-    for (var i = 0; i < horasDisponibles.length; i++) {
-        var option = document.createElement("option");
-        option.value = horasDisponibles[i];
-        option.textContent = horasDisponibles[i];
-        selectHora.appendChild(option);
-    }
-    
-    var existe = false;
-    for (var i = 0; i < selectHora.options.length; i++) {
-        if (selectHora.options[i].value === valorActual) {
-            existe = true;
-            break;
-        }
-    }
-    
-    if (existe) {
-        selectHora.value = valorActual;
-    }
-}
+
+//===================================================
+// VALIDAR HORA SEGÚN JORNADA
+//===================================================
 
 function validarHoraConJornada() {
-    var jornadaSeleccionada = document.querySelector('input[name="jornada"]:checked');
+
+    var jornada = document.querySelector('input[name="jornada"]:checked');
+
+    if (!jornada) return;
+
     var hora = document.getElementById("hora").value;
-    
-    if (!jornadaSeleccionada || !hora) return;
-    
-    var esAM = jornadaSeleccionada.value === "AM";
-    var esHorarioAM = hora.includes("AM");
-    var esHorarioPM = hora.includes("PM");
-    
-    if (esAM && esHorarioPM) {
-        mostrarError("hora", "Seleccionó AM pero la hora es PM");
-    } else if (!esAM && esHorarioAM) {
-        mostrarError("hora", "Seleccionó PM pero la hora es AM");
-    } else {
-        mostrarExito("hora");
+
+    if (hora === "") return;
+
+    if (jornada.value === "AM" && hora.includes("PM")) {
+
+        mostrarError("hora", "La hora no corresponde a la jornada AM");
+
+        return;
+
     }
+
+    if (jornada.value === "PM" && hora.includes("AM")) {
+
+        mostrarError("hora", "La hora no corresponde a la jornada PM");
+
+        return;
+
+    }
+
+    mostrarExito("hora");
+
 }
 
-// ============================================
-// FUNCIONES DE VALIDACIÓN
-// ============================================
+
+//===================================================
+// MOSTRAR ERROR
+//===================================================
+
 function mostrarError(id, mensaje) {
-    var campo = document.getElementById(id);
-    if (campo) {
-        campo.classList.add("errorInput");
-        campo.classList.remove("successInput");
+
+    var input = document.getElementById(id);
+
+    if (input) {
+
+        input.classList.remove("successInput");
+        input.classList.add("errorInput");
+
     }
-    
-    var errorDiv = document.getElementById("error-" + id);
-    if (errorDiv) {
-        errorDiv.textContent = mensaje;
-        errorDiv.classList.add("visible");
+
+    var error = document.getElementById("error-" + id);
+
+    if (error) {
+
+        error.textContent = mensaje;
+        error.classList.add("visible");
+
     }
-    
-    var exitoDiv = document.getElementById("exito-" + id);
-    if (exitoDiv) {
-        exitoDiv.classList.remove("visible");
+
+    var exito = document.getElementById("exito-" + id);
+
+    if (exito) {
+
+        exito.classList.remove("visible");
+
     }
+
 }
+
+
+//===================================================
+// MOSTRAR ÉXITO
+//===================================================
 
 function mostrarExito(id) {
-    var campo = document.getElementById(id);
-    if (campo) {
-        campo.classList.remove("errorInput");
-        campo.classList.add("successInput");
+
+    var input = document.getElementById(id);
+
+    if (input) {
+
+        input.classList.remove("errorInput");
+        input.classList.add("successInput");
+
     }
-    
-    var errorDiv = document.getElementById("error-" + id);
-    if (errorDiv) {
-        errorDiv.classList.remove("visible");
-        errorDiv.textContent = "";
+
+    var error = document.getElementById("error-" + id);
+
+    if (error) {
+
+        error.textContent = "";
+        error.classList.remove("visible");
+
     }
-    
-    var exitoDiv = document.getElementById("exito-" + id);
-    if (exitoDiv) {
-        exitoDiv.classList.add("visible");
+
+    var exito = document.getElementById("exito-" + id);
+
+    if (exito) {
+
+        exito.classList.add("visible");
+
     }
+
 }
+
+
+//===================================================
+// LIMPIAR VALIDACIONES
+//===================================================
 
 function limpiarErrores() {
-    var campos = document.querySelectorAll(".errorInput, .successInput");
-    for (var i = 0; i < campos.length; i++) {
-        campos[i].classList.remove("errorInput", "successInput");
+
+    var inputs = document.querySelectorAll(".errorInput, .successInput");
+
+    for (var i = 0; i < inputs.length; i++) {
+
+        inputs[i].classList.remove("errorInput");
+        inputs[i].classList.remove("successInput");
+
     }
-    
+
     var errores = document.querySelectorAll(".mensaje-error");
-    for (var i = 0; i < errores.length; i++) {
-        errores[i].classList.remove("visible");
-        errores[i].textContent = "";
+
+    for (var j = 0; j < errores.length; j++) {
+
+        errores[j].textContent = "";
+        errores[j].classList.remove("visible");
+
     }
-    
+
     var exitos = document.querySelectorAll(".mensaje-exito");
-    for (var i = 0; i < exitos.length; i++) {
-        exitos[i].classList.remove("visible");
+
+    for (var k = 0; k < exitos.length; k++) {
+
+        exitos[k].classList.remove("visible");
+
     }
+
 }
 
-// ============================================
+//===================================================
 // GUARDAR CITA
-// ============================================
+//===================================================
+
 function guardarCita() {
 
     var indiceEditar = localStorage.getItem("citaEditar");
@@ -376,205 +589,175 @@ function guardarCita() {
     var direccion = document.getElementById("direccion").value.trim();
     var ciudad = document.getElementById("ciudad").value.trim();
     var servicio = document.getElementById("servicio").value.trim();
+    var fecha = document.getElementById("fecha").value;
+    var hora = document.getElementById("hora").value;
+    var profesional = document.getElementById("profesional").value;
 
     if (servicio === "") {
         servicio = localStorage.getItem("servicioSeleccionado") || "";
     }
 
-    var fecha = document.getElementById("fecha").value;
-    var hora = document.getElementById("hora").value;
-    var profesional = document.getElementById("profesional").value;
-
-    var tipoSeleccionado = document.querySelector('input[name="tipo"]:checked');
-    var jornadaSeleccionada = document.querySelector('input[name="jornada"]:checked');
+    var tipo = document.querySelector('input[name="tipo"]:checked');
+    var jornada = document.querySelector('input[name="jornada"]:checked');
 
     limpiarErrores();
 
-    var formularioValido = true;
+    var valido = true;
 
-    // ============================================
-    // VALIDACIONES
-    // ============================================
     if (nombre === "") {
         mostrarError("nombre", "Campo obligatorio");
-        formularioValido = false;
-    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(nombre)) {
-        mostrarError("nombre", "Solo letras (3 a 15 caracteres)");
-        formularioValido = false;
-    } else {
-        mostrarExito("nombre");
+        valido = false;
     }
 
     if (apellido === "") {
         mostrarError("apellido", "Campo obligatorio");
-        formularioValido = false;
-    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,15}$/.test(apellido)) {
-        mostrarError("apellido", "Solo letras (3 a 15 caracteres)");
-        formularioValido = false;
-    } else {
-        mostrarExito("apellido");
+        valido = false;
     }
 
     if (correo === "") {
         mostrarError("correo", "Campo obligatorio");
-        formularioValido = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
-        mostrarError("correo", "Debe tener @ y .com");
-        formularioValido = false;
-    } else {
-        mostrarExito("correo");
+        valido = false;
     }
 
     if (telefono === "") {
         mostrarError("telefono", "Campo obligatorio");
-        formularioValido = false;
-    } else if (!/^\d{7,10}$/.test(telefono)) {
-        mostrarError("telefono", "Solo números (7 a 10 dígitos)");
-        formularioValido = false;
-    } else {
-        mostrarExito("telefono");
+        valido = false;
     }
 
     if (direccion === "") {
         mostrarError("direccion", "Campo obligatorio");
-        formularioValido = false;
-    } else if (direccion.length < 5) {
-        mostrarError("direccion", "Mínimo 5 caracteres");
-        formularioValido = false;
-    } else {
-        mostrarExito("direccion");
+        valido = false;
     }
 
     if (ciudad === "") {
         mostrarError("ciudad", "Campo obligatorio");
-        formularioValido = false;
-    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(ciudad)) {
-        mostrarError("ciudad", "Solo letras");
-        formularioValido = false;
-    } else {
-        mostrarExito("ciudad");
+        valido = false;
     }
 
     if (servicio === "") {
-        mostrarError("servicio", "Campo obligatorio");
-        formularioValido = false;
-    } else {
-        mostrarExito("servicio");
+        mostrarError("servicio", "Seleccione un servicio");
+        valido = false;
     }
 
     if (fecha === "") {
         mostrarError("fecha", "Seleccione una fecha");
-        formularioValido = false;
-    } else {
-        mostrarExito("fecha");
+        valido = false;
     }
 
     if (hora === "") {
         mostrarError("hora", "Seleccione una hora");
-        formularioValido = false;
+        valido = false;
     }
 
     if (profesional === "") {
         mostrarError("profesional", "Seleccione un profesional");
-        formularioValido = false;
-    } else {
-        mostrarExito("profesional");
+        valido = false;
     }
 
-    if (!tipoSeleccionado) {
-        mostrarError("tipo", "Seleccione tipo de servicio");
-        formularioValido = false;
-    } else {
-        mostrarExito("tipo");
+    if (!tipo) {
+        mostrarError("tipo", "Seleccione el tipo");
+        valido = false;
     }
 
-    if (!jornadaSeleccionada) {
-        mostrarError("jornada", "Seleccione jornada");
-        formularioValido = false;
-    } else {
-        mostrarExito("jornada");
+    if (!jornada) {
+        mostrarError("jornada", "Seleccione la jornada");
+        valido = false;
     }
 
-    // VALIDAR JORNADA vs HORA
-    if (jornadaSeleccionada && hora) {
-        var esAM = jornadaSeleccionada.value === "AM";
-        var esHorarioAM = hora.includes("AM");
-        var esHorarioPM = hora.includes("PM");
-        
-        if (esAM && esHorarioPM) {
-            mostrarError("hora", "Seleccionó AM pero la hora es PM");
-            formularioValido = false;
-        } else if (!esAM && esHorarioAM) {
-            mostrarError("hora", "Seleccionó PM pero la hora es AM");
-            formularioValido = false;
-        } else if (hora !== "") {
-            mostrarExito("hora");
-        }
-    }
-
-    if (!formularioValido) {
-        var primerError = document.querySelector(".errorInput");
-        if (primerError) {
-            primerError.focus();
-            primerError.select();
-        }
+    if (!valido) {
         return;
     }
 
-    // ============================================
-    // CREAR CITA
-    // ============================================
+    //====================================
+    // OBTENER INFORMACIÓN DEL SERVICIO
+    //====================================
+
     var listaServicios = JSON.parse(localStorage.getItem("listaServicios")) || [];
 
-    var servicioEncontrado = null;
-    for (var i = 0; i < listaServicios.length; i++) {
-        if (listaServicios[i].nombre === servicio) {
-            servicioEncontrado = listaServicios[i];
-            break;
-        }
-    }
+    var servicioInfo = listaServicios.find(function(s) {
+        return s.nombre &&
+               s.nombre.trim().toLowerCase() === servicio.trim().toLowerCase();
+    });
 
-    // Obtener usuario logueado
-    var usuarioLogueado = localStorage.getItem("usuarioLogueado");
-    var usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
-    var correoUsuario = usuario ? usuario.correo : correo;
+    //====================================
+    // USUARIO LOGUEADO
+    //====================================
+
+    var usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+
+    var usuarioCorreo = usuario ? usuario.correo : correo;
+
+    //====================================
+    // CREAR OBJETO
+    //====================================
 
     var cita = {
+
         nombre: nombre,
         apellido: apellido,
         correo: correo,
         telefono: telefono,
         direccion: direccion,
         ciudad: ciudad,
+
         servicio: servicio,
-        tipo: tipoSeleccionado.value,
-        jornada: jornadaSeleccionada.value,
+
+        tipo: tipo.value,
+        jornada: jornada.value,
+
         fecha: fecha,
         hora: hora,
+
         profesional: profesional,
-        imagen: servicioEncontrado ? servicioEncontrado.imagen : "",
-        precio: servicioEncontrado ? Number(servicioEncontrado.precio).toLocaleString("es-CO", {
-            style: "currency",
-            currency: "COP",
-            minimumFractionDigits: 0
-        }) : "",
+
+        imagen: servicioInfo ? servicioInfo.imagen : "../assets/img/persona.png",
+
+        precio: servicioInfo
+            ? Number(servicioInfo.precio).toLocaleString("es-CO", {
+                style: "currency",
+                currency: "COP",
+                minimumFractionDigits: 0
+            })
+            : "",
+
         estado: "Pendiente",
-        usuarioCorreo: correoUsuario
+
+        usuarioCorreo: usuarioCorreo
+
     };
+
+    //====================================
+    // GUARDAR
+    //====================================
 
     var citas = JSON.parse(localStorage.getItem("citas")) || [];
 
     if (indiceEditar !== null) {
-        citas[indiceEditar] = cita;
+
+        citas[parseInt(indiceEditar)] = cita;
+
+        localStorage.setItem(
+            "mensajeCita",
+            "✅ La cita fue editada correctamente."
+        );
+
         localStorage.removeItem("citaEditar");
-        localStorage.setItem("mensajeCita", "editada");
+
     } else {
+
         citas.push(cita);
-        localStorage.setItem("mensajeCita", "guardada");
+
+        localStorage.setItem(
+            "mensajeCita",
+            "✅ La cita fue guardada correctamente."
+        );
+
     }
 
     localStorage.setItem("citas", JSON.stringify(citas));
+
     localStorage.removeItem("servicioSeleccionado");
 
     window.location.href = "GestionarCitas.html";
+
 }

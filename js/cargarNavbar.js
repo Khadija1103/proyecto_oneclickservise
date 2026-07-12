@@ -1,128 +1,620 @@
-document.addEventListener("DOMContentLoaded", function() {
+//======================================================
+// CARGAR NAVBAR
+//======================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
     cargarNavbar();
+
 });
+
+
+
+
+//======================================================
+// INSERTAR NAVBAR
+//======================================================
 
 function cargarNavbar() {
 
-    fetch("../navbar/navbar.html")
-        .then(function(res) {
-            if (!res.ok) throw new Error("Error navbar: " + res.status);
-            return res.text();
-        })
-        .then(function(html) {
 
-            var navbarExistente = document.querySelector("header");
-            if (navbarExistente) {
-                navbarExistente.remove();
+    fetch("../navbar/navbar.html")
+
+
+    .then(function (res) {
+
+
+        if (!res.ok) {
+
+            throw new Error("Error navbar: " + res.status);
+
+        }
+
+
+        return res.text();
+
+
+    })
+
+
+    .then(function (html) {
+
+
+
+        var navbarExistente =
+            document.querySelector("header");
+
+
+
+        if (navbarExistente) {
+
+            navbarExistente.remove();
+
+        }
+
+
+
+
+        document.body.insertAdjacentHTML(
+            "afterbegin",
+            html
+        );
+
+
+
+        console.log("✅ Navbar cargado");
+
+
+
+        ajustarBotonesSegunSesion();
+
+
+
+
+        //==============================================
+        // CARGAR MINI CARRITO DEL NAVBAR
+        //==============================================
+
+
+        setTimeout(function(){
+
+
+            if(window.mostrarCarritoNavbar){
+
+
+                window.mostrarCarritoNavbar();
+
+
+
+                console.log(
+                    "✅ Mini carrito actualizado"
+                );
+
+
+            }else{
+
+
+                console.log(
+                    "❌ No existe mostrarCarritoNavbar"
+                );
+
+
             }
 
-            document.body.insertAdjacentHTML("afterbegin", html);
 
-            console.log("✅ Navbar cargado");
 
-            ajustarBotonesSegunSesion();
+        },300);
 
-        })
-        .catch(function(err) {
-            console.error("❌ Error cargando navbar:", err);
-        });
+
+
+    })
+
+
+
+    .catch(function(err){
+
+
+        console.error(
+            "❌ Error cargando navbar:",
+            err
+        );
+
+
+    });
+
 
 }
 
-function ajustarBotonesSegunSesion() {
 
-    var usuarioLogueado = localStorage.getItem("usuarioLogueado");
-    var usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
 
-    console.log("🔍 Usuario logueado:", usuario ? "SI - " + usuario.nombres : "NO");
 
-    // ============================================
-    // 1. "Mi cuenta" / "Iniciar sesión"
-    // ============================================
-    var linkMiCuenta = document.getElementById("linkMiCuenta");
-    var textoMiCuenta = document.getElementById("textoMiCuenta");
-    var iconoMiCuenta = document.getElementById("iconoMiCuenta");
 
-    if (linkMiCuenta && textoMiCuenta) {
-        if (usuario) {
-            textoMiCuenta.textContent = usuario.nombres || 'Mi cuenta';
-            if (iconoMiCuenta) iconoMiCuenta.className = 'bi bi-person';
-            linkMiCuenta.href = '../perfil/perfil.html';
-            console.log("✅ Mi cuenta → " + usuario.nombres);
-        } else {
-            textoMiCuenta.textContent = 'Iniciar sesión';
-            if (iconoMiCuenta) iconoMiCuenta.className = 'bi bi-box-arrow-in-right';
-            linkMiCuenta.href = '../inicio/login.html';
-            console.log("✅ Mi cuenta → Iniciar sesión");
+
+
+
+//======================================================
+// AJUSTAR NAVBAR SEGÚN USUARIO
+//======================================================
+
+function ajustarBotonesSegunSesion(){
+
+
+
+    var usuarioGuardado =
+        localStorage.getItem("usuarioLogueado");
+
+
+
+    var usuario =
+        usuarioGuardado
+        ? JSON.parse(usuarioGuardado)
+        : null;
+
+
+
+
+
+    console.log(
+        "Usuario:",
+        usuario ? usuario.nombres : "No logueado"
+    );
+
+
+
+
+
+
+    //==============================================
+    // MI CUENTA
+    //==============================================
+
+
+    var linkMiCuenta =
+        document.getElementById("linkMiCuenta");
+
+
+    var textoMiCuenta =
+        document.getElementById("textoMiCuenta");
+
+
+    var iconoMiCuenta =
+        document.getElementById("iconoMiCuenta");
+
+
+
+
+    if(linkMiCuenta && textoMiCuenta){
+
+
+
+        if(usuario){
+
+
+
+            textoMiCuenta.textContent =
+                usuario.nombres || "Mi cuenta";
+
+
+
+            linkMiCuenta.href =
+                "../perfil/perfil.html";
+
+
+
+            if(iconoMiCuenta){
+
+                iconoMiCuenta.className =
+                "bi bi-person";
+
+            }
+
+
+
+        }else{
+
+
+
+            textoMiCuenta.textContent =
+                "Iniciar sesión";
+
+
+
+            linkMiCuenta.href =
+                "../inicio/login.html";
+
+
+
+            if(iconoMiCuenta){
+
+                iconoMiCuenta.className =
+                "bi bi-box-arrow-in-right";
+
+            }
+
+
+
         }
+
+
+
     }
 
-    // ============================================
-    // 2. "Salir" / "Registrarse"
-    // ============================================
-    var linkSalir = document.getElementById("linkSalir");
-    var textoSalir = document.getElementById("textoSalir");
-    var iconoSalir = document.getElementById("iconoSalir");
 
-    if (linkSalir && textoSalir) {
-        if (usuario) {
-            textoSalir.textContent = 'Salir';
-            if (iconoSalir) iconoSalir.className = 'bi bi-box-arrow-right';
-            linkSalir.href = '#';
-            linkSalir.onclick = function(e) {
+
+
+
+
+
+    //==============================================
+    // SALIR / REGISTRO
+    //==============================================
+
+
+
+    var linkSalir =
+        document.getElementById("linkSalir");
+
+
+
+    var textoSalir =
+        document.getElementById("textoSalir");
+
+
+
+    var iconoSalir =
+        document.getElementById("iconoSalir");
+
+
+
+
+    if(linkSalir && textoSalir){
+
+
+
+        if(usuario){
+
+
+
+            textoSalir.textContent =
+                "Salir";
+
+
+
+            linkSalir.href="#";
+
+
+
+            linkSalir.onclick=function(e){
+
+
                 e.preventDefault();
+
+
                 cerrarSesion();
+
+
             };
-            console.log("✅ Salir → Salir");
-        } else {
-            textoSalir.textContent = 'Registrarse';
-            if (iconoSalir) iconoSalir.className = 'bi bi-person-plus';
-            linkSalir.href = '../inicio/registro.html';
-            linkSalir.onclick = null;
-            console.log("✅ Salir → Registrarse");
+
+
+
+            if(iconoSalir){
+
+                iconoSalir.className =
+                "bi bi-box-arrow-right";
+
+            }
+
+
+
+
+        }else{
+
+
+
+            textoSalir.textContent =
+                "Registrarse";
+
+
+
+            linkSalir.href =
+                "../inicio/registro.html";
+
+
+
+            if(iconoSalir){
+
+                iconoSalir.className =
+                "bi bi-person-plus";
+
+            }
+
+
         }
+
+
     }
 
-    // ============================================
-    // 3. Carrito (mostrar/ocultar)
-    // ============================================
-    var navCarrito = document.getElementById("navCarrito");
-    if (navCarrito) {
-        if (usuario) {
-            navCarrito.style.display = '';
-            console.log("✅ Carrito → Mostrar");
-        } else {
-            navCarrito.style.display = 'none';
-            console.log("✅ Carrito → Ocultar");
+
+
+
+
+
+
+    //==============================================
+    // MOSTRAR CARRITO
+    //==============================================
+
+
+    var navCarrito =
+        document.getElementById("navCarrito");
+
+
+
+    if(navCarrito){
+
+
+
+        if(usuario){
+
+
+            navCarrito.style.display="";
+
+
+        }else{
+
+
+            navCarrito.style.display="none";
+
+
         }
+
+
     }
 
-    // ============================================
-    // 4. Cerrar sesión desde el dropdown
-    // ============================================
-    var linkCerrarSesion = document.getElementById("linkCerrarSesion");
-    if (linkCerrarSesion) {
-        if (usuario) {
-            linkCerrarSesion.style.display = '';
-            linkCerrarSesion.onclick = function(e) {
-                e.preventDefault();
-                cerrarSesion();
-            };
-        } else {
-            linkCerrarSesion.style.display = 'none';
-        }
+
+
+
+
+
+
+    //==============================================
+    // CERRAR SESIÓN
+    //==============================================
+
+
+
+    var linkCerrarSesion =
+        document.getElementById("linkCerrarSesion");
+
+
+
+    if(linkCerrarSesion){
+
+
+
+        linkCerrarSesion.onclick=function(e){
+
+
+            e.preventDefault();
+
+
+            cerrarSesion();
+
+
+        };
+
+
     }
 
-    console.log("✅ Ajuste de botones completado");
+
+
+
 }
 
-function cerrarSesion() {
-    if (confirm("¿Está seguro de que desea cerrar sesión?")) {
-        localStorage.removeItem("usuarioLogueado");
-        localStorage.removeItem("token");
-        window.location.href = "../inicio/index.html";
+
+
+
+
+
+
+
+//======================================================
+// CERRAR SESIÓN
+//======================================================
+
+function cerrarSesion(){
+
+
+    if(confirm(
+        "¿Está seguro de que desea cerrar sesión?"
+    )){
+
+
+        localStorage.removeItem(
+            "usuarioLogueado"
+        );
+
+
+        localStorage.removeItem(
+            "token"
+        );
+
+
+
+        window.location.href =
+            "../inicio/index.html";
+
+
     }
+
+
 }
 
-window.cargarNavbar = cargarNavbar;
-window.cerrarSesion = cerrarSesion;
+//======================================================
+// MOSTRAR MINI CARRITO EN NAVBAR
+//======================================================
+
+function mostrarCarritoNavbar(){
+
+
+    var lista = document.getElementById("listaProductos");
+
+    var contador = document.getElementById("contadorCarrito");
+
+    var subtotal = document.getElementById("subtotalCarrito");
+
+
+
+    if(!lista){
+
+        console.log("❌ No existe listaProductos");
+
+        return;
+
+    }
+
+
+
+    var carrito = JSON.parse(
+        localStorage.getItem("carritoProductos")
+    ) || [];
+
+
+
+    lista.innerHTML = "";
+
+
+
+    if(carrito.length === 0){
+
+
+        lista.innerHTML = `
+
+        <div class="carrito-vacio">
+
+            <i class="bi bi-cart-x"></i>
+
+            <p>
+            No hay productos en el carrito
+            </p>
+
+        </div>
+
+        `;
+
+
+        if(contador)
+            contador.textContent = "0";
+
+
+        if(subtotal)
+            subtotal.textContent = "$0";
+
+
+        return;
+
+    }
+
+
+
+
+
+    var total = 0;
+
+    var cantidad = 0;
+
+
+
+    carrito.forEach(function(producto){
+
+
+
+        total += Number(producto.precio) *
+                 Number(producto.cantidad);
+
+
+
+        cantidad += Number(producto.cantidad);
+
+
+
+
+       lista.innerHTML += `
+
+<div class="producto-navbar">
+
+
+    <img 
+        src="${producto.imagen}"
+        class="imagen-producto-navbar"
+        alt="${producto.nombre}">
+
+
+    <div class="info-producto-navbar">
+
+
+        <strong class="nombre-producto-navbar">
+
+            ${producto.nombre}
+
+        </strong>
+
+
+        <span class="cantidad-producto-navbar">
+
+            ${producto.cantidad} x 
+            $${Number(producto.precio).toLocaleString("es-CO")}
+
+        </span>
+
+
+    </div>
+
+
+</div>
+
+`;
+
+
+    });
+
+
+
+
+
+    if(contador){
+
+        contador.textContent = cantidad;
+
+    }
+
+
+
+
+    if(subtotal){
+
+        subtotal.textContent =
+        "$" + total.toLocaleString("es-CO");
+
+    }
+
+
+
+    console.log("✅ Mini carrito cargado");
+
+
+}
+
+
+
+
+//======================================================
+// EXPORTAR
+//======================================================
+
+window.cargarNavbar =
+    cargarNavbar;
+
+
+window.cerrarSesion =
+    cerrarSesion;

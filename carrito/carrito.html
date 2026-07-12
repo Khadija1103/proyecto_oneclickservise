@@ -2,166 +2,307 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carrito</title>
 
-    <!-- Bootstrap CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Carrito de productos</title>
+
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
+
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS Personalizado -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap"
+        rel="stylesheet">
+
+
+    <!-- CSS propio -->
     <link rel="stylesheet" href="../estilos-css/carrito.css">
-    
+
+
     <link rel="icon" href="../assets/img/logo.png">
+
+
 </head>
 
+
 <body>
-    <main class="contenedor">
 
-        <!-- ============================================ -->
-        <!-- FLECHA VOLVER AL MENÚ -->
-        <!-- ============================================ -->
-        <div class="volver-container">
-            <a href="../inicio/index.html" class="btn-volver">
-                <i class="bi bi-arrow-left-circle"></i> Volver al Menú
-            </a>
-        </div>
 
-        <!-- Encabezado -->
-        <section class="encabezado">
-            <div class="titulo">
-                <div>
-                    <h1>Carrito de Servicios</h1>
-                    <p>
-                        Revisa los servicios agregados antes de confirmar tu solicitud.
-                    </p>
-                </div>
-            </div>
-            <div class="contador">
-                <i class="bi bi-cart-fill"></i>
-                <span id="cantidadServicios">0</span>
-                servicios
-            </div>
-        </section>
+<main class="contenedor">
 
-        <a href="../catalogo/catalogo.html" class="boton-volver">
-            ← Seguir explorando
+
+    <!-- VOLVER -->
+
+    <div class="volver-container">
+
+        <a href="../inicio/index.html" class="btn-volver">
+
+            <i class="bi bi-arrow-left-circle"></i>
+            Volver al menú
+
         </a>
 
-        <!-- inicio -------------------------------------------- -->
-        <div class="pantalla-carrito">
-            <!-- Sección izquierda: servicios agregados -->
-            <section class="columna-servicios">
-                <div id="contenedorCarrito">
+    </div>
 
-                    <!-- Tarjeta de Servicio (Ejemplo: Cerrajería) -->
-                    <div class="tarjeta tarjeta-servicio">
-                        <img src="https://puertasblindadascolombia.com/wp-content/uploads/2026/01/Sin-titulo-1_0002_FOTO_2.jpg"
-                            alt="Cerrajería" class="imagen-servicio">
 
-                        <div class="info-servicio">
-                            <h5 class="nombre-servicio">Cerrajería</h5>
-                            <p class="descripcion-servicio">Apertura de puertas y cambio de cerraduras.</p>
-                            <span class="etiqueta-servicio">
-                                <i class="bi bi-tag"></i> Servicio profesional
-                            </span>
-                        </div>
 
-                        <div class="precio-servicio">
-                            <strong class="texto-precio">$95.000</strong>
-                        </div>
 
-                        <div class="control-cantidad">
-                            <button class="boton-cantidad" type="button">−</button>
-                            <input type="text" class="numero-cantidad" value="1" readonly>
-                            <button class="boton-cantidad" type="button">+</button>
-                        </div>
+    <!-- ENCABEZADO -->
 
-                        <button class="boton-eliminar" title="Eliminar servicio">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
+    <section class="encabezado">
 
-                    <!-- Tarjeta de Servicio (Ejemplo 2: Plomería) -->
-                    <div class="tarjeta tarjeta-servicio">
-                        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=150&h=150&q=80"
-                            alt="Plomería" class="imagen-servicio">
 
-                        <div class="info-servicio">
-                            <h5 class="nombre-servicio">Plomería General</h5>
-                            <p class="descripcion-servicio">Reparación de fugas de agua, destapes y cambio de tuberías.
-                            </p>
-                            <span class="etiqueta-servicio">
-                                <i class="bi bi-clock"></i> Servicio urgente
-                            </span>
-                        </div>
+        <div class="titulo">
 
-                        <div class="precio-servicio">
-                            <strong class="texto-precio">$80.000</strong>
-                        </div>
+            <div>
 
-                        <div class="control-cantidad">
-                            <button class="boton-cantidad" type="button">−</button>
-                            <input type="text" class="numero-cantidad" value="1" readonly>
-                            <button class="boton-cantidad" type="button">+</button>
-                        </div>
+                <h1>
+                    🛒 Carrito de productos
+                </h1>
 
-                        <button class="boton-eliminar" title="Eliminar servicio">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
 
-                </div>
-            </section>
+                <p>
+                    Revisa los productos seleccionados antes de confirmar tu solicitud.
+                </p>
 
-            <!-- Sección derecha: Resumen -->
-            <aside class="columna-resumen">
-                <div class="tarjeta tarjeta-resumen">
-                    <h3 class="titulo-resumen">Resumen del pedido</h3>
 
-                    <div class="fila-resumen">
-                        <span>Subtotal</span>
-                        <strong id="subtotal" class="texto-rosa">$0</strong>
-                    </div>
+            </div>
 
-                    <div class="fila-resumen">
-                        <span class="con-icono">
-                            Tarifa de servicio
-                            <i class="bi bi-info-circle icono-info" title="Costo de gestión"></i>
-                        </span>
-                        <strong id="tarifa" class="texto-rosa">$0</strong>
-                    </div>
-
-                    <hr class="separador">
-
-                    <div class="fila-resumen total">
-                        <span class="texto-total">Total</span>
-                        <h3 id="total" class="texto-rosa">$0</h3>
-                    </div>
-
-                    <button class="boton-solicitar">
-                        <i class="bi bi-journal-text"></i> Solicitar servicios
-                    </button>
-
-                    <div class="texto-seguro">
-                        <i class="bi bi-lock"></i> Pago contra entrega
-                    </div>
-                </div>
-            </aside>
 
         </div>
 
-    </main>
 
-    <script src="../js/footer.js"></script>
+
+        <div class="contador">
+
+
+            <i class="bi bi-cart-fill"></i>
+
+
+            <span id="cantidadServicios">
+                0
+            </span>
+
+
+            productos
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+    <a href="../catalogo/catalogo.html" class="boton-volver">
+
+        <i class="bi bi-arrow-left"></i>
+        Seguir explorando
+
+    </a>
+
+
+
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+
+    <div class="pantalla-carrito">
+
+
+
+        <!-- PRODUCTOS -->
+
+        <section class="columna-servicios">
+
+
+            <div id="contenedorCarrito">
+
+
+                <!-- JavaScript cargará aquí los productos -->
+
+
+                <div class="mensaje-vacio">
+
+
+                    <i class="bi bi-cart-x"></i>
+
+
+                    <h3>
+                        Tu carrito está vacío
+                    </h3>
+
+
+                    <p>
+                        Selecciona productos desde el catálogo para agregarlos.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+
+
+        <!-- RESUMEN -->
+
+        <aside class="columna-resumen">
+
+
+            <div class="tarjeta tarjeta-resumen">
+
+
+                <h3 class="titulo-resumen">
+
+                    Resumen del pedido
+
+                </h3>
+
+
+
+                <div class="fila-resumen">
+
+
+                    <span>
+                        Subtotal
+                    </span>
+
+
+                    <strong id="subtotal" class="texto-rosa">
+
+                        $0
+
+                    </strong>
+
+
+                </div>
+
+
+
+
+
+                <div class="fila-resumen">
+
+
+                    <span class="con-icono">
+
+                    Valor IVA 
+
+
+                        <i class="bi bi-info-circle icono-info"
+                            title="Costo de gestión">
+                        </i>
+
+
+                    </span>
+
+
+
+                    <strong id="tarifa" class="texto-rosa">
+
+                        $0
+
+                    </strong>
+
+
+
+                </div>
+
+
+
+
+
+
+                <hr class="separador">
+
+
+
+
+
+                <div class="fila-resumen total">
+
+
+                    <span class="texto-total">
+
+                        Total
+
+                    </span>
+
+
+
+                    <h3 id="total" class="texto-rosa">
+
+                        $0
+
+                    </h3>
+
+
+
+                </div>
+
+
+
+
+
+
+            <a href="../carrito/pagar.html" class="boton-solicitar">
+                <i class="bi bi-journal-text"></i>
+                Pagar productos
+            </a>
+
+
+
+
+            </div>
+
+
+
+        </aside>
+
+
+
+
+    </div>
+
+
+
+</main>
+
+
+
+
+
+<!-- JAVASCRIPT -->
+
+
+<script src="../js/carrito.js"></script>
+
+
+<script src="../js/footer.js"></script>
+
+
+
 </body>
+
 </html>
