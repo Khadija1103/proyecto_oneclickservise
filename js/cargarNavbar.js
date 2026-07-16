@@ -68,7 +68,18 @@ function cargarNavbar() {
 
         ajustarBotonesSegunSesion();
 
+        //==============================================
+        // ACTIVAR DROPDOWNS DE BOOTSTRAP
+        //==============================================
 
+        var dropdowns =
+        document.querySelectorAll(".dropdown-toggle");
+
+        dropdowns.forEach(function(drop){
+
+        new bootstrap.Dropdown(drop);
+
+        });
 
 
         //==============================================

@@ -1,3 +1,17 @@
+document.addEventListener("DOMContentLoaded", function () {
+
+    const usuario = localStorage.getItem("usuarioLogueado");
+
+    if (!usuario) {
+
+        alert("Debes iniciar sesión para realizar la compra.");
+
+        window.location.href = "../inicio/login.html";
+
+        return;
+    }
+
+});
 document.addEventListener("DOMContentLoaded",function(){
 cargarPago();
 activarValidaciones();

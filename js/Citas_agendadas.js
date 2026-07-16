@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded",function(){
 
     mostrarServicios();
     actualizarTotal();
@@ -9,82 +9,97 @@ document.addEventListener("DOMContentLoaded", function () {
 // MOSTRAR SERVICIOS AGENDADOS
 //======================================================
 
-function mostrarServicios() {
+function mostrarServicios(){
 
-    var contenedor = document.getElementById("tablaCitas");
+    var contenedor=document.getElementById("tablaCitas");
 
-    if (!contenedor) return;
+    if(!contenedor)return;
 
-    var citas = JSON.parse(localStorage.getItem("citas")) || [];
-    var listaServicios = JSON.parse(localStorage.getItem("listaServicios")) || [];
+    var citas=JSON.parse(localStorage.getItem("citas"))||[];
+    var listaServicios=JSON.parse(localStorage.getItem("listaServicios"))||[];
 
-    var usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    var correoUsuario = usuario ? usuario.correo : null;
+    var usuario=JSON.parse(localStorage.getItem("usuarioLogueado"));
 
-    var citasFiltradas = citas.filter(function (cita) {
+    var citasFiltradas=[];
 
-        return (cita.usuarioCorreo || cita.correo) === correoUsuario;
+    if(usuario){
 
-    });
+        citasFiltradas=citas.filter(function(cita){
 
-    if (citasFiltradas.length === 0) {
+            return (cita.usuarioCorreo||cita.correo)===usuario.correo;
 
-        contenedor.innerHTML = `
-            <div class="sin-citas">
-                <span class="icono-sin-citas">📅</span>
-                <h2>No hay servicios agendados</h2>
-                <p>Cuando agendes un servicio aparecerá aquí.</p>
-            </div>
+        });
+
+    }else{
+
+        citasFiltradas=citas;
+
+    }
+
+    if(citasFiltradas.length===0){
+
+        contenedor.innerHTML=`
+
+        <div class="sin-citas">
+
+            <span class="icono-sin-citas">📅</span>
+
+            <h2>No hay servicios agendados</h2>
+
+            <p>Cuando agendes un servicio aparecerá aquí.</p>
+
+        </div>
+
         `;
 
         return;
 
     }
 
-    var html = "";
+    var html="";
 
-    citasFiltradas.forEach(function (cita) {
+    citasFiltradas.forEach(function(cita){
 
-        var servicioInfo = listaServicios.find(function (servicio) {
+        var servicioInfo=listaServicios.find(function(servicio){
 
             return servicio.nombre &&
                    cita.servicio &&
-                   servicio.nombre.trim().toLowerCase() ===
+                   servicio.nombre.trim().toLowerCase()===
                    cita.servicio.trim().toLowerCase();
 
         });
 
-        var imagen = servicioInfo
+        var imagen=servicioInfo
             ? servicioInfo.imagen
             : "../assets/img/persona.png";
 
-        var precio = servicioInfo
-            ? Number(servicioInfo.precio).toLocaleString("es-CO", {
-                  style: "currency",
-                  currency: "COP",
-                  minimumFractionDigits: 0
-              })
-            : (cita.precio || "");
+        var precio=servicioInfo
+            ? Number(servicioInfo.precio).toLocaleString("es-CO",{
+                style:"currency",
+                currency:"COP",
+                minimumFractionDigits:0
+            })
+            : (cita.precio||"$0");
 
-        var estado = cita.estado || "Pendiente";
+        var estado=cita.estado||"Pendiente";
 
-        var claseEstado = "estado-pendiente";
+        var claseEstado="estado-pendiente";
 
-        if (estado === "Confirmada") {
+        if(estado==="Confirmada"){
 
-            claseEstado = "estado-confirmada";
+            claseEstado="estado-confirmada";
 
-        } else if (estado === "Cancelada") {
+        }else if(estado==="Cancelada"){
 
-            claseEstado = "estado-cancelada";
+            claseEstado="estado-cancelada";
 
-        } else if (estado === "Completada") {
+        }else if(estado==="Completada"){
 
-            claseEstado = "estado-completada";
+            claseEstado="estado-completada";
 
         }
 
-        html += `
+        html+=`
 
         <div class="cita-card">
 
@@ -98,9 +113,10 @@ function mostrarServicios() {
 
             <div class="imgBox">
 
-                <img src="${imagen}"
-                     alt="${cita.servicio}"
-                     onerror="this.src='../assets/img/persona.png'">
+                <img
+                    src="${imagen}"
+                    alt="${cita.servicio}"
+                    onerror="this.src='../assets/img/persona.png'">
 
             </div>
 
@@ -118,22 +134,26 @@ function mostrarServicios() {
 
             <div class="info">
 
-                <p><strong>👤 Cliente:</strong> ${cita.nombre} ${cita.apellido}</p>
+                <p><strong>👤 Cliente:</strong> ${cita.nombre||""} ${cita.apellido||""}</p>
 
-                <p><strong>📅 Fecha:</strong> ${cita.fecha} - ${cita.hora}</p>
+                <p><strong>📅 Fecha:</strong> ${cita.fecha||""} - ${cita.hora||""}</p>
 
-                <p><strong>👨‍🔧 Profesional:</strong> ${cita.profesional}</p>
+                <p><strong>👨‍🔧 Profesional:</strong> ${cita.profesional||""}</p>
 
-                <p><strong>📧 Correo:</strong> ${cita.correo}</p>
+                <p><strong>📧 Correo:</strong> ${cita.correo||""}</p>
 
-                <p><strong>📞 Teléfono:</strong> ${cita.telefono}</p>
+                <p><strong>📞 Teléfono:</strong> ${cita.telefono||""}</p>
 
-                <p><strong>📍 Dirección:</strong> ${cita.direccion}, ${cita.ciudad}</p>
+                <p><strong>📍 Dirección:</strong> ${cita.direccion||""}, ${cita.ciudad||""}</p>
 
                 <p>
-                    <strong>📋 Tipo:</strong> ${cita.tipo}
+
+                    <strong>📋 Tipo:</strong> ${cita.tipo||""}
+
                     |
-                    <strong>🕒 Jornada:</strong> ${cita.jornada}
+
+                    <strong>🕒 Jornada:</strong> ${cita.jornada||""}
+
                 </p>
 
             </div>
@@ -144,7 +164,7 @@ function mostrarServicios() {
 
     });
 
-    contenedor.innerHTML = html;
+    contenedor.innerHTML=html;
 
 }
 
@@ -152,26 +172,38 @@ function mostrarServicios() {
 // ACTUALIZAR TOTAL
 //======================================================
 
-function actualizarTotal() {
+function actualizarTotal(){
 
-    var citas = JSON.parse(localStorage.getItem("citas")) || [];
+    var citas=JSON.parse(localStorage.getItem("citas"))||[];
 
-    var usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    var usuario=JSON.parse(localStorage.getItem("usuarioLogueado"));
 
-    var correoUsuario = usuario ? usuario.correo : null;
+    var cantidad=0;
 
-    var cantidad = citas.filter(function (cita) {
+    if(usuario){
 
-        return (cita.usuarioCorreo || cita.correo) === correoUsuario;
+        cantidad=citas.filter(function(cita){
 
-    }).length;
+            return (cita.usuarioCorreo||cita.correo)===usuario.correo;
 
-    var total = document.getElementById("totalCitas");
+        }).length;
 
-    if (total) {
+    }else{
 
-        total.textContent =
-            cantidad + " servicio" + (cantidad !== 1 ? "s" : "") + " agendado" + (cantidad !== 1 ? "s" : "");
+        cantidad=citas.length;
+
+    }
+
+    var total=document.getElementById("totalCitas");
+
+    if(total){
+
+        total.textContent=
+            cantidad+
+            " servicio"+
+            (cantidad!==1?"s":"")+
+            " agendado"+
+            (cantidad!==1?"s":"");
 
     }
 

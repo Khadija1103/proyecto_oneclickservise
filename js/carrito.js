@@ -1,18 +1,10 @@
 // ============================================
-// CARRITO DE PRODUCTOS DESDE ADMIN
+// CARRITO DE PRODUCTOS
 // ============================================
-
-
-let productosAdmin = JSON.parse(
-    localStorage.getItem("listaproductos")
-) || [];
-
 
 let carrito = JSON.parse(
     localStorage.getItem("carritoProductos")
 ) || [];
-
-
 
 const contenedorCarrito = document.getElementById("contenedorCarrito");
 const cantidadServicios = document.getElementById("cantidadServicios");
@@ -20,8 +12,6 @@ const cantidadServicios = document.getElementById("cantidadServicios");
 const subtotalHTML = document.getElementById("subtotal");
 const tarifaHTML = document.getElementById("tarifa");
 const totalHTML = document.getElementById("total");
-
-
 
 // ============================================
 // FORMATO PRECIO
@@ -37,53 +27,19 @@ function formatoPrecio(valor){
 
 }
 
-
-
 // ============================================
-// CARGAR PRODUCTOS DEL ADMIN
+// CARGAR CARRITO
 // ============================================
 
-function cargarProductosAdmin(){
+function cargarCarrito(){
 
-
-    // Si el carrito está vacío toma los productos activos del administrador
-
-    if(carrito.length === 0){
-
-
-        carrito = productosAdmin
-        .filter(producto => producto.activo === true)
-        .map(producto => ({
-
-
-            id: producto.id,
-            imagen: producto.imagen,
-            nombre: producto.nombre,
-            descripcion: producto.descripcion,
-            precio: producto.precio,
-            cantidad:1
-
-
-        }));
-
-
-
-        localStorage.setItem(
-            "carritoProductos",
-            JSON.stringify(carrito)
-        );
-
-
-    }
-
-
+    carrito = JSON.parse(
+        localStorage.getItem("carritoProductos")
+    ) || [];
 
     mostrarCarrito();
 
 }
-
-
-
 
 // ============================================
 // MOSTRAR CARRITO
@@ -91,31 +47,27 @@ function cargarProductosAdmin(){
 
 function mostrarCarrito(){
 
-
     if(!contenedorCarrito) return;
 
-
-    contenedorCarrito.innerHTML="";
-
-
+    contenedorCarrito.innerHTML = "";
 
     if(carrito.length === 0){
 
-
-        contenedorCarrito.innerHTML=`
+        contenedorCarrito.innerHTML = `
 
         <div class="mensaje-vacio">
 
-            <h3>🛒 Tu carrito está vacío</h3>
+            <i class="bi bi-cart-x"></i>
+
+            <h3>Tu carrito está vacío</h3>
 
             <p>
-            No hay productos disponibles.
+                Agrega productos desde el catálogo.
             </p>
 
         </div>
 
         `;
-
 
         actualizarResumen();
 
@@ -123,141 +75,97 @@ function mostrarCarrito(){
 
     }
 
-
-
     carrito.forEach((producto,index)=>{
-
 
         contenedorCarrito.innerHTML += `
 
-
         <div class="tarjeta tarjeta-servicio">
 
-
-            <img 
-            src="${producto.imagen}"
-            class="imagen-servicio"
-            alt="${producto.nombre}">
-
-
+            <img
+                src="${producto.imagen}"
+                class="imagen-servicio"
+                alt="${producto.nombre}">
 
             <div class="info-servicio">
 
-
                 <h5 class="nombre-servicio">
 
-                ${producto.nombre}
+                    ${producto.nombre}
 
                 </h5>
 
-
-
                 <p class="descripcion-servicio">
 
-                ${producto.descripcion}
+                    ${producto.descripcion}
 
                 </p>
 
-
-
                 <span class="etiqueta-servicio">
 
-                <i class="bi bi-box"></i>
+                    <i class="bi bi-box"></i>
 
-                Producto
+                    Producto
 
                 </span>
 
-
             </div>
-
-
-
 
             <div class="precio-servicio">
 
                 <strong class="texto-precio">
 
-                ${formatoPrecio(producto.precio)}
+                    ${formatoPrecio(producto.precio)}
 
                 </strong>
 
-
             </div>
-
-
-
 
             <div class="control-cantidad">
 
+                <button
+                    class="boton-cantidad"
+                    onclick="restarCantidad(${index})">
 
-                <button 
-                class="boton-cantidad"
-                onclick="restarCantidad(${index})">
-
-                −
-
-                </button>
-
-
-
-                <input 
-                class="numero-cantidad"
-                value="${producto.cantidad}"
-                readonly>
-
-
-
-                <button 
-                class="boton-cantidad"
-                onclick="sumarCantidad(${index})">
-
-                +
+                    −
 
                 </button>
 
+                <input
+                    class="numero-cantidad"
+                    value="${producto.cantidad}"
+                    readonly>
+
+                <button
+                    class="boton-cantidad"
+                    onclick="sumarCantidad(${index})">
+
+                    +
+
+                </button>
 
             </div>
 
+            <button
+                class="boton-eliminar"
+                onclick="eliminarProducto(${index})">
 
-
-
-            <button 
-            class="boton-eliminar"
-            onclick="eliminarProducto(${index})">
-
-
-            <i class="bi bi-trash"></i>
-
+                <i class="bi bi-trash"></i>
 
             </button>
 
-
-
         </div>
-
-
 
         `;
 
-
     });
-
-
 
     actualizarResumen();
 
-
 }
-
-
-
-
 
 // ============================================
 // CANTIDAD
 // ============================================
-
 
 function sumarCantidad(index){
 
@@ -267,10 +175,7 @@ function sumarCantidad(index){
 
 }
 
-
-
 function restarCantidad(index){
-
 
     if(carrito[index].cantidad > 1){
 
@@ -278,125 +183,184 @@ function restarCantidad(index){
 
     }
 
-
     guardarCarrito();
 
 }
 
-
-
-
 // ============================================
-// ELIMINAR
+// ELIMINAR PRODUCTO
 // ============================================
 
 function eliminarProducto(index){
 
-
     carrito.splice(index,1);
-
 
     guardarCarrito();
 
-
 }
 
-
-
-
-
 // ============================================
-// GUARDAR
+// GUARDAR CARRITO
 // ============================================
 
 function guardarCarrito(){
-
 
     localStorage.setItem(
         "carritoProductos",
         JSON.stringify(carrito)
     );
 
-
     mostrarCarrito();
 
+    // Actualiza el mini carrito del navbar
+    if(window.mostrarCarritoNavbar){
+
+        window.mostrarCarritoNavbar();
+
+    }
 
 }
 
-
-
-
 // ============================================
-// RESUMEN
+// ACTUALIZAR RESUMEN
 // ============================================
 
 function actualizarResumen(){
 
+    let subtotal = 0;
+    let cantidad = 0;
 
-    let subtotal=0;
+    carrito.forEach(producto => {
 
-    let cantidad=0;
+        subtotal +=
+            Number(producto.precio) *
+            Number(producto.cantidad);
 
-
-
-    carrito.forEach(producto=>{
-
-
-        subtotal += producto.precio * producto.cantidad;
-
-        cantidad += producto.cantidad;
-
+        cantidad +=
+            Number(producto.cantidad);
 
     });
 
+    const tarifa = subtotal * 0.19;
+    const total = subtotal + tarifa;
 
+    if(cantidadServicios){
 
-    let tarifa = subtotal * 0.19;
+        cantidadServicios.textContent = cantidad;
 
-    let total = subtotal + tarifa;
+    }
 
+    if(subtotalHTML){
 
+        subtotalHTML.textContent =
+            formatoPrecio(subtotal);
 
-    if(cantidadServicios)
-        cantidadServicios.textContent=cantidad;
+    }
 
+    if(tarifaHTML){
 
-    if(subtotalHTML)
-        subtotalHTML.textContent=formatoPrecio(subtotal);
+        tarifaHTML.textContent =
+            formatoPrecio(tarifa);
 
+    }
 
-    if(tarifaHTML)
-        tarifaHTML.textContent=formatoPrecio(tarifa);
+    if(totalHTML){
 
+        totalHTML.textContent =
+            formatoPrecio(total);
 
-    if(totalHTML)
-        totalHTML.textContent=formatoPrecio(total);
+    }
 
+}  
 
+// ============================================
+// VACIAR CARRITO
+// ============================================
+
+function vaciarCarrito(){
+
+    carrito = [];
+
+    localStorage.removeItem("carritoProductos");
+
+    mostrarCarrito();
+
+    if(window.mostrarCarritoNavbar){
+
+        window.mostrarCarritoNavbar();
+
+    }
 
 }
 
 
 
 
+
+// ============================================
+// VALIDAR LOGIN ANTES DE PAGAR
+// ============================================
+
+const btnPagar = document.getElementById("btnPagarProductos");
+
+if(btnPagar){
+
+    btnPagar.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+       const usuario = localStorage.getItem("usuarioLogueado");
+
+        console.log("Usuario logueado:", usuario);
+
+        if(!usuario){
+
+            alert("⚠ Debes iniciar sesión para realizar el pago.");
+
+            window.location.href="../inicio/login.html";
+
+            return;
+
+        }
+
+        window.location.href="../pago/pagar.html";
+
+    });
+
+}
 
 // ============================================
 // INICIO
 // ============================================
 
-
 document.addEventListener("DOMContentLoaded",()=>{
 
+    cargarCarrito();
 
-    cargarProductosAdmin();
+    const btnPagar =
+        document.getElementById("btnPagarProductos");
 
+    if(btnPagar){
+
+        btnPagar.addEventListener("click",function(e){
+
+            e.preventDefault();
+
+            validarPago();
+
+        });
+
+    }
 
 });
 
 
 
+// ============================================
+// EXPORTAR FUNCIONES
+// ============================================
 
-
-window.sumarCantidad=sumarCantidad;
-window.restarCantidad=restarCantidad;
-window.eliminarProducto=eliminarProducto;
+window.sumarCantidad = sumarCantidad;
+window.restarCantidad = restarCantidad;
+window.eliminarProducto = eliminarProducto;
+window.vaciarCarrito = vaciarCarrito;

@@ -22,6 +22,11 @@ CONTENEDOR
     margin:40px auto;
 }
 
+.boton-volver{
+    background:red !important;
+    color:white !important;
+}
+
 /* =====================================================
 HEADER
 ===================================================== */
@@ -78,9 +83,11 @@ BOTÓN VOLVER
     margin-bottom:25px;
 }
 
-.btn-volver{
+.btn-volver,
+.boton-volver{
     display:inline-flex;
     align-items:center;
+    gap:8px;
     padding:12px 28px;
     border-radius:30px;
     border:2px solid #6C2BD9;
@@ -89,12 +96,22 @@ BOTÓN VOLVER
     text-decoration:none;
     font-weight:700;
     transition:.3s;
+    margin-bottom:20px;
 }
 
-.btn-volver:hover{
+.btn-volver:hover,
+.boton-volver:hover{
     background:#6C2BD9;
     color:#fff;
+    transform:translateX(-4px);
 }
+
+.btn-volver i,
+.boton-volver i{
+    font-size:18px;
+}
+
+
 
 /* =====================================================
 GRID

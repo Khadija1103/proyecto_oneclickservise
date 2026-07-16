@@ -52,7 +52,9 @@
             </div>
 
             <div class="forgot-password">
-                <a href="#">¿Olvidaste tu contraseña?</a>
+                <a href="#" id="btnOlvidoPassword">
+                    ¿Olvidaste tu contraseña?
+             </a>
             </div>
 
             <button type="button" id="btnIniciarSesion" class="btn-login">
@@ -65,16 +67,31 @@
             <span class="text">O Continúa con</span>
             <span class="line"></span>
         </div>
+<div class="social-buttons">
 
-        <div class="social-buttons">
-            <button class="btn-social google" onclick="alert('Google')">
-                <i class="bi bi-google"></i> Continúa con Google
-            </button>
-            <button class="btn-social facebook" onclick="alert('Facebook')">
-                <i class="bi bi-facebook"></i> Continúa con Facebook
-            </button>
-        </div>
+    <button 
+        type="button"
+        id="btnGoogle"
+        class="btn-social google">
 
+        <i class="bi bi-google"></i>
+        Continúa con Google
+
+    </button>
+
+
+
+    <button 
+        type="button"
+        id="btnFacebook"
+        class="btn-social facebook">
+
+        <i class="bi bi-facebook"></i>
+        Continúa con Facebook
+
+    </button>
+
+</div>
         <div class="registro-link">
             ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
         </div>

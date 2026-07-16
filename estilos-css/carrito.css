@@ -102,7 +102,7 @@ ENCABEZADO
     font-size: 22px;
 }
 
-.boton-volver {
+a.boton-volver {
     display: inline-block;
     text-decoration: none;
     color: #6C2BD9;
