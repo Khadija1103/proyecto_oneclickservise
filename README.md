@@ -1,7 +1,2 @@
-Grupo 9
-
-- Daniel Steven Casas Pulido
-- Oscar Daniel Yustres Castro
 - Tatiana Marrugo Jimenez
-- Yenny Alexandra Castro
-- Yesmith Adriana Sarmiento Suarez
+- Jesus Manuel Porras Mendoza 
