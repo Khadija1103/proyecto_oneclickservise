@@ -1,0 +1,350 @@
+/* =====================================================
+LOGIN - ESTILOS COMPLETOS
+===================================================== */
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #FAF9FF;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* =====================================================
+TARJETA DE LOGIN
+===================================================== */
+.login-card {
+    background: #fff;
+    padding: 50px 45px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(108, 43, 217, .12);
+    max-width: 480px;
+    width: 100%;
+    border: 1px solid #ECE5FF;
+    position: relative;
+}
+
+.login-card h2 {
+    color: #4C1D95;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 30px;
+}
+
+/* =====================================================
+FLECHA VOLVER
+===================================================== */
+.volver-container {
+    margin-bottom: 15px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #6C2BD9;
+    font-weight: 700;
+    font-size: 15px;
+    transition: .3s;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: #FAF9FF;
+    border: 2px solid #ECE5FF;
+}
+
+.btn-volver:hover {
+    background: #6C2BD9;
+    color: #fff;
+    border-color: #6C2BD9;
+    transform: translateX(-4px);
+}
+
+.btn-volver i {
+    font-size: 20px;
+}
+
+/* =====================================================
+LOGO
+===================================================== */
+.logo-login {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-login img {
+    height: 70px;
+}
+
+/* =====================================================
+CAMPOS DE ENTRADA
+===================================================== */
+.login-card .form-control {
+    border-radius: 12px;
+    border: 2px solid #ECE5FF;
+    padding: 12px 16px;
+    font-size: 15px;
+    transition: .3s;
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+}
+
+.login-card .form-control:focus {
+    border-color: #6C2BD9;
+    box-shadow: 0 0 0 4px rgba(108, 43, 217, .10);
+    outline: none;
+}
+
+.login-card .form-control::placeholder {
+    color: #B5A8D6;
+}
+
+/* =====================================================
+ETIQUETAS
+===================================================== */
+.login-card .form-label {
+    font-weight: 700;
+    color: #4C1D95;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* =====================================================
+OLVIDÉ CONTRASEÑA
+===================================================== */
+.forgot-password {
+    text-align: right;
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+.forgot-password a {
+    color: #6C2BD9;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.forgot-password a:hover {
+    color: #4C1D95;
+    text-decoration: underline;
+}
+
+/* =====================================================
+BOTÓN INICIAR SESIÓN
+===================================================== */
+.btn-login {
+    background: #6C2BD9;
+    border: none;
+    border-radius: 30px;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 17px;
+    width: 100%;
+    color: #fff;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-login:hover {
+    background: #4C1D95;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(108, 43, 217, .30);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* =====================================================
+DIVISOR
+===================================================== */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0 20px 0;
+}
+
+.divider .line {
+    flex: 1;
+    height: 2px;
+    background: #ECE5FF;
+}
+
+.divider .text {
+    font-weight: 700;
+    color: #B5A8D6;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* =====================================================
+BOTONES SOCIALES
+===================================================== */
+.social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 30px;
+    border: 2px solid #ECE5FF;
+    background: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    color: #1F1F1F;
+    transition: .3s;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-social:hover {
+    border-color: #6C2BD9;
+    background: #FAF9FF;
+    transform: translateY(-2px);
+}
+
+.btn-social i {
+    font-size: 22px;
+}
+
+.btn-social.google i {
+    color: #DB4437;
+}
+
+.btn-social.facebook i {
+    color: #1877F2;
+}
+
+/* =====================================================
+REGISTRO
+===================================================== */
+.registro-link {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 15px;
+    color: #666;
+}
+
+.registro-link a {
+    color: #6C2BD9;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.registro-link a:hover {
+    color: #4C1D95;
+    text-decoration: underline;
+}
+
+/* =====================================================
+MENSAJES DE ERROR Y ÉXITO
+===================================================== */
+.mensaje-error {
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-error.visible {
+    display: block;
+}
+
+.mensaje-exito {
+    color: #28a745;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-exito.visible {
+    display: block;
+}
+
+.errorInput {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.20) !important;
+}
+
+.successInput {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.20) !important;
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+@media (max-width: 576px) {
+    .login-card {
+        padding: 30px 25px;
+    }
+
+    .login-card h2 {
+        font-size: 24px;
+    }
+
+    .login-card .form-control {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .btn-login {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    .btn-social {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .btn-volver {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    .btn-volver i {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 400px) {
+    .login-card {
+        padding: 22px 16px;
+    }
+
+    .login-card h2 {
+        font-size: 20px;
+    }
+
+    .btn-social {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .divider {
+        gap: 10px;
+    }
+
+    .divider .text {
+        font-size: 12px;
+    }
+}

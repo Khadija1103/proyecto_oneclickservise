@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagar Cita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../estilos-css/Pagar_Cita.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        
+        <div class="acciones-superior">
+            <a href="GestionarCitas.html" class="btn-volver">
+                <i class="bi bi-arrow-left-circle"></i> Volver a Citas
+            </a>
+        </div>
+
+        <div class="header">
+            <div>
+                <h1>💳 Pagar Cita</h1>
+                <p>Selecciona la cita que deseas pagar</p>
+            </div>
+            <div class="estado-pago" id="estadoPago">
+                <i class="bi bi-clock-history"></i>
+                <span>Pendiente</span>
+            </div>
+        </div>
+
+        <!-- SELECCIONAR CITA -->
+        <div class="card-seleccionar">
+            <h3>📋 Seleccionar cita</h3>
+            <select id="selectCita" class="form-control" onchange="cargarCitaSeleccionada()">
+                <option value="">-- Seleccionar cita --</option>
+            </select>
+        </div>
+
+        <!-- TARJETA DE RESUMEN -->
+        <div class="card-resumen" id="cardResumen" style="display:none;">
+        </div>
+
+     <div class="metodos-pago">
+    <button class="btn-metodo active" data-metodo="efectivo" onclick="seleccionarMetodo('efectivo')">
+        <i class="bi bi-cash"></i> Efectivo
+    </button>
+    <button class="btn-metodo" data-metodo="tarjeta" onclick="seleccionarMetodo('tarjeta')">
+        <i class="bi bi-credit-card"></i> Tarjeta
+    </button>
+    <button class="btn-metodo" data-metodo="transferencia" onclick="seleccionarMetodo('transferencia')">
+        <i class="bi bi-bank"></i> Transferencia
+    </button>
+    <button class="btn-metodo" data-metodo="nequi" onclick="seleccionarMetodo('nequi')">
+        <i class="bi bi-phone"></i> Nequi
+    </button>
+    <button class="btn-metodo" data-metodo="daviplata" onclick="seleccionarMetodo('daviplata')">
+        <i class="bi bi-phone"></i> Daviplata
+    </button>
+    <button class="btn-metodo" data-metodo="pse" onclick="seleccionarMetodo('pse')">
+        <i class="bi bi-building"></i> PSE
+    </button>
+    <button class="btn-metodo" data-metodo="efecty" onclick="seleccionarMetodo('efecty')">
+        <i class="bi bi-receipt"></i> Efecty
+    </button>
+    <button class="btn-metodo" data-metodo="bancolombia" onclick="seleccionarMetodo('bancolombia')">
+        <i class="bi bi-bank2"></i> Bancolombia
+    </button>
+</div>
+
+            <div id="formularioPago"></div>
+
+            <div class="total-pago">
+                <span>Total a pagar:</span>
+                <span class="monto-total" id="montoTotal">$0</span>
+            </div>
+
+            <button class="btn-pagar" onclick="procesarPago()">
+                <i class="bi bi-check-circle"></i> Confirmar Pago
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIRMACIÓN -->
+    <div class="modal-overlay" id="modalConfirmacion" style="display:none;">
+        <div class="modal-confirmacion">
+            <div class="modal-icono">✅</div>
+            <h2>¡Pago exitoso!</h2>
+            <p id="mensajeConfirmacion">El pago se ha procesado correctamente.</p>
+            <div class="modal-detalles" id="modalDetalles"></div>
+            <button class="btn-modal" onclick="cerrarModal()">
+                <i class="bi bi-house"></i> Volver a citas
+            </button>
+        </div>
+    </div>
+
+    <script src="../js/Pagar_Cita.js"></script>
+</body>
+</html>
