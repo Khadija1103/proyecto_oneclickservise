@@ -1,3 +1,5 @@
+const API_URL = "https://on-6af233feddf64804961110ffe0c54ab2.ecs.us-east-1.on.aws";
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const formulario = document.getElementById("formulario");
@@ -23,96 +25,74 @@ document.addEventListener("DOMContentLoaded", () => {
         const confirmar = document.getElementById("confirmPassword").value.trim();
         const terminos = document.getElementById("terminos").checked;
 
-
-        if(!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(nombre)){
-            mostrarError("nombres","Nombre inválido");
-            valido=false;
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(nombre)) {
+            mostrarError("nombres", "Nombre inválido");
+            valido = false;
         }
 
-
-        if(!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(apellido)){
-            mostrarError("apellidos","Apellido inválido");
-            valido=false;
+        if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]{3,50}$/.test(apellido)) {
+            mostrarError("apellidos", "Apellido inválido");
+            valido = false;
         }
 
-
-        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)){
-            mostrarError("correo","Correo inválido");
-            valido=false;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+            mostrarError("correo", "Correo inválido");
+            valido = false;
         }
 
-
-        if(!/^\d{5,15}$/.test(documento)){
-            mostrarError("documento","Documento inválido");
-            valido=false;
+        if (!/^\d{5,15}$/.test(documento)) {
+            mostrarError("documento", "Documento inválido");
+            valido = false;
         }
 
-
-        if(!validarPassword(password)){
+        if (!validarPassword(password)) {
             mostrarError(
                 "password",
                 "Debe tener 8 caracteres, mayúscula, minúscula, número y símbolo"
             );
-            valido=false;
+            valido = false;
         }
 
-
-        if(password !== confirmar){
+        if (password !== confirmar) {
             mostrarError(
                 "confirmPassword",
                 "Las contraseñas no coinciden"
             );
-            valido=false;
+            valido = false;
         }
 
-
-        if(!terminos){
+        if (!terminos) {
             mostrarError(
                 "terminos",
                 "Debe aceptar los términos"
             );
-            valido=false;
+            valido = false;
         }
 
-
-        if(!valido){
+        if (!valido) {
             return;
         }
 
-
         const usuario = {
-
             nombre: nombre,
-
             apellido: apellido,
-
             correo: correo,
-
             telefono: documento,
-
             password: password,
-
-            rol:"CLIENTE"
-
+            rol: "CLIENTE"
         };
 
-
-        fetch("http://localhost:8080/usuarios",{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
+        fetch(`${API_URL}/usuarios`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
-
-            body:JSON.stringify(usuario)
-
+            body: JSON.stringify(usuario)
         })
-
 
         .then(res => {
 
-            if(!res.ok){
+            if (!res.ok) {
                 throw new Error("Error servidor");
             }
 
@@ -120,17 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         })
 
-
         .then(data => {
 
             console.log(data);
 
             alert("✅ Usuario registrado correctamente");
 
-            window.location.href="login.html";
+            window.location.href = "login.html";
 
         })
-
 
         .catch(error => {
 
@@ -140,14 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
-
     });
 
 });
 
-
-
-function validarPassword(password){
+function validarPassword(password) {
 
     return (
         password.length >= 8 &&
@@ -159,51 +134,34 @@ function validarPassword(password){
 
 }
 
+function mostrarError(id, mensaje) {
 
+    const campo = document.getElementById(id);
 
-function mostrarError(id,mensaje){
-
-    const campo=document.getElementById(id);
-
-    if(campo){
-
+    if (campo) {
         campo.classList.add("errorInput");
-
     }
 
+    const error = document.getElementById("error-" + id);
 
-    const error=document.getElementById("error-"+id);
-
-
-    if(error){
-
-        error.textContent=mensaje;
-
-        error.style.display="block";
-
+    if (error) {
+        error.textContent = mensaje;
+        error.style.display = "block";
     }
 
 }
 
-
-
-function limpiarErrores(){
+function limpiarErrores() {
 
     document.querySelectorAll(".errorInput")
-    .forEach(campo=>{
-
-        campo.classList.remove("errorInput");
-
-    });
-
+        .forEach(campo => {
+            campo.classList.remove("errorInput");
+        });
 
     document.querySelectorAll(".mensaje-error")
-    .forEach(error=>{
-
-        error.textContent="";
-
-        error.style.display="none";
-
-    });
+        .forEach(error => {
+            error.textContent = "";
+            error.style.display = "none";
+        });
 
 }

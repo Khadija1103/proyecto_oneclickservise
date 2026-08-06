@@ -13,7 +13,7 @@ const contador=document.getElementById("contadorDescripcion");
 const mensajeExito=document.getElementById("mensajeExito");
 const mensajeError=document.getElementById("mensajeError");
 
-const API_URL="http://localhost:8080/api/postulaciones";
+const API_URL="https://on-6af233feddf64804961110ffe0c54ab2.ecs.us-east-1.on.aws/api/postulaciones";
 
 
 // CONTADOR DESCRIPCIÓN
