@@ -1,73 +1,23 @@
-name: Build and Deploy to ECS Express
+- name: Construir y publicar imagen
+  id: build-image
+  shell: bash
+  env:
+    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    IMAGE_TAG: ${{ github.sha }}
+  run: |
+    IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+    LATEST_URI="$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    echo "Construyendo imagen: $IMAGE_URI"
 
-permissions:
-  contents: read
+    docker build \
+      --platform linux/amd64 \
+      --pull \
+      -t "$IMAGE_URI" \
+      -t "$LATEST_URI" \
+      .
 
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECS_CLUSTER: ${{ secrets.ECS_CLUSTER }}
-  ECS_SERVICE: ${{ secrets.ECS_SERVICE }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-  CONTAINER_PORT: ${{ secrets.CONTAINER_PORT }}
+    docker push "$IMAGE_URI"
+    docker push "$LATEST_URI"
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Descargar repositorio
-        uses: actions/checkout@v4
-
-      - name: Configurar Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
-
-      - name: Configurar credenciales AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Login Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Construir imagen Docker
-        run: |
-          docker build \
-            -f backend/OneClickServiceBackend/Dockerfile \
-            -t ${{ secrets.ECR_REPOSITORY }} \
-            backend/OneClickServiceBackend
-
-      - name: Etiquetar imagen
-        run: |
-          docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
-          ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-
-      - name: Publicar imagen
-        run: |
-          docker push \
-          ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-
-      - name: Desplegar ECS Express
-        uses: aws-actions/amazon-ecs-deploy-express-service@v1
-        with:
-          cluster: ${{ secrets.ECS_CLUSTER }}
-          service-name: ${{ secrets.ECS_SERVICE }}
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:latest
-          container-port: 8080
-          environment-variables: |
-            [
-              {"name":"DB_URL","value":"${{ secrets.DB_URL }}"},
-              {"name":"DB_USERNAME","value":"${{ secrets.DB_USERNAME }}"},
-              {"name":"DB_PASSWORD","value":"${{ secrets.DB_PASSWORD }}"}
-            ]
+    echo "image=$IMAGE_URI" >> "$GITHUB_OUTPUT"
