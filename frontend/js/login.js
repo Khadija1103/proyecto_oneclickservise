@@ -1,4 +1,4 @@
-const API_URL = "https://on-6af233feddf64804961110ffe0c54ab2.ecs.us-east-1.on.aws";
+const API_URL = "https://ec-c094f9e61f034e029869900306b99827.ecs.us-east-1.on.aws";
 
 document.addEventListener("DOMContentLoaded", function () {
 
