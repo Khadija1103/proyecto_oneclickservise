@@ -1,0 +1,328 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Panel Empleado | One Click Service</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+
+<link rel="stylesheet" href="index_empleado.css">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="empleado-header">
+
+  <div class="empleado-logo">
+    <img src="../assets/img/logo.png" alt="One Click Service">
+</div>
+
+    <div class="empleado-title">
+        <span>Panel del Empleado</span>
+        <small id="nombreEmpleado">Empleado</small>
+    </div>
+
+    <button id="btnCerrarSesion" class="btn-salir">
+        <i class="bi bi-box-arrow-right"></i>
+        Cerrar sesión
+    </button>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero-empleado">
+
+    <div class="hero-empleado-content">
+
+        <div class="hero-empleado-text">
+
+            <span class="etiqueta-empleado">
+                <i class="bi bi-person-badge"></i>
+                Área del empleado
+            </span>
+
+            <h1>
+                Bienvenido a tu
+                <strong>Panel de Empleado</strong>
+            </h1>
+
+            <p>
+                Gestiona tu información, consulta tus citas
+                y administra los servicios asociados a tu perfil
+                en One Click Service.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="btn-principal">
+                    <i class="bi bi-person-circle"></i>
+                    Mi perfil
+                </a>
+
+                <a href="#" class="btn-secundario">
+                    <i class="bi bi-calendar-check"></i>
+                    Mis citas
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-empleado-image">
+
+            <div class="empleado-circle">
+
+                <i class="bi bi-person-badge"></i>
+
+                <span>EMPLEADO</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FUNCIONES -->
+
+<section class="seccion-empleado">
+
+    <h2>Gestión de empleado</h2>
+
+    <p class="subtitulo">
+        Accede rápidamente a las principales funciones de tu cuenta.
+    </p>
+
+
+    <div class="empleado-grid">
+
+
+        <!-- PERFIL -->
+
+        <a href="#" class="empleado-card">
+
+            <div class="empleado-icon morado">
+
+                <i class="bi bi-person-circle"></i>
+
+            </div>
+
+            <h3>Mi perfil</h3>
+
+            <p>
+                Consulta y administra tu información
+                personal y profesional.
+            </p>
+
+            <span>
+                Ver perfil
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- CITAS -->
+
+        <a href="#" class="empleado-card">
+
+            <div class="empleado-icon rosado">
+
+                <i class="bi bi-calendar-check"></i>
+
+            </div>
+
+            <h3>Mis citas</h3>
+
+            <p>
+                Consulta las citas y servicios
+                que tienes asignados.
+            </p>
+
+            <span>
+                Consultar citas
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- SERVICIOS -->
+
+        <a href="#" class="empleado-card">
+
+            <div class="empleado-icon celeste">
+
+                <i class="bi bi-briefcase"></i>
+
+            </div>
+
+            <h3>Mis servicios</h3>
+
+            <p>
+                Consulta y gestiona los servicios
+                disponibles para tu perfil.
+            </p>
+
+            <span>
+                Ver servicios
+                <i class="bi bi-arrow-right"></i>
+            </span>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- INFORMACIÓN -->
+
+<section class="seccion-resumen">
+
+    <h2>Información de tu cuenta</h2>
+
+    <div class="resumen-grid">
+
+        <div class="resumen-card">
+
+            <i class="bi bi-person-check"></i>
+
+            <div>
+                <strong>Perfil</strong>
+                <span>Información personal</span>
+            </div>
+
+        </div>
+
+
+        <div class="resumen-card">
+
+            <i class="bi bi-calendar-event"></i>
+
+            <div>
+                <strong>Citas</strong>
+                <span>Servicios asignados</span>
+            </div>
+
+        </div>
+
+
+        <div class="resumen-card">
+
+            <i class="bi bi-briefcase-fill"></i>
+
+            <div>
+                <strong>Servicios</strong>
+                <span>Servicios disponibles</span>
+            </div>
+
+        </div>
+
+
+        <div class="resumen-card">
+
+            <i class="bi bi-shield-check"></i>
+
+            <div>
+                <strong>Cuenta</strong>
+                <span>Acceso protegido</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SEGURIDAD -->
+
+<section class="seccion-seguridad">
+
+    <h2>Tu cuenta está protegida</h2>
+
+    <div class="seguridad-grid">
+
+        <div>
+
+            <i class="bi bi-shield-lock"></i>
+
+            <h3>Acceso seguro</h3>
+
+            <p>
+                Tu cuenta está protegida mediante
+                autenticación y control de acceso.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <i class="bi bi-database-check"></i>
+
+            <h3>Información centralizada</h3>
+
+            <p>
+                Consulta la información relacionada
+                con tus servicios desde un solo lugar.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <i class="bi bi-lightning-charge"></i>
+
+            <h3>Gestión rápida</h3>
+
+            <p>
+                Accede rápidamente a las funciones
+                principales de tu cuenta.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 One Click Service · Panel del Empleado
+    </p>
+
+</footer>
+
+
+<script src="../js/index_empleado.js"></script>
+```
+
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+/* =====================================================
+   PERFIL CLIENTE - ONE CLICK SERVICE
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Nunito',sans-serif;
+}
+
+body{
+    background:#f8fafc;
+    color:#1e293b;
+}
+
+
+/* CONTENEDOR */
+
+.perfil-container{
+    width:90%;
+    max-width:1200px;
+    margin:40px auto;
+}
+
+
+/* HEADER PERFIL */
+
+.perfil-header{
+    background:linear-gradient(135deg,#4C1D95,#6C2BD9,#00FCF8);
+    border-radius:25px;
+    padding:35px;
+    display:flex;
+    align-items:center;
+    gap:30px;
+    color:white;
+    box-shadow:0 15px 35px rgba(0,0,0,.10);
+}
+
+
+.foto-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+
+.foto-container img{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    border:5px solid white;
+}
+
+
+.foto-container label{
+    background:#EC4899;
+    padding:8px 18px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:14px;
+    color:white;
+}
+
+
+.datos-principales h1{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+
+.rol{
+    background:#EC4899;
+    padding:8px 20px;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+
+.datos-principales p{
+    margin-top:20px;
+    font-size:16px;
+}
+
+
+/* TARJETAS */
+
+.card-perfil{
+    background:white;
+    margin-top:30px;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.10);
+}
+
+
+.card-perfil h2{
+    color:#4C1D95;
+    margin-bottom:25px;
+    font-size:25px;
+}
+
+
+/* FORMULARIO */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+
+.info-grid div{
+    display:flex;
+    flex-direction:column;
+}
+
+
+.info-grid label{
+    color:#6C2BD9;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+
+.info-grid input{
+    padding:12px;
+    border-radius:15px;
+    border:1px solid #ddd;
+    font-size:15px;
+}
+
+
+.info-grid input:focus{
+    outline:none;
+    border-color:#6C2BD9;
+}
+
+
+/* BOTONES */
+
+.btn-editar,
+.btn-principal,
+.btn-secundario{
+    border:none;
+    padding:12px 30px;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+
+.btn-editar{
+    margin-top:25px;
+    background:#6C2BD9;
+    color:white;
+}
+
+
+.btn-editar:hover{
+    background:#4C1D95;
+}
+
+
+.acciones{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+
+.btn-principal{
+    background:#00FCF8;
+    color:#1e293b;
+}
+
+
+.btn-secundario{
+    background:#EC4899;
+    color:white;
+}
+
+
+.btn-principal:hover,
+.btn-secundario:hover,
+.btn-editar:hover{
+    transform:translateY(-3px);
+}
+
+
+/* SERVICIOS */
+
+.servicios-container{
+    display:flex;
+    justify-content:center;
+}
+
+
+.servicio-vacio{
+    width:100%;
+    padding:25px;
+    text-align:center;
+    background:#f8fafc;
+    border-radius:20px;
+    color:#64748b;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    .perfil-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .acciones{
+        flex-direction:column;
+    }
+
+    .btn-principal,
+    .btn-secundario{
+        width:100%;
+    }
+
+}

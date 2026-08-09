@@ -1,0 +1,438 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+  }
+
+body {
+background: #faf9ff;
+color: #1f1f1f;
+}
+
+/* ================= HEADER ================= */
+
+.empleado-header {
+min-height: 80px;
+background: #ffffff;
+display: flex;
+align-items: center;
+padding: 12px 6%;
+box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+gap: 20px;
+}
+
+.empleado-logo img {
+width: 70px;
+height: 55px;
+object-fit: contain;
+}
+
+.empleado-title {
+display: flex;
+flex-direction: column;
+flex: 1;
+}
+
+.empleado-title span {
+font-size: 20px;
+font-weight: 800;
+color: #4c1d95;
+}
+
+.empleado-title small {
+color: #777;
+font-size: 13px;
+}
+
+.btn-salir {
+border: none;
+background: #ec4899;
+color: #ffffff;
+padding: 10px 18px;
+border-radius: 10px;
+font-weight: 700;
+cursor: pointer;
+transition: 0.3s;
+}
+
+.btn-salir:hover {
+background: #6c2bd9;
+color: #ffffff;
+transform: translateY(-2px);
+}
+
+/* ================= HERO ================= */
+
+.hero-empleado {
+padding: 70px 10%;
+background: linear-gradient(135deg, #f5efff, #ffffff);
+}
+
+.hero-empleado-content {
+max-width: 1200px;
+margin: auto;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 50px;
+}
+
+.hero-empleado-text {
+flex: 1;
+}
+
+.etiqueta-empleado {
+display: inline-flex;
+gap: 8px;
+align-items: center;
+color: #6c2bd9;
+font-weight: 800;
+margin-bottom: 15px;
+}
+
+.hero-empleado h1 {
+font-size: 42px;
+line-height: 1.2;
+font-weight: 700;
+color: #1f1f1f;
+}
+
+.hero-empleado h1 strong {
+display: block;
+color: #6c2bd9;
+}
+
+.hero-empleado p {
+margin-top: 20px;
+color: #555;
+max-width: 600px;
+font-size: 17px;
+line-height: 1.6;
+}
+
+.hero-buttons {
+display: flex;
+gap: 15px;
+margin-top: 30px;
+flex-wrap: wrap;
+}
+
+.btn-principal,
+.btn-secundario {
+text-decoration: none;
+padding: 13px 20px;
+border-radius: 10px;
+font-weight: 700;
+transition: 0.3s;
+}
+
+.btn-principal {
+background: #6c2bd9;
+color: #ffffff;
+}
+
+.btn-secundario {
+background: #ec4899;
+color: #ffffff;
+}
+
+.btn-principal:hover,
+.btn-secundario:hover {
+color: #ffffff;
+transform: translateY(-3px);
+}
+
+/* ================= CIRCULO ================= */
+
+.hero-empleado-image {
+flex: 0.7;
+display: flex;
+justify-content: center;
+}
+
+.empleado-circle {
+width: 260px;
+height: 260px;
+border-radius: 50%;
+background: linear-gradient(135deg, #6c2bd9, #ec4899);
+color: #ffffff;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+box-shadow: 0 20px 45px rgba(108, 43, 217, 0.3);
+}
+
+.empleado-circle i {
+font-size: 80px;
+}
+
+.empleado-circle span {
+font-weight: 800;
+font-size: 24px;
+margin-top: 10px;
+}
+
+/* ================= SECCION PRINCIPAL ================= */
+
+.seccion-empleado,
+.seccion-resumen,
+.seccion-seguridad {
+padding: 60px 10%;
+text-align: center;
+}
+
+.seccion-empleado {
+background: #faf9ff;
+}
+
+.seccion-empleado h2,
+.seccion-resumen h2,
+.seccion-seguridad h2 {
+font-size: 28px;
+color: #4c1d95;
+font-weight: 800;
+}
+
+.subtitulo {
+color: #666;
+margin: 10px 0 35px;
+}
+
+/* ================= TARJETAS ================= */
+
+.empleado-grid {
+max-width: 1100px;
+margin: auto;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 25px;
+}
+
+.empleado-card {
+text-decoration: none;
+color: inherit;
+background: #ffffff;
+padding: 30px 22px;
+border-radius: 18px;
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+transition: 0.3s;
+text-align: center;
+}
+
+.empleado-card:hover {
+color: inherit;
+transform: translateY(-8px);
+box-shadow:
+0 0 20px rgba(108, 43, 217, 0.2),
+0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.empleado-icon {
+width: 65px;
+height: 65px;
+border-radius: 50%;
+margin: 0 auto 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #ffffff;
+font-size: 28px;
+}
+
+.morado {
+background: #6c2bd9;
+}
+
+.rosado {
+background: #ec4899;
+}
+
+.celeste {
+background: #00bfc3;
+}
+
+.empleado-card h3 {
+color: #4c1d95;
+font-size: 20px;
+font-weight: 800;
+}
+
+.empleado-card p {
+color: #666;
+font-size: 14px;
+min-height: 65px;
+line-height: 1.5;
+}
+
+.empleado-card > span {
+color: #6c2bd9;
+font-weight: 800;
+font-size: 13px;
+}
+
+/* ================= RESUMEN ================= */
+
+.seccion-resumen {
+background: #ffffff;
+}
+
+.resumen-grid {
+max-width: 1100px;
+margin: 35px auto 0;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+}
+
+.resumen-card {
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 20px;
+background: #faf9ff;
+border-radius: 15px;
+text-align: left;
+}
+
+.resumen-card > i {
+font-size: 30px;
+color: #6c2bd9;
+}
+
+.resumen-card div {
+display: flex;
+flex-direction: column;
+}
+
+.resumen-card strong {
+color: #4c1d95;
+font-weight: 800;
+}
+
+.resumen-card span {
+font-size: 12px;
+color: #777;
+}
+
+/* ================= SEGURIDAD ================= */
+
+.seccion-seguridad {
+background: #faf9ff;
+}
+
+.seguridad-grid {
+max-width: 1100px;
+margin: 35px auto 0;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 25px;
+}
+
+.seguridad-grid > div {
+background: #ffffff;
+padding: 30px 20px;
+border-radius: 18px;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.seguridad-grid i {
+font-size: 35px;
+color: #ec4899;
+}
+
+.seguridad-grid h3 {
+margin-top: 12px;
+color: #4c1d95;
+font-weight: 800;
+}
+
+.seguridad-grid p {
+color: #666;
+font-size: 14px;
+line-height: 1.5;
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+background: #4c1d95;
+color: #ffffff;
+text-align: center;
+padding: 25px;
+font-size: 13px;
+}
+
+footer p {
+margin: 0;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1000px) {
+
+
+.empleado-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.resumen-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.hero-empleado-content {
+    gap: 30px;
+}
+
+
+
+@media (max-width: 700px) {
+
+
+.hero-empleado-content {
+    flex-direction: column;
+    text-align: center;
+}
+
+.hero-empleado h1 {
+    font-size: 30px;
+}
+
+.hero-empleado p {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    justify-content: center;
+}
+
+.empleado-grid,
+.resumen-grid,
+.seguridad-grid {
+    grid-template-columns: 1fr;
+}
+
+.empleado-header {
+    padding: 10px 4%;
+}
+
+.empleado-title span {
+    font-size: 16px;
+}
+
+.empleado-circle {
+    width: 210px;
+    height: 210px;
+}
+
+.empleado-circle i {
+    font-size: 60px;
+}
+
+.empleado-circle span {
+    font-size: 20px;
+}
+
+

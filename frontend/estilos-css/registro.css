@@ -1,0 +1,419 @@
+/* =====================================================
+REGISTRO - ESTILOS COMPLETOS
+===================================================== */
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: #FAF9FF;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+/* =====================================================
+TARJETA DE REGISTRO - MÁS ANCHA
+===================================================== */
+.registro-card {
+    background: #fff;
+    padding: 50px 55px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(108, 43, 217, .12);
+    max-width: 650px;
+    width: 100%;
+    border: 1px solid #ECE5FF;
+    position: relative;
+}
+
+.registro-card h2 {
+    color: #4C1D95;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 32px;
+}
+
+/* =====================================================
+FLECHA VOLVER
+===================================================== */
+.volver-container {
+    margin-bottom: 15px;
+}
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #6C2BD9;
+    font-weight: 700;
+    font-size: 15px;
+    transition: .3s;
+    padding: 8px 16px;
+    border-radius: 30px;
+    background: #FAF9FF;
+    border: 2px solid #ECE5FF;
+}
+
+.btn-volver:hover {
+    background: #6C2BD9;
+    color: #fff;
+    border-color: #6C2BD9;
+    transform: translateX(-4px);
+}
+
+.btn-volver i {
+    font-size: 20px;
+}
+
+/* =====================================================
+LOGO
+===================================================== */
+.logo-registro {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-registro img {
+    height: 75px;
+}
+
+/* =====================================================
+CAMPOS DE ENTRADA
+===================================================== */
+.registro-card .form-control,
+.registro-card .form-select {
+    border-radius: 14px;
+    border: 2px solid #ECE5FF;
+    padding: 14px 18px;
+    font-size: 16px;
+    transition: .3s;
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+}
+
+.registro-card .form-control:focus,
+.registro-card .form-select:focus {
+    border-color: #6C2BD9;
+    box-shadow: 0 0 0 4px rgba(108, 43, 217, .10);
+    outline: none;
+}
+
+.registro-card .form-control::placeholder {
+    color: #B5A8D6;
+}
+
+/* =====================================================
+ETIQUETAS
+===================================================== */
+.registro-card .form-label {
+    font-weight: 700;
+    color: #4C1D95;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+/* =====================================================
+DOCUMENTO DE IDENTIDAD - EN UNA SOLA LÍNEA
+===================================================== */
+.input-group-documento {
+    display: flex;
+    gap: 0;
+    width: 100%;
+}
+
+.form-select-documento {
+    border-radius: 14px 0 0 14px;
+    border: 2px solid #ECE5FF;
+    border-right: none;
+    padding: 14px 12px;
+    font-size: 15px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    color: #4C1D95;
+    background: #FAF9FF;
+    width: 85px;
+    flex-shrink: 0;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.form-select-documento:focus {
+    border-color: #6C2BD9;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(108, 43, 217, .10);
+}
+
+.form-control-documento {
+    border-radius: 0 14px 14px 0;
+    border: 2px solid #ECE5FF;
+    border-left: none;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+    transition: .3s;
+}
+
+.form-control-documento:focus {
+    border-color: #6C2BD9;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(108, 43, 217, .10);
+}
+
+.form-control-documento::placeholder {
+    color: #B5A8D6;
+}
+
+/* =====================================================
+TÉRMINOS Y CONDICIONES
+===================================================== */
+.registro-card .form-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0;
+    margin-top: 5px;
+}
+
+.registro-card .form-check-input {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #D5CCE6;
+    transition: .3s;
+    cursor: pointer;
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.registro-card .form-check-input:checked {
+    background-color: #6C2BD9;
+    border-color: #6C2BD9;
+}
+
+.registro-card .form-check-label {
+    font-weight: 600;
+    color: #1F1F1F;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.registro-card .form-check-label .terminos-link {
+    color: #6C2BD9;
+    text-decoration: none;
+}
+
+.registro-card .form-check-label .terminos-link:hover {
+    color: #4C1D95;
+    text-decoration: underline;
+}
+
+/* =====================================================
+MENSAJES DE ERROR Y ÉXITO
+===================================================== */
+.mensaje-error {
+    color: #dc3545;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-error.visible {
+    display: block;
+}
+
+.mensaje-exito {
+    color: #28a745;
+    font-size: 13px;
+    margin-top: 4px;
+    display: none;
+    font-weight: 600;
+}
+
+.mensaje-exito.visible {
+    display: block;
+}
+
+.errorInput {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.20) !important;
+}
+
+.successInput {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.20) !important;
+}
+
+/* =====================================================
+BOTÓN REGISTRAR
+===================================================== */
+.btn-registro {
+    background: #6C2BD9;
+    border: none;
+    border-radius: 30px;
+    padding: 16px;
+    font-weight: 700;
+    font-size: 18px;
+    width: 100%;
+    color: #fff;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-registro:hover {
+    background: #4C1D95;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(108, 43, 217, .30);
+}
+
+.btn-registro:active {
+    transform: translateY(0);
+}
+
+/* =====================================================
+LOGIN LINK
+===================================================== */
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.login-link a {
+    color: #6C2BD9;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    color: #4C1D95;
+    text-decoration: underline;
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+@media (max-width: 768px) {
+    .registro-card {
+        padding: 35px 30px;
+        max-width: 100%;
+    }
+
+    .btn-volver {
+        font-size: 14px;
+        padding: 6px 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .registro-card {
+        padding: 25px 20px;
+    }
+
+    .registro-card h2 {
+        font-size: 24px;
+    }
+
+    .registro-card .form-control,
+    .registro-card .form-select {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .btn-registro {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    .form-select-documento {
+        width: 70px;
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+
+    .form-control-documento {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .logo-registro img {
+        height: 60px;
+    }
+
+    .btn-volver {
+        font-size: 13px;
+        padding: 5px 12px;
+    }
+
+    .btn-volver i {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 400px) {
+    .registro-card {
+        padding: 20px 14px;
+    }
+
+    .registro-card h2 {
+        font-size: 20px;
+    }
+
+    .form-select-documento {
+        width: 60px;
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .form-control-documento {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .registro-card .form-check-label {
+        font-size: 13px;
+    }
+
+    .btn-registro {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .login-link {
+        font-size: 14px;
+    }
+}
+
+/* =====================================================
+SCROLLBAR PERSONALIZADA
+===================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FAF9FF;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #6C2BD9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4C1D95;
+}
+
+::selection {
+    background: #6C2BD9;
+    color: #fff;
+}
