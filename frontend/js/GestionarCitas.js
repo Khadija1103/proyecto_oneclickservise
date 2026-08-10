@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function () {
 
     mostrarServicios();
@@ -50,24 +38,24 @@ function mostrarMensajeConfirmacion() {
 
     }
 
-   
+    var icono = "✅";
 
     if (mensaje.toLowerCase().includes("editada")) {
 
-   
+        icono = "✏️";
 
     }
 
     if (mensaje.toLowerCase().includes("eliminada")) {
 
-      
+        icono = "🗑️";
 
     }
 
     contenedor.innerHTML = `
         <span class="icono-mensaje">${icono}</span>
         <span class="texto-mensaje">${mensaje}</span>
-        <button class="btn-cerrar-mensaje" onclick="cerrarMensaje()">?</button>
+        <button class="btn-cerrar-mensaje" onclick="cerrarMensaje()">✖</button>
     `;
 
     document.body.appendChild(contenedor);
@@ -146,7 +134,7 @@ var citasFiltradas = citas.filter(function(cita){
 
         contenedor.innerHTML = `
             <div class="sin-citas">
-                <span class="icono-sin-citas">??</span>
+                <span class="icono-sin-citas">📅</span>
                 <h2>No hay servicios agendados</h2>
                 <p>Cuando agendes un servicio aparecerá aquí.</p>
             </div>
@@ -240,25 +228,25 @@ var citasFiltradas = citas.filter(function(cita){
 
             <div class="info">
 
-                <p><strong>?? Cliente:</strong> ${cita.nombre} ${cita.apellido}</p>
+                <p><strong>👤 Cliente:</strong> ${cita.nombre} ${cita.apellido}</p>
 
-                <p><strong>Fecha:</strong> ${cita.fecha} - ${cita.hora}</p>
+                <p><strong>📅 Fecha:</strong> ${cita.fecha} - ${cita.hora}</p>
 
-                <p><strong>Profesional:</strong> ${cita.profesional}</p>
+                <p><strong>👨‍🔧 Profesional:</strong> ${cita.profesional}</p>
 
-                <p><strong>Correo:</strong> ${cita.correo}</p>
+                <p><strong>📧 Correo:</strong> ${cita.correo}</p>
 
-                <p><strong>?? Teléfono:</strong> ${cita.telefono}</p>
+                <p><strong>📱 Teléfono:</strong> ${cita.telefono}</p>
 
-                <p><strong>?? Dirección:</strong> ${cita.direccion}, ${cita.ciudad}</p>
+                <p><strong>📍 Dirección:</strong> ${cita.direccion}, ${cita.ciudad}</p>
 
                 <p>
 
-                    <strong>?? Tipo:</strong> ${cita.tipo}
+                    <strong>📋 Tipo:</strong> ${cita.tipo}
 
                     |
 
-                    <strong>?? Jornada:</strong> ${cita.jornada}
+                    <strong>🕒 Jornada:</strong> ${cita.jornada}
 
                 </p>
 
@@ -270,7 +258,7 @@ var citasFiltradas = citas.filter(function(cita){
                     class="btn-editar"
                     onclick="editarCita(${indexOriginal})">
 
-                    Editar
+                    ✏️ Editar
 
                 </button>
 
@@ -278,7 +266,7 @@ var citasFiltradas = citas.filter(function(cita){
                     class="btn-eliminar"
                     onclick="eliminarCita(${indexOriginal})">
 
-                    Eliminar
+                    🗑️ Eliminar
 
                 </button>
 
@@ -333,43 +321,18 @@ function editarCita(index) {
 
     if (!citas[index]) {
 
-        Swal.fire({
-            title: "Cita no encontrada",
-            text: "La cita que desea editar no existe.",
-            icon: "error",
-            confirmButtonText: "Aceptar"
-        });
-
+        alert("❌ No se encontró la cita.");
         return;
+
     }
 
-    var cita = citas[index];
+    localStorage.setItem("citaEditar", index);
 
-    Swal.fire({
-        title: "¿Desea editar esta cita?",
-        html:
-            "<b>Servicio:</b> " + cita.servicio + "<br>" +
-            "<b>Fecha:</b> " + cita.fecha + "<br>" +
-            "<b>Hora:</b> " + cita.hora,
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Sí, editar",
-        cancelButtonText: "Cancelar",
-        reverseButtons: true
-    }).then(function(resultado) {
+    window.location.href = "Agendar_Cita.html";
 
-        if (resultado.isConfirmed) {
-
-            localStorage.setItem(
-                "citaEditar",
-                index
-            );
-
-            window.location.href = "Agendar_Cita.html";
-        }
-
-    });
 }
+
+
 //======================================================
 // ELIMINAR CITA
 //======================================================
@@ -380,53 +343,42 @@ function eliminarCita(index) {
 
     if (!citas[index]) {
 
-        Swal.fire({
-            text: "La cita no existe.",
-            icon: "error",
-            confirmButtonText: "Aceptar"
-        });
-
+        alert("❌ La cita no existe.");
         return;
+
     }
 
     var cita = citas[index];
 
-    Swal.fire({
-        title: "¿Desea eliminar esta cita?",
-        html:
-            "<b>Servicio:</b> " + cita.servicio + "<br>" +
-            "<b>Fecha:</b> " + cita.fecha + "<br>" +
-            "<b>Hora:</b> " + cita.hora,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar",
-        reverseButtons: true
-    }).then(function(resultado) {
+    if (!confirm(
+        "🗑️ ¿Desea eliminar esta cita?\n\n" +
+        "Servicio: " + cita.servicio + "\n" +
+        "Fecha: " + cita.fecha + "\n" +
+        "Hora: " + cita.hora
+    )) {
 
-        if (resultado.isConfirmed) {
+        return;
 
-            citas.splice(index, 1);
+    }
 
-            localStorage.setItem(
-                "citas",
-                JSON.stringify(citas)
-            );
+    citas.splice(index, 1);
 
-            localStorage.setItem(
-                "mensajeCita",
-                "La cita fue eliminada correctamente."
-            );
+    localStorage.setItem("citas", JSON.stringify(citas));
 
-            mostrarServicios();
+    localStorage.setItem(
+        "mensajeCita",
+        "🗑️ La cita fue eliminada correctamente."
+    );
 
-            actualizarTotal();
+    mostrarServicios();
 
-            mostrarMensajeConfirmacion();
-        }
+    actualizarTotal();
 
-    });
+    mostrarMensajeConfirmacion();
+
 }
+
+
 //======================================================
 // EXPORTAR FUNCIONES
 //======================================================
@@ -434,8 +386,3 @@ function eliminarCita(index) {
 window.editarCita = editarCita;
 window.eliminarCita = eliminarCita;
 window.cerrarMensaje = cerrarMensaje;
-
-
-
-
-

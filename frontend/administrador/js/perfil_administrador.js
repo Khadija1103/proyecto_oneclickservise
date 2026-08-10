@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function () {
 
     const contenedor = document.getElementById("contenedorTarjetas");
@@ -69,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (agregarBtn) {
         agregarBtn.addEventListener("click", function () {
-            if (confirm("? ¿Desea agregar un nuevo usuario?")) {
+            if (confirm("➕ ¿Desea agregar un nuevo usuario?")) {
                 localStorage.removeItem("usuarioEditar");
                 window.location.href = "perfil.html";
             }
@@ -87,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (usuarios.length === 0) {
         contenedor.innerHTML = `
             <div class="sin-datos">
-                <p>?? No hay usuarios registrados</p>
+                <p>📋 No hay usuarios registrados</p>
                 <p class="sub">Haz clic en "Agregar Usuario"</p>
             </div>
         `;
@@ -110,11 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let badgeHtml = "";
 
         if (u.tipoUsuario === "empleado") {
-            badgeHtml = `<span class="badge empleado">?? Empleado</span>`;
+            badgeHtml = `<span class="badge empleado">👔 Empleado</span>`;
         } else if (u.tipoUsuario === "cliente") {
-            badgeHtml = `<span class="badge cliente">?? Cliente</span>`;
+            badgeHtml = `<span class="badge cliente">👤 Cliente</span>`;
         } else {
-            badgeHtml = `<span class="badge">? Sin tipo</span>`;
+            badgeHtml = `<span class="badge">❓ Sin tipo</span>`;
         }
 
         // SERVICIO
@@ -123,19 +111,19 @@ document.addEventListener("DOMContentLoaded", function () {
         if (u.tipoUsuario === "empleado" && u.servicio) {
 
             const servicios = {
-                limpieza: "?? Limpieza",
-                seguridad: "?? Seguridad",
-                mantenimiento: "?? Mantenimiento",
-                jardineria: "?? Jardinería",
-                cocina: "?? Cocina",
-                recepcion: "?? Recepción",
-                mensajeria: "?? Mensajería",
-                transporte: "?? Transporte",
-                otro: "?? Otro"
+                limpieza: "🧹 Limpieza",
+                seguridad: "🔒 Seguridad",
+                mantenimiento: "🔧 Mantenimiento",
+                jardineria: "🌿 Jardinería",
+                cocina: "🍳 Cocina",
+                recepcion: "📋 Recepción",
+                mensajeria: "📦 Mensajería",
+                transporte: "🚗 Transporte",
+                otro: "📌 Otro"
             };
 
             servicioHtml = `
-                <p><strong>?? Servicio:</strong> ${servicios[u.servicio] || u.servicio}</p>
+                <p><strong>🔧 Servicio:</strong> ${servicios[u.servicio] || u.servicio}</p>
             `;
         }
 
@@ -151,19 +139,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 ${badgeHtml}
 
-                <p><strong>Documento:</strong> ${u.documento || ""}</p>
-                <p><strong>Tipo Doc:</strong> ${u.tipoDocumento || ""}</p>
-                <p><strong>Correo:</strong> ${u.correo || ""}</p>
-                <p><strong>Celular:</strong> ${u.celular || ""}</p>
-                <p><strong>Dirección:</strong> ${u.direccion || ""}</p>
-                <p><strong>Ciudad:</strong> ${u.ciudad || ""}</p>
+                <p><strong>📄 Documento:</strong> ${u.documento || ""}</p>
+                <p><strong>📋 Tipo Doc:</strong> ${u.tipoDocumento || ""}</p>
+                <p><strong>📧 Correo:</strong> ${u.correo || ""}</p>
+                <p><strong>📱 Celular:</strong> ${u.celular || ""}</p>
+                <p><strong>🏠 Dirección:</strong> ${u.direccion || ""}</p>
+                <p><strong>🏙️ Ciudad:</strong> ${u.ciudad || ""}</p>
 
                 ${servicioHtml}
             </div>
 
             <div class="acciones">
-                <button class="editar">Editar</button>
-                <button class="eliminar">Eliminar</button>
+                <button class="editar">✏️ Editar</button>
+                <button class="eliminar">🗑️ Eliminar</button>
             </div>
         `;
 
@@ -172,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // =========================
         card.querySelector(".editar").addEventListener("click", function () {
 
-            if (confirm(`?? ¿Editar a ${u.nombres}?`)) {
+            if (confirm(`✏️ ¿Editar a ${u.nombres}?`)) {
                 localStorage.setItem("usuarioEditar", index);
                 window.location.href = "perfil.html";
             }
@@ -183,14 +171,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // =========================
         card.querySelector(".eliminar").addEventListener("click", function () {
 
-            if (confirm(`?? ¿Eliminar a ${u.nombres}?`)) {
+            if (confirm(`⚠️ ¿Eliminar a ${u.nombres}?`)) {
 
-                if (confirm("? Esta acción no se puede deshacer")) {
+                if (confirm("❌ Esta acción no se puede deshacer")) {
 
                     usuarios.splice(index, 1);
                     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
-                    Swal.fire({text: "Usuario eliminado", confirmButtonText: "Aceptar"});
+                    alert("Usuario eliminado");
                     location.reload();
                 }
             }
@@ -206,6 +194,3 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Clientes:", usuarios.filter(u => u.tipoUsuario === "cliente").length);
     console.log("Empleados:", usuarios.filter(u => u.tipoUsuario === "empleado").length);
 });
-
-
-

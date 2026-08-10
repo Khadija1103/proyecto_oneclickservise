@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 /* ================= FOOTER LOAD ================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,4 +35,3 @@ function showSlide() {
 
 /* cambia cada 3 segundos */
 setInterval(showSlide, 3000);
-

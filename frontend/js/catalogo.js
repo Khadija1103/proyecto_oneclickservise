@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 let contenedorServicios;
 let inputBusqueda;
 let totalServicios;
@@ -18,7 +6,7 @@ let serviciosVisibles;
 let listaServicios = [];
 let textoBusqueda = "";
 
-// ================= MENÚ =================
+// ================= MENÃš =================
 document.addEventListener("DOMContentLoaded", () => {
 
     const menuBtn = document.getElementById("menuBtn");
@@ -144,11 +132,10 @@ function actualizarContadores() {
 }
 
 
-// ================= REDIRECCIÓN =================
+// ================= REDIRECCIÃ“N =================
 function irACita(nombreServicio) {
 
     localStorage.setItem("servicioSeleccionado", nombreServicio);
 
     window.location.href = "../carrito/Agendar_Cita.html";
 }
-

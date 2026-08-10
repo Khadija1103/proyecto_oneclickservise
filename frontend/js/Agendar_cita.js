@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function () {
 
     const servicioSeleccionado = localStorage.getItem("servicioSeleccionado");
@@ -23,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Cargar profesionales primero
     cargarProfesionales();
 
-    // Si es una ediciÛn cargar datos
+    // Si es una edici√≥n cargar datos
     if (indiceEditar !== null) {
         cargarDatosFormulario(parseInt(indiceEditar));
         document.getElementById("servicio").readOnly = false;
@@ -35,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         servicioInput.readOnly = true;
     }
 
-    // Fecha mÌnima = hoy
+    // Fecha m√≠nima = hoy
     const fecha = document.getElementById("fecha");
     const hoy = new Date().toISOString().split("T")[0];
     fecha.min = hoy;
@@ -143,7 +131,7 @@ function configurarValidaciones() {
 
         const letra = String.fromCharCode(e.which || e.keyCode);
 
-        if (!/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]$/.test(letra)) {
+        if (!/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]$/.test(letra)) {
             e.preventDefault();
             mostrarError("nombre", "Solo letras");
         }
@@ -155,11 +143,11 @@ function configurarValidaciones() {
         if (this.value.trim() === "") {
             mostrarError("nombre", "Campo obligatorio");
         }
-        else if (/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]{3,15}$/.test(this.value)) {
+        else if (/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]{3,15}$/.test(this.value)) {
             mostrarExito("nombre");
         }
         else {
-            mostrarError("nombre", "MÌnimo 3 letras");
+            mostrarError("nombre", "M√≠nimo 3 letras");
         }
 
     });
@@ -175,7 +163,7 @@ function configurarValidaciones() {
 
         const letra = String.fromCharCode(e.which || e.keyCode);
 
-        if (!/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]$/.test(letra)) {
+        if (!/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]$/.test(letra)) {
             e.preventDefault();
             mostrarError("apellido", "Solo letras");
         }
@@ -187,11 +175,11 @@ function configurarValidaciones() {
         if (this.value.trim() === "") {
             mostrarError("apellido", "Campo obligatorio");
         }
-        else if (/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]{3,15}$/.test(this.value)) {
+        else if (/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]{3,15}$/.test(this.value)) {
             mostrarExito("apellido");
         }
         else {
-            mostrarError("apellido", "MÌnimo 3 letras");
+            mostrarError("apellido", "M√≠nimo 3 letras");
         }
 
     });
@@ -212,14 +200,14 @@ function configurarValidaciones() {
             mostrarExito("correo");
         }
         else {
-            mostrarError("correo", "Correo inv·lido");
+            mostrarError("correo", "Correo inv√°lido");
         }
 
     });
 
 
     //==========================
-    // TEL…FONO
+    // TEL√âFONO
     //==========================
 
     const telefono = document.getElementById("telefono");
@@ -249,14 +237,14 @@ function configurarValidaciones() {
             mostrarExito("telefono");
         }
         else {
-            mostrarError("telefono", "Debe tener entre 7 y 10 dÌgitos");
+            mostrarError("telefono", "Debe tener entre 7 y 10 d√≠gitos");
         }
 
     });
 
 
     //==========================
-    // DIRECCI”N
+    // DIRECCI√ìN
     //==========================
 
     const direccion = document.getElementById("direccion");
@@ -270,7 +258,7 @@ function configurarValidaciones() {
             mostrarExito("direccion");
         }
         else {
-            mostrarError("direccion", "MÌnimo 5 caracteres");
+            mostrarError("direccion", "M√≠nimo 5 caracteres");
         }
 
     });
@@ -286,7 +274,7 @@ function configurarValidaciones() {
 
         const letra = String.fromCharCode(e.which || e.keyCode);
 
-        if (!/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]$/.test(letra)) {
+        if (!/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]$/.test(letra)) {
             e.preventDefault();
         }
 
@@ -297,7 +285,7 @@ function configurarValidaciones() {
         if (this.value.trim() === "") {
             mostrarError("ciudad", "Campo obligatorio");
         }
-        else if (/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]{3,50}$/.test(this.value)) {
+        else if (/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]{3,50}$/.test(this.value)) {
             mostrarExito("ciudad");
         }
         else {
@@ -389,7 +377,7 @@ function configurarValidaciones() {
 
 }
 //===================================================
-// ACTUALIZAR HORAS SEG⁄N LA JORNADA
+// ACTUALIZAR HORAS SEG√öN LA JORNADA
 //===================================================
 
 function actualizarHorasPorJornada(jornada) {
@@ -448,7 +436,7 @@ function actualizarHorasPorJornada(jornada) {
 
 
 //===================================================
-// VALIDAR HORA SEG⁄N JORNADA
+// VALIDAR HORA SEG√öN JORNADA
 //===================================================
 
 function validarHoraConJornada() {
@@ -518,7 +506,7 @@ function mostrarError(id, mensaje) {
 
 
 //===================================================
-// MOSTRAR …XITO
+// MOSTRAR √âXITO
 //===================================================
 
 function mostrarExito(id) {
@@ -681,7 +669,7 @@ function guardarCita() {
     }
 
     //====================================
-    // OBTENER INFORMACI”N DEL SERVICIO
+    // OBTENER INFORMACI√ìN DEL SERVICIO
     //====================================
 
     var listaServicios = JSON.parse(localStorage.getItem("listaServicios")) || [];
@@ -750,7 +738,7 @@ function guardarCita() {
 
         localStorage.setItem(
             "mensajeCita",
-            "? La cita fue editada correctamente."
+            "‚úÖ La cita fue editada correctamente."
         );
 
         localStorage.removeItem("citaEditar");
@@ -761,7 +749,7 @@ function guardarCita() {
 
         localStorage.setItem(
             "mensajeCita",
-            "? La cita fue guardada correctamente."
+            "‚úÖ La cita fue guardada correctamente."
         );
 
     }

@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", () => {
 
   fetch("../footer/footer.html")
@@ -20,5 +8,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 console.log("Hola footer");
-
-

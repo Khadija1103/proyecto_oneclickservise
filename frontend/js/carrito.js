@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 // ============================================
 // CARRITO DE PRODUCTOS
 // ============================================
@@ -18,214 +6,292 @@ let carrito = JSON.parse(
     localStorage.getItem("carritoProductos")
 ) || [];
 
-const contenedorCarrito = document.getElementById("contenedorCarrito");
-const cantidadServicios = document.getElementById("cantidadServicios");
-
-const subtotalHTML = document.getElementById("subtotal");
-const tarifaHTML = document.getElementById("tarifa");
-const totalHTML = document.getElementById("total");
 
 // ============================================
-// FORMATO PRECIO
+// ELEMENTOS DEL HTML
 // ============================================
 
-function formatoPrecio(valor){
+const contenedorCarrito =
+    document.getElementById("contenedorCarrito");
 
-    return Number(valor).toLocaleString("es-CO",{
-        style:"currency",
-        currency:"COP",
-        minimumFractionDigits:0
+const cantidadServicios =
+    document.getElementById("cantidadServicios");
+
+const subtotalHTML =
+    document.getElementById("subtotal");
+
+const tarifaHTML =
+    document.getElementById("tarifa");
+
+const totalHTML =
+    document.getElementById("total");
+
+
+// ============================================
+// FORMATO DE PRECIO
+// ============================================
+
+function formatoPrecio(valor) {
+
+    return Number(valor).toLocaleString("es-CO", {
+        style: "currency",
+        currency: "COP",
+        minimumFractionDigits: 0
     });
 
 }
+
 
 // ============================================
 // CARGAR CARRITO
 // ============================================
 
-function cargarCarrito(){
+function cargarCarrito() {
 
-    carrito = JSON.parse(
-        localStorage.getItem("carritoProductos")
-    ) || [];
+    try {
+
+        carrito = JSON.parse(
+            localStorage.getItem("carritoProductos")
+        ) || [];
+
+    } catch (error) {
+
+        console.error(
+            "Error leyendo el carrito:",
+            error
+        );
+
+        carrito = [];
+
+    }
 
     mostrarCarrito();
 
 }
 
+
 // ============================================
 // MOSTRAR CARRITO
 // ============================================
 
-function mostrarCarrito(){
+function mostrarCarrito() {
 
-    if(!contenedorCarrito) return;
+    if (!contenedorCarrito) {
+        return;
+    }
 
     contenedorCarrito.innerHTML = "";
 
-    if(carrito.length === 0){
+
+    if (carrito.length === 0) {
 
         contenedorCarrito.innerHTML = `
+            <div class="mensaje-vacio">
 
-        <div class="mensaje-vacio">
+                <i class="bi bi-cart-x"></i>
 
-            <i class="bi bi-cart-x"></i>
+                <h3>Tu carrito está vacío</h3>
 
-            <h3>Tu carrito est� vac�o</h3>
+                <p>
+                    Agrega productos desde el catálogo.
+                </p>
 
-            <p>
-                Agrega productos desde el cat�logo.
-            </p>
-
-        </div>
-
+            </div>
         `;
 
         actualizarResumen();
 
         return;
-
     }
 
-    carrito.forEach((producto,index)=>{
+
+    carrito.forEach(function (producto, index) {
+
+        const cantidad =
+            Number(producto.cantidad) || 1;
+
+        const precio =
+            Number(producto.precio) || 0;
+
 
         contenedorCarrito.innerHTML += `
 
-        <div class="tarjeta tarjeta-servicio">
+            <div class="tarjeta tarjeta-servicio">
 
-            <img
-                src="${producto.imagen}"
-                class="imagen-servicio"
-                alt="${producto.nombre}">
+                <img
+                    src="${producto.imagen || ""}"
+                    class="imagen-servicio"
+                    alt="${producto.nombre || "Producto"}">
 
-            <div class="info-servicio">
+                <div class="info-servicio">
 
-                <h5 class="nombre-servicio">
+                    <h5 class="nombre-servicio">
+                        ${producto.nombre || "Producto"}
+                    </h5>
 
-                    ${producto.nombre}
+                    <p class="descripcion-servicio">
+                        ${producto.descripcion || ""}
+                    </p>
 
-                </h5>
+                    <span class="etiqueta-servicio">
 
-                <p class="descripcion-servicio">
+                        <i class="bi bi-box"></i>
 
-                    ${producto.descripcion}
+                        Producto
 
-                </p>
+                    </span>
 
-                <span class="etiqueta-servicio">
+                </div>
 
-                    <i class="bi bi-box"></i>
 
-                    Producto
+                <div class="precio-servicio">
 
-                </span>
+                    <strong class="texto-precio">
+                        ${formatoPrecio(precio)}
+                    </strong>
 
-            </div>
+                </div>
 
-            <div class="precio-servicio">
 
-                <strong class="texto-precio">
+                <div class="control-cantidad">
 
-                    ${formatoPrecio(producto.precio)}
+                    <button
+                        type="button"
+                        class="boton-cantidad"
+                        onclick="restarCantidad(${index})">
 
-                </strong>
+                        −
 
-            </div>
+                    </button>
 
-            <div class="control-cantidad">
+
+                    <input
+                        type="text"
+                        class="numero-cantidad"
+                        value="${cantidad}"
+                        readonly>
+
+
+                    <button
+                        type="button"
+                        class="boton-cantidad"
+                        onclick="sumarCantidad(${index})">
+
+                        +
+
+                    </button>
+
+                </div>
+
 
                 <button
-                    class="boton-cantidad"
-                    onclick="restarCantidad(${index})">
+                    type="button"
+                    class="boton-eliminar"
+                    onclick="eliminarProducto(${index})">
 
-                    -
+                    <i class="bi bi-trash"></i>
 
                 </button>
 
-                <input
-                    class="numero-cantidad"
-                    value="${producto.cantidad}"
-                    readonly>
-
-                <button
-                    class="boton-cantidad"
-                    onclick="sumarCantidad(${index})">
-
-                    +
-
-                </button>
-
             </div>
-
-            <button
-                class="boton-eliminar"
-                onclick="eliminarProducto(${index})">
-
-                <i class="bi bi-trash"></i>
-
-            </button>
-
-        </div>
 
         `;
 
     });
 
+
     actualizarResumen();
 
 }
 
+
 // ============================================
-// CANTIDAD
+// SUMAR CANTIDAD
 // ============================================
 
-function sumarCantidad(index){
+function sumarCantidad(index) {
 
-    carrito[index].cantidad++;
+    if (!carrito[index]) {
+        return;
+    }
+
+    const cantidadActual =
+        Number(carrito[index].cantidad) || 1;
+
+    carrito[index].cantidad =
+        cantidadActual + 1;
 
     guardarCarrito();
 
 }
 
-function restarCantidad(index){
 
-    if(carrito[index].cantidad > 1){
+// ============================================
+// RESTAR CANTIDAD
+// ============================================
 
-        carrito[index].cantidad--;
+function restarCantidad(index) {
+
+    if (!carrito[index]) {
+        return;
+    }
+
+    const cantidadActual =
+        Number(carrito[index].cantidad) || 1;
+
+
+    if (cantidadActual > 1) {
+
+        carrito[index].cantidad =
+            cantidadActual - 1;
 
     }
 
+
     guardarCarrito();
 
 }
+
 
 // ============================================
 // ELIMINAR PRODUCTO
 // ============================================
 
-function eliminarProducto(index){
+function eliminarProducto(index) {
 
-    carrito.splice(index,1);
+    if (
+        index < 0 ||
+        index >= carrito.length
+    ) {
+        return;
+    }
+
+    carrito.splice(index, 1);
 
     guardarCarrito();
 
 }
 
+
 // ============================================
 // GUARDAR CARRITO
 // ============================================
 
-function guardarCarrito(){
+function guardarCarrito() {
 
     localStorage.setItem(
         "carritoProductos",
         JSON.stringify(carrito)
     );
 
+
     mostrarCarrito();
 
-    // Actualiza el mini carrito del navbar
-    if(window.mostrarCarritoNavbar){
+
+    if (
+        typeof window.mostrarCarritoNavbar ===
+        "function"
+    ) {
 
         window.mostrarCarritoNavbar();
 
@@ -233,71 +299,97 @@ function guardarCarrito(){
 
 }
 
+
 // ============================================
 // ACTUALIZAR RESUMEN
 // ============================================
 
-function actualizarResumen(){
+function actualizarResumen() {
 
     let subtotal = 0;
     let cantidad = 0;
 
-    carrito.forEach(producto => {
+
+    carrito.forEach(function (producto) {
+
+        const precio =
+            Number(producto.precio) || 0;
+
+        const cantidadProducto =
+            Number(producto.cantidad) || 0;
+
 
         subtotal +=
-            Number(producto.precio) *
-            Number(producto.cantidad);
+            precio * cantidadProducto;
+
 
         cantidad +=
-            Number(producto.cantidad);
+            cantidadProducto;
 
     });
 
-    const tarifa = subtotal * 0.19;
-    const total = subtotal + tarifa;
 
-    if(cantidadServicios){
+    const tarifa =
+        subtotal * 0.19;
 
-        cantidadServicios.textContent = cantidad;
+    const total =
+        subtotal + tarifa;
+
+
+    if (cantidadServicios) {
+
+        cantidadServicios.textContent =
+            cantidad;
 
     }
 
-    if(subtotalHTML){
+
+    if (subtotalHTML) {
 
         subtotalHTML.textContent =
             formatoPrecio(subtotal);
 
     }
 
-    if(tarifaHTML){
+
+    if (tarifaHTML) {
 
         tarifaHTML.textContent =
             formatoPrecio(tarifa);
 
     }
 
-    if(totalHTML){
+
+    if (totalHTML) {
 
         totalHTML.textContent =
             formatoPrecio(total);
 
     }
 
-}  
+}
+
 
 // ============================================
 // VACIAR CARRITO
 // ============================================
 
-function vaciarCarrito(){
+function vaciarCarrito() {
 
     carrito = [];
 
-    localStorage.removeItem("carritoProductos");
+    localStorage.removeItem(
+        "carritoProductos"
+    );
+
 
     mostrarCarrito();
 
-    if(window.mostrarCarritoNavbar){
+
+    if (
+        typeof window.mostrarCarritoNavbar ===
+        "function"
+    ) {
 
         window.mostrarCarritoNavbar();
 
@@ -307,70 +399,118 @@ function vaciarCarrito(){
 
 
 // ============================================
-// VALIDAR LOGIN ANTES DE PAGAR
+// PAGAR PRODUCTOS
 // ============================================
 
-const btnPagar = document.getElementById("btnPagarProductos");
+function pagarProductos() {
 
-if(btnPagar){
+    const usuario =
+        localStorage.getItem(
+            "usuarioLogueado"
+        );
 
-    btnPagar.addEventListener("click", function(e){
 
-        e.preventDefault();
+    // ----------------------------------------
+    // USUARIO NO LOGUEADO
+    // ----------------------------------------
 
-       const usuario = localStorage.getItem("usuarioLogueado");
+    if (!usuario) {
 
-        console.log("Usuario logueado:", usuario);
+        alert(
+            "Debes iniciar sesión para realizar el pago."
+        );
 
-        if(!usuario){
 
-            Swal.fire({text: "? Debes iniciar sesi�n para realizar el pago.", confirmButtonText: "Aceptar"});
+        window.location.href =
+            "../inicio/login.html";
 
-            window.location.href="../inicio/login.html";
 
-            return;
-
-        }
-
-        window.location.href="../pago/pagar.html";
-
-    });
-
-}
-
-// ============================================
-// INICIO
-// ============================================
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    cargarCarrito();
-
-    const btnPagar =
-        document.getElementById("btnPagarProductos");
-
-    if(btnPagar){
-
-        btnPagar.addEventListener("click",function(e){
-
-            e.preventDefault();
-
-            validarPago();
-
-        });
+        return;
 
     }
 
-});
 
+    // ----------------------------------------
+    // CARRITO VACÍO
+    // ----------------------------------------
+
+    if (
+        !carrito ||
+        carrito.length === 0
+    ) {
+
+        alert(
+            "Tu carrito está vacío."
+        );
+
+
+        return;
+
+    }
+
+
+    // ----------------------------------------
+    // IR A PAGAR
+    // ----------------------------------------
+
+    window.location.href =
+        "pagar.html";
+
+}
+
+
+// ============================================
+// INICIALIZACIÓN
+// ============================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        cargarCarrito();
+
+
+        const btnPagar =
+            document.getElementById(
+                "btnPagarProductos"
+            );
+
+
+        if (btnPagar) {
+
+            btnPagar.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    pagarProductos();
+
+                }
+            );
+
+        }
+
+    }
+);
 
 
 // ============================================
 // EXPORTAR FUNCIONES
 // ============================================
 
-window.sumarCantidad = sumarCantidad;
-window.restarCantidad = restarCantidad;
-window.eliminarProducto = eliminarProducto;
-window.vaciarCarrito = vaciarCarrito;
+window.sumarCantidad =
+    sumarCantidad;
+
+window.restarCantidad =
+    restarCantidad;
+
+window.eliminarProducto =
+    eliminarProducto;
+
+window.vaciarCarrito =
+    vaciarCarrito;
+
+window.pagarProductos =
+    pagarProductos;
 

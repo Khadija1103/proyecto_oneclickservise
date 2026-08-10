@@ -323,6 +323,39 @@
 <script src="../js/index_empleado.js"></script>
 ```
 
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.getElementById("btnCerrarSesion").addEventListener("click", function () {
+
+    Swal.fire({
+        title: "¿Cerrar sesión?",
+        text: "Vas a salir del panel del empleado.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, cerrar sesión",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true
+    }).then(function (resultado) {
+
+        if (resultado.isConfirmed) {
+
+            localStorage.removeItem("usuario");
+            localStorage.removeItem("usuarioLogueado");
+            localStorage.removeItem("token");
+
+            window.location.href = "../inicio/index.html";
+        }
+
+    });
+
+});
+</script>
+
 </body>
 
 </html>
+
+

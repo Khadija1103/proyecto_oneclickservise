@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================
@@ -22,32 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const tipoUsuario = document.getElementById("tipoUsuario");
     const servicioGroup = document.getElementById("servicioGroup");
     const servicioSelect = document.getElementById("servicio");
-    const otroServicioGroup = document.getElementById("otroServicioGroup");
-    const otroServicio = document.getElementById("otroServicio");  
 
-        // =========================
-        // MOSTRAR/OCULTAR CAMPO "OTROS"
-        // =========================
-        servicioSelect.addEventListener("change", function () {
-
-            if (this.value === "otros") {
-
-                otroServicioGroup.style.display = "block";
-                otroServicio.required = true;
-
-            } else {
-
-                otroServicioGroup.style.display = "none";
-                otroServicio.required = false;
-                otroServicio.value = "";
-
-            }
-
-            actualizarBotonSubmit();
-
-        });
     // =========================
-    // MOSTRAR/OCULTAR SERVICIO SEG�N TIPO DE USUARIO
+    // MOSTRAR/OCULTAR SERVICIO SEGÚN TIPO DE USUARIO
     // =========================
     tipoUsuario.addEventListener("change", function () {
         if (this.value === "empleado") {
@@ -88,46 +53,46 @@ document.addEventListener("DOMContentLoaded", function () {
     editIndex = editIndex !== null ? Number(editIndex) : null;
     let fotoBase64 = "";
 
-    console.log("Editando �ndice:", editIndex);
+    console.log("Editando índice:", editIndex);
     console.log("Usuarios actuales:", usuarios);
 
     // =========================
-    // CONFIGURACI�N DE VALIDACIONES POR TIPO DE DOCUMENTO
+    // CONFIGURACIÓN DE VALIDACIONES POR TIPO DE DOCUMENTO
     // =========================
     const validacionesDocumento = {
         cedula: {
             regex: /^\d+$/,
             min: 5,
             max: 10,
-            mensaje: "La c�dula debe tener entre 5 y 10 d�gitos num�ricos"
+            mensaje: "La cédula debe tener entre 5 y 10 dígitos numéricos"
         },
         extranjeria: {
             regex: /^[A-Za-z0-9]+$/,
             min: 6,
             max: 11,
-            mensaje: "La c�dula de extranjer�a debe tener entre 6 y 11 caracteres alfanum�ricos"
+            mensaje: "La cédula de extranjería debe tener entre 6 y 11 caracteres alfanuméricos"
         },
         pasaporte: {
             regex: /^[A-Za-z0-9]+$/,
             min: 6,
             max: 20,
-            mensaje: "El pasaporte debe tener entre 6 y 20 caracteres alfanum�ricos"
+            mensaje: "El pasaporte debe tener entre 6 y 20 caracteres alfanuméricos"
         },
         extranjero: {
             regex: /^[A-Za-z0-9]+$/,
             min: 6,
             max: 20,
-            mensaje: "El documento extranjero debe tener entre 6 y 20 caracteres alfanum�ricos"
+            mensaje: "El documento extranjero debe tener entre 6 y 20 caracteres alfanuméricos"
         }
     };
 
     // =========================
-    // CONFIGURACI�N DE VALIDACIONES GENERALES
+    // CONFIGURACIÓN DE VALIDACIONES GENERALES
     // =========================
     const validaciones = {
         tipoDocumento: {
             validar: (valor) => valor !== "",
-            mensaje: "Seleccione un tipo de documento v�lido"
+            mensaje: "Seleccione un tipo de documento válido"
         },
         tipoUsuario: {
             validar: (valor) => valor !== "",
@@ -144,13 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
             mensaje: "Seleccione un servicio"
         },
         nombres: {
-            regex: /^[A-Za-z������������\s]+$/,
+            regex: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
             min: 3,
             max: 15,
             mensaje: "Los nombres deben tener entre 3 y 15 caracteres y solo letras"
         },
         apellidos: {
-            regex: /^[A-Za-z������������\s]+$/,
+            regex: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
             min: 5,
             max: 125,
             mensaje: "Los apellidos deben tener entre 5 y 125 caracteres y solo letras"
@@ -159,22 +124,22 @@ document.addEventListener("DOMContentLoaded", function () {
             regex: /^\d+$/,
             min: 7,
             max: 10,
-            mensaje: "El celular debe tener entre 7 y 10 d�gitos num�ricos"
+            mensaje: "El celular debe tener entre 7 y 10 dígitos numéricos"
         },
         direccion: {
-            regex: /^[A-Za-z0-9������������#\-\s,.]+$/,
+            regex: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ#\-\s,.]+$/,
             min: 5,
             max: 100,
-            mensaje: "Ingrese una direcci�n v�lida (ej: Calle 123 #45-67)"
+            mensaje: "Ingrese una dirección válida (ej: Calle 123 #45-67)"
         },
         correo: {
             regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
             min: 5,
             max: 100,
-            mensaje: "El correo debe tener @ y una extensi�n v�lida"
+            mensaje: "El correo debe tener @ y una extensión válida"
         },
         ciudad: {
-            regex: /^[A-Za-z������������\s]+$/,
+            regex: /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/,
             min: 3,
             max: 30,
             mensaje: "La ciudad debe tener entre 3 y 30 caracteres y solo letras"
@@ -183,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             min: 8,
             max: 100,
-            mensaje: "M�nimo 8 caracteres, may�sculas, min�sculas, n�meros y s�mbolos"
+            mensaje: "Mínimo 8 caracteres, mayúsculas, minúsculas, números y símbolos"
         }
     };
 
@@ -204,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // =========================
-    // ACTUALIZAR BOT�N SUBMIT
+    // ACTUALIZAR BOTÓN SUBMIT
     // =========================
     function actualizarBotonSubmit() {
         const boton = formulario.querySelector('button[type="submit"]');
@@ -242,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =========================
-    // FUNCI�N DE VALIDACI�N
+    // FUNCIÓN DE VALIDACIÓN
     // =========================
     function validarCampo(id) {
         const campo = campos[id];
@@ -254,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (id === 'tipoDocumento') {
             esValido = valor !== "";
-            mensajeError = esValido ? "" : "Seleccione un tipo de documento v�lido";
+            mensajeError = esValido ? "" : "Seleccione un tipo de documento válido";
         }
         else if (id === 'tipoUsuario') {
             esValido = valor !== "";
@@ -302,16 +267,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 const config = validacionesDocumento[tipoSeleccionado];
                 if (!config) {
                     esValido = false;
-                    mensajeError = "Tipo de documento no v�lido";
+                    mensajeError = "Tipo de documento no válido";
                 } else if (valor.length === 0) {
                     esValido = false;
                     mensajeError = "Este campo es obligatorio";
                 } else if (valor.length < config.min) {
                     esValido = false;
-                    mensajeError = `M�nimo ${config.min} caracteres`;
+                    mensajeError = `Mínimo ${config.min} caracteres`;
                 } else if (valor.length > config.max) {
                     esValido = false;
-                    mensajeError = `M�ximo ${config.max} caracteres`;
+                    mensajeError = `Máximo ${config.max} caracteres`;
                 } else if (!config.regex.test(valor)) {
                     esValido = false;
                     mensajeError = config.mensaje;
@@ -327,10 +292,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 mensajeError = "Este campo es obligatorio";
             } else if (valor.length < config.min) {
                 esValido = false;
-                mensajeError = `M�nimo ${config.min} caracteres`;
+                mensajeError = `Mínimo ${config.min} caracteres`;
             } else if (valor.length > config.max) {
                 esValido = false;
-                mensajeError = `M�ximo ${config.max} caracteres`;
+                mensajeError = `Máximo ${config.max} caracteres`;
             } else if (!config.regex.test(valor)) {
                 esValido = false;
                 mensajeError = config.mensaje;
@@ -351,24 +316,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 errorEl.textContent = "";
             }
             if (exitoEl) {
-                exitoEl.textContent = "? V�lido";
+                exitoEl.textContent = "✓ Válido";
                 exitoEl.classList.add("visible");
             }
             if (iconoEl) {
-                iconoEl.textContent = "?";
+                iconoEl.textContent = "✅";
                 iconoEl.classList.add("visible");
             }
         } else {
             input.classList.add("errorInput");
             if (errorEl) {
-                errorEl.textContent = mensajeError || "Campo inv�lido";
+                errorEl.textContent = mensajeError || "Campo inválido";
                 errorEl.classList.add("visible");
             }
             if (exitoEl) {
                 exitoEl.classList.remove("visible");
             }
             if (iconoEl) {
-                iconoEl.textContent = "?";
+                iconoEl.textContent = "❌";
                 iconoEl.classList.add("visible");
             }
         }
@@ -378,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =========================
-    // EVENTOS DE VALIDACI�N
+    // EVENTOS DE VALIDACIÓN
     // =========================
     Object.keys(campos).forEach(id => {
         const input = campos[id].input;
@@ -443,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =========================
-    // FOTO - CON COMPRESI�N
+    // FOTO - CON COMPRESIÓN
     // =========================
     fotoInput.addEventListener("change", function (e) {
         const file = this.files[0];
@@ -451,7 +416,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (file) {
             if (file.size > 2 * 1024 * 1024) {
-                mensajeFoto.textContent = "?? La imagen no debe superar los 2MB";
+                mensajeFoto.textContent = "⚠️ La imagen no debe superar los 2MB";
                 mensajeFoto.style.color = "#e53935";
                 this.value = "";
                 preview.src = "";
@@ -461,7 +426,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const tiposPermitidos = ['image/jpeg', 'image/png', 'image/webp'];
             if (!tiposPermitidos.includes(file.type)) {
-                mensajeFoto.textContent = "?? Solo se permiten JPG, PNG o WEBP";
+                mensajeFoto.textContent = "⚠️ Solo se permiten JPG, PNG o WEBP";
                 mensajeFoto.style.color = "#e53935";
                 this.value = "";
                 preview.src = "";
@@ -469,21 +434,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            mensajeFoto.textContent = "? Procesando imagen...";
+            mensajeFoto.textContent = "⏳ Procesando imagen...";
             mensajeFoto.style.color = "#6C2BD9";
 
             comprimirImagen(file, 300, 300, 0.7, function (imagenComprimida) {
                 fotoBase64 = imagenComprimida;
                 preview.src = imagenComprimida;
-                mensajeFoto.textContent = "? Imagen v�lida y comprimida";
+                mensajeFoto.textContent = "✅ Imagen válida y comprimida";
                 mensajeFoto.style.color = "#43a047";
-                console.log("? Imagen comprimida y guardada en base64");
+                console.log("✅ Imagen comprimida y guardada en base64");
             });
         }
     });
 
     // =========================
-    // FUNCI�N PARA COMPRIMIR IMAGEN
+    // FUNCIÓN PARA COMPRIMIR IMAGEN
     // =========================
     function comprimirImagen(file, maxWidth, maxHeight, quality, callback) {
         const reader = new FileReader();
@@ -541,7 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!todoValido) {
-            mensaje.textContent = "? Por favor, corrija los campos marcados en rojo";
+            mensaje.textContent = "❌ Por favor, corrija los campos marcados en rojo";
             mensaje.className = "error";
             mensaje.style.display = "block";
             return false;
@@ -569,24 +534,24 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         if (existe) {
-            mensaje.textContent = "?? Ya existe un usuario con este n�mero de documento";
+            mensaje.textContent = "⚠️ Ya existe un usuario con este número de documento";
             mensaje.className = "error";
             mensaje.style.display = "block";
             return false;
         }
 
-        const mensajeConfirmacion = `�Desea guardar estos datos?\n\n` +
-            `Tipo: ${usuario.tipoDocumento}\n` +
-            `Documento: ${usuario.documento}\n` +
-            `Nombres: ${usuario.nombres}\n` +
-            `Apellidos: ${usuario.apellidos}\n` +
-            `Celular: ${usuario.celular}\n` +
-            `?? Direcci�n: ${usuario.direccion}\n` +
-            `Correo: ${usuario.correo}\n` +
-            `Ciudad: ${usuario.ciudad}\n` +
-            `Tipo: ${usuario.tipoUsuario === 'cliente' ? 'Cliente' : 'Empleado'}\n` +
-            `${usuario.tipoUsuario === 'empleado' ? `Servicio: ${usuario.servicio.charAt(0).toUpperCase() + usuario.servicio.slice(1)}` : ''}\n` +
-            `Foto: ${fotoBase64 ? 'Seleccionada' : 'Sin foto'}`;
+        const mensajeConfirmacion = `¿Desea guardar estos datos?\n\n` +
+            `📋 Tipo: ${usuario.tipoDocumento}\n` +
+            `📄 Documento: ${usuario.documento}\n` +
+            `👤 Nombres: ${usuario.nombres}\n` +
+            `👤 Apellidos: ${usuario.apellidos}\n` +
+            `📱 Celular: ${usuario.celular}\n` +
+            `🏠 Dirección: ${usuario.direccion}\n` +
+            `📧 Correo: ${usuario.correo}\n` +
+            `🏙️ Ciudad: ${usuario.ciudad}\n` +
+            `👥 Tipo: ${usuario.tipoUsuario === 'cliente' ? '👤 Cliente' : '👔 Empleado'}\n` +
+            `${usuario.tipoUsuario === 'empleado' ? `🔧 Servicio: ${usuario.servicio.charAt(0).toUpperCase() + usuario.servicio.slice(1)}` : ''}\n` +
+            `🖼️ Foto: ${fotoBase64 ? '✅ Seleccionada' : '❌ Sin foto'}`;
 
         if (!confirm(mensajeConfirmacion)) {
             return false;
@@ -602,9 +567,9 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
 
         const verificar = JSON.parse(localStorage.getItem("usuarios"));
-        console.log("? Datos guardados en localStorage:", verificar);
+        console.log("✅ Datos guardados en localStorage:", verificar);
 
-        mensaje.textContent = "? Datos guardados correctamente";
+        mensaje.textContent = "✅ Datos guardados correctamente";
         mensaje.className = "exito";
         mensaje.style.display = "block";
 
@@ -620,27 +585,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================
     formulario.addEventListener("submit", function (e) {
         e.preventDefault();
-        console.log("? Formulario enviado");
+        console.log("✅ Formulario enviado");
         guardarDatos();
     });
 
     // =========================
-    // BOT�N ELIMINAR (en el formulario)
+    // BOTÓN ELIMINAR (en el formulario)
     // =========================
     const eliminarBtn = document.getElementById("eliminarUsuario");
     if (eliminarBtn) {
         eliminarBtn.addEventListener("click", function (e) {
             e.preventDefault();
             if (editIndex === null) {
-                Swal.fire({text: "No hay usuario seleccionado para eliminar", confirmButtonText: "Aceptar"});
+                alert("No hay usuario seleccionado para eliminar");
                 return;
             }
             const usuario = usuarios[editIndex];
             const nombreUsuario = `${usuario.nombres} ${usuario.apellidos}`;
 
-            // Confirmaci�n doble para eliminar desde el formulario
-            if (confirm(`?? �Desea eliminar el usuario "${nombreUsuario}"?\n\nEsta acci�n eliminar� permanentemente todos sus datos.`)) {
-                if (confirm(`? �Est� SEGURO de eliminar a "${nombreUsuario}"?\n\nEsta acci�n NO se puede deshacer.`)) {
+            // Confirmación doble para eliminar desde el formulario
+            if (confirm(`⚠️ ¿Desea eliminar el usuario "${nombreUsuario}"?\n\nEsta acción eliminará permanentemente todos sus datos.`)) {
+                if (confirm(`❌ ¿Está SEGURO de eliminar a "${nombreUsuario}"?\n\nEsta acción NO se puede deshacer.`)) {
                     usuarios.splice(editIndex, 1);
                     localStorage.setItem("usuarios", JSON.stringify(usuarios));
                     localStorage.removeItem("usuarioEditar");
@@ -648,29 +613,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     preview.src = "";
                     fotoBase64 = "";
                     servicioGroup.style.display = "none";
-                    mensaje.textContent = `? Usuario "${nombreUsuario}" eliminado correctamente`;
+                    mensaje.textContent = `✅ Usuario "${nombreUsuario}" eliminado correctamente`;
                     mensaje.className = "exito";
                     mensaje.style.display = "block";
                     setTimeout(() => {
                         window.location.href = "perfil_administrador.html";
                     }, 1500);
                 } else {
-                    Swal.fire({text: `? Eliminaci�n cancelada para "${nombreUsuario}"`, confirmButtonText: "Aceptar"});
+                    alert(`❌ Eliminación cancelada para "${nombreUsuario}"`);
                 }
             } else {
-                Swal.fire({text: `? Eliminaci�n cancelada para "${nombreUsuario}"`, confirmButtonText: "Aceptar"});
+                alert(`❌ Eliminación cancelada para "${nombreUsuario}"`);
             }
         });
     }
 
     // =========================
-    // BOT�N VOLVER CON CONFIRMACI�N
+    // BOTÓN VOLVER CON CONFIRMACIÓN
     // =========================
     const volverBtn = document.querySelector(".volver");
     if (volverBtn) {
         volverBtn.addEventListener("click", function (e) {
             e.preventDefault();
-            if (confirm("?? �Desea cancelar y perder los cambios realizados?")) {
+            if (confirm("⚠️ ¿Desea cancelar y perder los cambios realizados?")) {
                 localStorage.removeItem("usuarioEditar");
                 window.location.href = "perfil_administrador.html";
             }
@@ -678,4 +643,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
-

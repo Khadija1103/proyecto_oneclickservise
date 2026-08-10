@@ -24,6 +24,48 @@ body{
 }
 
 
+/* =====================================================
+   BOTÓN VOLVER AL INICIO
+   ===================================================== */
+
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    margin-bottom: 20px;
+    padding: 10px 20px;
+
+    background: #6C2BD9;
+    color: #ffffff;
+
+    border-radius: 25px;
+    border: none;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #4C1D95;
+    color: #ffffff;
+
+    transform: translateX(-3px);
+
+    box-shadow: 0 6px 15px rgba(76, 29, 149, 0.20);
+}
+
+.btn-volver:active {
+    transform: translateX(0);
+}
+
 /* HEADER PERFIL */
 
 .perfil-header{

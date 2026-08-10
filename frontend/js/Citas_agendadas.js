@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded",function(){
 
     mostrarServicios();
@@ -54,11 +42,11 @@ function mostrarServicios(){
 
         <div class="sin-citas">
 
-            <span class="icono-sin-citas">??</span>
+            <span class="icono-sin-citas">📅</span>
 
             <h2>No hay servicios agendados</h2>
 
-            <p>Cuando agendes un servicio aparecer� aqu�.</p>
+            <p>Cuando agendes un servicio aparecerá aquí.</p>
 
         </div>
 
@@ -146,25 +134,25 @@ function mostrarServicios(){
 
             <div class="info">
 
-                <p><strong>Cliente:</strong> ${cita.nombre||""} ${cita.apellido||""}</p>
+                <p><strong>👤 Cliente:</strong> ${cita.nombre||""} ${cita.apellido||""}</p>
 
-                <p><strong>Fecha:</strong> ${cita.fecha||""} - ${cita.hora||""}</p>
+                <p><strong>📅 Fecha:</strong> ${cita.fecha||""} - ${cita.hora||""}</p>
 
-                <p><strong>Profesional:</strong> ${cita.profesional||""}</p>
+                <p><strong>👨‍🔧 Profesional:</strong> ${cita.profesional||""}</p>
 
-                <p><strong>Correo:</strong> ${cita.correo||""}</p>
+                <p><strong>📧 Correo:</strong> ${cita.correo||""}</p>
 
-                <p><strong>?? Tel�fono:</strong> ${cita.telefono||""}</p>
+                <p><strong>📞 Teléfono:</strong> ${cita.telefono||""}</p>
 
-                <p><strong>?? Direcci�n:</strong> ${cita.direccion||""}, ${cita.ciudad||""}</p>
+                <p><strong>📍 Dirección:</strong> ${cita.direccion||""}, ${cita.ciudad||""}</p>
 
                 <p>
 
-                    <strong>Tipo:</strong> ${cita.tipo||""}
+                    <strong>📋 Tipo:</strong> ${cita.tipo||""}
 
                     |
 
-                    <strong>Jornada:</strong> ${cita.jornada||""}
+                    <strong>🕒 Jornada:</strong> ${cita.jornada||""}
 
                 </p>
 
@@ -220,4 +208,3 @@ function actualizarTotal(){
     }
 
 }
-

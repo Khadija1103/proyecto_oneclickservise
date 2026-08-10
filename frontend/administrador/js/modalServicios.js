@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 // =========================
 // VARIABLES GLOBALES
 // =========================
@@ -19,7 +7,7 @@ let textoBusqueda = "";
 let indiceServicioEditar = null;
 let modoCatalogo = false;
 
-// Detectar si estamos en modo cat·logo (por la URL o por un ID)
+// Detectar si estamos en modo cat√°logo (por la URL o por un ID)
 if (document.getElementById("catalogoMode") !== null) {
     modoCatalogo = true;
 }
@@ -32,14 +20,14 @@ const contadorTotal = document.getElementById("totalCount");
 const contadorVisibles = document.getElementById("visibleCount");
 const buscadorServicios = document.getElementById("searchInput");
 
-// Botones principales (solo en modo administraciÛn)
+// Botones principales (solo en modo administraci√≥n)
 const botonAgregarServicio = document.getElementById("btnAgregarServicio");
 const botonFiltroTodos = document.getElementById("filterAll");
 const botonFiltroActivos = document.getElementById("filterActive");
 const botonFiltroInactivos = document.getElementById("filterInactive");
 const botonLimpiarFiltros = document.getElementById("clearFilters");
 
-// Ventanas modales (solo en modo administraciÛn)
+// Ventanas modales (solo en modo administraci√≥n)
 const modalAgregarServicio = document.getElementById("modalAgregarServicio");
 const cerrarModalAgregar = document.getElementById("cerrarModalAgregar");
 const formularioAgregarServicio = document.getElementById("formularioAgregarServicio");
@@ -47,36 +35,36 @@ const modalEditarServicio = document.getElementById("modalEditarServicio");
 const cerrarModalEditar = document.getElementById("cerrarModalEditar");
 const formularioEditarServicio = document.getElementById("formularioEditarServicio");
 
-// Elementos del cat·logo
+// Elementos del cat√°logo
 const tituloCatalogo = document.getElementById("tituloCatalogo");
 const subtituloCatalogo = document.getElementById("subtituloCatalogo");
 
 // =========================
-// CONFIGURACI”N DE VALIDACIONES
+// CONFIGURACI√ìN DE VALIDACIONES
 // =========================
 const validacionesServicio = {
     nombre: {
-        regex: /^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]+$/,
+        regex: /^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]+$/,
         min: 4,
         max: 30,
         mensaje: "El nombre debe tener entre 4 y 30 caracteres y solo letras"
     },
     descripcion: {
-        regex: /^[A-Za-z0-9¡…Õ”⁄·ÈÌÛ˙Ò—\s.,;:!?\-]+$/,
+        regex: /^[A-Za-z0-9√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s.,;:!?\-]+$/,
         min: 50,
         max: 1000,
-        mensaje: "La descripciÛn debe tener entre 50 y 1000 caracteres y solo letras o n˙meros"
+        mensaje: "La descripci√≥n debe tener entre 50 y 1000 caracteres y solo letras o n√∫meros"
     },
     precio: {
         regex: /^\d+$/,
         min: 1,
         max: 99999999,
-        mensaje: "El precio solo debe contener n˙meros"
+        mensaje: "El precio solo debe contener n√∫meros"
     }
 };
 
 // =========================
-// FUNCIONES DE COMPRESI”N DE IM¡GENES (NUEVO)
+// FUNCIONES DE COMPRESI√ìN DE IM√ÅGENES (NUEVO)
 // =========================
 
 function comprimirImagen(base64, calidad = 0.5, maxWidth = 500, maxHeight = 500) {
@@ -87,7 +75,7 @@ function comprimirImagen(base64, calidad = 0.5, maxWidth = 500, maxHeight = 500)
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Calcular dimensiones manteniendo proporciÛn
+            // Calcular dimensiones manteniendo proporci√≥n
             let width = img.width;
             let height = img.height;
             
@@ -112,7 +100,7 @@ function comprimirImagen(base64, calidad = 0.5, maxWidth = 500, maxHeight = 500)
 }
 
 // =========================
-// FUNCI”N PARA VERIFICAR ESPACIO EN LOCALSTORAGE
+// FUNCI√ìN PARA VERIFICAR ESPACIO EN LOCALSTORAGE
 // =========================
 function verificarEspacioStorage() {
     let total = 0;
@@ -130,14 +118,14 @@ function verificarEspacioStorage() {
 }
 
 // =========================
-// FUNCI”N PARA LIMPIAR IM¡GENES ANTIGUAS
+// FUNCI√ìN PARA LIMPIAR IM√ÅGENES ANTIGUAS
 // =========================
 function limpiarImagenesAntiguas() {
     const espacio = verificarEspacioStorage();
     if (espacio.porcentaje > 75) {
-        console.warn('?? Almacenamiento casi lleno. Limpiando im·genes antiguas...');
+        console.warn('‚ö†Ô∏è Almacenamiento casi lleno. Limpiando im√°genes antiguas...');
         
-        // Ordenar servicios por fecha (los m·s antiguos primero)
+        // Ordenar servicios por fecha (los m√°s antiguos primero)
         const serviciosConImagen = listaServicios.filter(s => s.imagen && s.imagen.length > 1000);
         if (serviciosConImagen.length > 10) {
             serviciosConImagen.sort((a, b) => {
@@ -146,11 +134,11 @@ function limpiarImagenesAntiguas() {
                 return fechaA - fechaB;
             });
             
-            // Eliminar im·genes de los servicios m·s antiguos (dejar solo los 10 m·s recientes)
+            // Eliminar im√°genes de los servicios m√°s antiguos (dejar solo los 10 m√°s recientes)
             const eliminar = serviciosConImagen.slice(0, serviciosConImagen.length - 10);
             eliminar.forEach(s => {
                 s.imagen = ''; // Limpiar imagen
-                console.log(`?? Imagen eliminada del servicio: ${s.nombre}`);
+                console.log(`üßπ Imagen eliminada del servicio: ${s.nombre}`);
             });
             
             localStorage.setItem("listaServicios", JSON.stringify(listaServicios));
@@ -159,7 +147,7 @@ function limpiarImagenesAntiguas() {
 }
 
 // =========================
-// FUNCIONES DE VALIDACI”N
+// FUNCIONES DE VALIDACI√ìN
 // =========================
 
 function validarCampo(input, config, id) {
@@ -176,10 +164,10 @@ function validarCampo(input, config, id) {
         mensajeError = "Este campo es obligatorio";
     } else if (valor.length < config.min) {
         esValido = false;
-        mensajeError = `MÌnimo ${config.min} caracteres`;
+        mensajeError = `M√≠nimo ${config.min} caracteres`;
     } else if (valor.length > config.max) {
         esValido = false;
-        mensajeError = `M·ximo ${config.max} caracteres`;
+        mensajeError = `M√°ximo ${config.max} caracteres`;
     } else if (!config.regex.test(valor)) {
         esValido = false;
         mensajeError = config.mensaje;
@@ -194,11 +182,11 @@ function validarCampo(input, config, id) {
             errorEl.textContent = "";
         }
         if (exitoEl) {
-            exitoEl.textContent = "? V·lido";
+            exitoEl.textContent = "‚úì V√°lido";
             exitoEl.classList.add("visible");
         }
         if (iconoEl) {
-            iconoEl.textContent = "?";
+            iconoEl.textContent = "‚úÖ";
             iconoEl.classList.add("visible");
         }
     } else {
@@ -211,7 +199,7 @@ function validarCampo(input, config, id) {
             exitoEl.classList.remove("visible");
         }
         if (iconoEl) {
-            iconoEl.textContent = "?";
+            iconoEl.textContent = "‚ùå";
             iconoEl.classList.add("visible");
         }
     }
@@ -228,19 +216,19 @@ function bloquearLetrasPrecio(input) {
             e.preventDefault();
             const errorEl = document.getElementById('error-precioAgregar');
             if (errorEl) {
-                errorEl.textContent = "El precio solo permite n˙meros";
+                errorEl.textContent = "El precio solo permite n√∫meros";
                 errorEl.classList.add('visible');
             }
         }
     });
 }
 
-// Bloquear n˙meros en nombre
+// Bloquear n√∫meros en nombre
 function bloquearNumerosNombre(input, idError) {
     input.addEventListener('keypress', function(e) {
         const charCode = e.which || e.keyCode;
         const char = String.fromCharCode(charCode);
-        if (!/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙Ò—\s]$/.test(char)) {
+        if (!/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s]$/.test(char)) {
             e.preventDefault();
             const errorEl = document.getElementById(idError);
             if (errorEl) {
@@ -251,16 +239,16 @@ function bloquearNumerosNombre(input, idError) {
     });
 }
 
-// Bloquear caracteres especiales en descripciÛn
+// Bloquear caracteres especiales en descripci√≥n
 function bloquearCaracteresEspecialesDescripcion(input, idError) {
     input.addEventListener('keypress', function(e) {
         const charCode = e.which || e.keyCode;
         const char = String.fromCharCode(charCode);
-        if (!/^[A-Za-z0-9¡…Õ”⁄·ÈÌÛ˙Ò—\s.,;:!?\-]$/.test(char)) {
+        if (!/^[A-Za-z0-9√Å√â√ç√ì√ö√°√©√≠√≥√∫√±√ë\s.,;:!?\-]$/.test(char)) {
             e.preventDefault();
             const errorEl = document.getElementById(idError);
             if (errorEl) {
-                errorEl.textContent = "La descripciÛn solo permite letras, n˙meros y signos de puntuaciÛn";
+                errorEl.textContent = "La descripci√≥n solo permite letras, n√∫meros y signos de puntuaci√≥n";
                 errorEl.classList.add('visible');
             }
         }
@@ -268,7 +256,7 @@ function bloquearCaracteresEspecialesDescripcion(input, idError) {
 }
 
 // =========================
-// MEN⁄
+// MEN√ö
 // =========================
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
@@ -354,7 +342,7 @@ if (!modoCatalogo) {
                         exitoEl.classList.remove("visible");
                     }
                     if (iconoEl) {
-                        iconoEl.textContent = "?";
+                        iconoEl.textContent = "‚ùå";
                         iconoEl.classList.add("visible");
                     }
                     return;
@@ -370,7 +358,7 @@ if (!modoCatalogo) {
                         exitoEl.classList.remove("visible");
                     }
                     if (iconoEl) {
-                        iconoEl.textContent = "?";
+                        iconoEl.textContent = "‚ùå";
                         iconoEl.classList.add("visible");
                     }
                     return;
@@ -381,11 +369,11 @@ if (!modoCatalogo) {
                     errorEl.textContent = "";
                 }
                 if (exitoEl) {
-                    exitoEl.textContent = "? Imagen v·lida";
+                    exitoEl.textContent = "‚úì Imagen v√°lida";
                     exitoEl.classList.add("visible");
                 }
                 if (iconoEl) {
-                    iconoEl.textContent = "?";
+                    iconoEl.textContent = "‚úÖ";
                     iconoEl.classList.add("visible");
                 }
             } else {
@@ -398,7 +386,7 @@ if (!modoCatalogo) {
                     exitoEl.classList.remove("visible");
                 }
                 if (iconoEl) {
-                    iconoEl.textContent = "?";
+                    iconoEl.textContent = "‚ùå";
                     iconoEl.classList.add("visible");
                 }
             }
@@ -475,7 +463,7 @@ if (!modoCatalogo) {
                         exitoEl.classList.remove("visible");
                     }
                     if (iconoEl) {
-                        iconoEl.textContent = "?";
+                        iconoEl.textContent = "‚ùå";
                         iconoEl.classList.add("visible");
                     }
                     return;
@@ -491,7 +479,7 @@ if (!modoCatalogo) {
                         exitoEl.classList.remove("visible");
                     }
                     if (iconoEl) {
-                        iconoEl.textContent = "?";
+                        iconoEl.textContent = "‚ùå";
                         iconoEl.classList.add("visible");
                     }
                     return;
@@ -502,11 +490,11 @@ if (!modoCatalogo) {
                     errorEl.textContent = "";
                 }
                 if (exitoEl) {
-                    exitoEl.textContent = "? Imagen v·lida";
+                    exitoEl.textContent = "‚úì Imagen v√°lida";
                     exitoEl.classList.add("visible");
                 }
                 if (iconoEl) {
-                    iconoEl.textContent = "?";
+                    iconoEl.textContent = "‚úÖ";
                     iconoEl.classList.add("visible");
                 }
             }
@@ -585,7 +573,7 @@ function validarFormularioAgregar() {
             exitoImagen.classList.remove("visible");
         }
         if (iconoImagen) {
-            iconoImagen.textContent = "?";
+            iconoImagen.textContent = "‚ùå";
             iconoImagen.classList.add("visible");
         }
         return false;
@@ -601,7 +589,7 @@ function validarFormularioAgregar() {
                 exitoImagen.classList.remove("visible");
             }
             if (iconoImagen) {
-                iconoImagen.textContent = "?";
+                iconoImagen.textContent = "‚ùå";
                 iconoImagen.classList.add("visible");
             }
             return false;
@@ -617,7 +605,7 @@ function validarFormularioAgregar() {
                 exitoImagen.classList.remove("visible");
             }
             if (iconoImagen) {
-                iconoImagen.textContent = "?";
+                iconoImagen.textContent = "‚ùå";
                 iconoImagen.classList.add("visible");
             }
             return false;
@@ -629,11 +617,11 @@ function validarFormularioAgregar() {
             errorImagen.textContent = "";
         }
         if (exitoImagen) {
-            exitoImagen.textContent = "? Imagen v·lida";
+            exitoImagen.textContent = "‚úì Imagen v√°lida";
             exitoImagen.classList.add("visible");
         }
         if (iconoImagen) {
-            iconoImagen.textContent = "?";
+            iconoImagen.textContent = "‚úÖ";
             iconoImagen.classList.add("visible");
         }
     }
@@ -668,7 +656,7 @@ function renderizarServicios() {
     let serviciosFiltrados;
 
     if (modoCatalogo) {
-        // Modo CAT¡LOGO: solo mostrar servicios activos
+        // Modo CAT√ÅLOGO: solo mostrar servicios activos
         serviciosFiltrados = listaServicios.filter(servicio => {
             const coincideBusqueda =
                 servicio.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) ||
@@ -676,7 +664,7 @@ function renderizarServicios() {
             return servicio.activo === true && coincideBusqueda;
         });
     } else {
-        // Modo ADMINISTRACI”N: mostrar seg˙n filtros
+        // Modo ADMINISTRACI√ìN: mostrar seg√∫n filtros
         serviciosFiltrados = listaServicios.filter(servicio => {
             const coincideBusqueda =
                 servicio.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()) ||
@@ -696,12 +684,12 @@ function renderizarServicios() {
     // Mostrar mensaje si no hay resultados
     if (serviciosFiltrados.length === 0) {
         const mensaje = modoCatalogo ? 
-            "?? No hay servicios disponibles en el cat·logo." :
-            "?? No se encontraron servicios. Intenta cambiar el filtro o agregar uno nuevo.";
+            "üìã No hay servicios disponibles en el cat√°logo." :
+            "üìã No se encontraron servicios. Intenta cambiar el filtro o agregar uno nuevo.";
         
         contenedorServicios.innerHTML = `
             <div class="mensajeSinServicios" style="grid-column:1/-1;text-align:center;padding:40px;">
-                <h3>?? ${mensaje}</h3>
+                <h3>üìã ${mensaje}</h3>
                 ${modoCatalogo ? '<p>Pronto tendremos nuevos servicios disponibles.</p>' : '<p>Intenta cambiar el filtro o agregar uno nuevo.</p>'}
             </div>
         `;
@@ -714,7 +702,7 @@ function renderizarServicios() {
         tarjeta.className = "col-lg-6 col-md-6 col-12";
 
         if (modoCatalogo) {
-            // MODO CAT¡LOGO - Solo mostrar informaciÛn, sin botones de administraciÛn
+            // MODO CAT√ÅLOGO - Solo mostrar informaci√≥n, sin botones de administraci√≥n
             tarjeta.innerHTML = `
                 <div class="service-card card-activo catalogo-card">
                     <div class="row align-items-center">
@@ -728,14 +716,14 @@ function renderizarServicios() {
                             <p class="service-card-desc">${servicio.descripcion}</p>
                             <div class="service-card-price">${formatearPrecio(servicio.precio)}</div>
                             <div class="mt-3">
-                                <span class="badge bg-success">? Disponible</span>
+                                <span class="badge bg-success">‚úÖ Disponible</span>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
         } else {
-            // MODO ADMINISTRACI”N - Mostrar con botones de ediciÛn y estado
+            // MODO ADMINISTRACI√ìN - Mostrar con botones de edici√≥n y estado
             const iconoToggle = servicio.activo ?
                 '<i class="bi bi-toggle-on toggle-icon active"></i>' :
                 '<i class="bi bi-toggle-off toggle-icon inactive"></i>';
@@ -774,22 +762,22 @@ function renderizarServicios() {
 }
 
 // =========================
-// CONFIGURAR MODO CAT¡LOGO
+// CONFIGURAR MODO CAT√ÅLOGO
 // =========================
 function configurarModoCatalogo() {
     if (modoCatalogo) {
-        // Cambiar tÌtulo y subtÌtulo
-        if (tituloCatalogo) tituloCatalogo.textContent = "?? Nuestros Servicios";
+        // Cambiar t√≠tulo y subt√≠tulo
+        if (tituloCatalogo) tituloCatalogo.textContent = "üåü Nuestros Servicios";
         if (subtituloCatalogo) subtituloCatalogo.textContent = "Encuentra el servicio que necesitas";
         
-        // Ocultar elementos de administraciÛn
+        // Ocultar elementos de administraci√≥n
         if (botonAgregarServicio) botonAgregarServicio.style.display = "none";
         if (botonFiltroTodos) botonFiltroTodos.style.display = "none";
         if (botonFiltroActivos) botonFiltroActivos.style.display = "none";
         if (botonFiltroInactivos) botonFiltroInactivos.style.display = "none";
         if (botonLimpiarFiltros) botonLimpiarFiltros.style.display = "none";
         
-        // Ocultar contadores de administraciÛn
+        // Ocultar contadores de administraci√≥n
         if (contadorTotal && contadorTotal.parentElement) {
             contadorTotal.parentElement.style.display = "none";
         }
@@ -797,7 +785,7 @@ function configurarModoCatalogo() {
             contadorVisibles.parentElement.style.display = "none";
         }
         
-        // Agregar estilos de cat·logo
+        // Agregar estilos de cat√°logo
         const style = document.createElement('style');
         style.textContent = `
             .catalogo-card {
@@ -859,7 +847,7 @@ if (!modoCatalogo && cerrarModalAgregar) {
 }
 
 // =========================
-// GUARDAR NUEVO SERVICIO (MODIFICADO CON COMPRESI”N)
+// GUARDAR NUEVO SERVICIO (MODIFICADO CON COMPRESI√ìN)
 // =========================
 if (!modoCatalogo && formularioAgregarServicio) {
     formularioAgregarServicio.addEventListener("submit", async function(evento) {
@@ -868,7 +856,7 @@ if (!modoCatalogo && formularioAgregarServicio) {
         if (!validarFormularioAgregar()) {
             const mensaje = document.getElementById("mensajeAgregar");
             if (mensaje) {
-                mensaje.textContent = "? Por favor, corrija los campos marcados en rojo";
+                mensaje.textContent = "‚ùå Por favor, corrija los campos marcados en rojo";
                 mensaje.className = "error";
                 mensaje.style.display = "block";
             }
@@ -883,11 +871,11 @@ if (!modoCatalogo && formularioAgregarServicio) {
         // Obtener imagen Base64 original
         let imagenBase64 = await convertirImagenBase64(archivoImagen);
         
-        // COMPRIMIR LA IMAGEN - Esto reduce el tamaÒo dr·sticamente
+        // COMPRIMIR LA IMAGEN - Esto reduce el tama√±o dr√°sticamente
         imagenBase64 = await comprimirImagen(imagenBase64, 0.5, 500, 500);
         
-        // Calcular tamaÒo de la imagen comprimida
-        const tamaÒoKB = Math.round(imagenBase64.length / 1024);
+        // Calcular tama√±o de la imagen comprimida
+        const tama√±oKB = Math.round(imagenBase64.length / 1024);
 
         const nuevoServicio = {
             id: Date.now().toString(),
@@ -898,11 +886,11 @@ if (!modoCatalogo && formularioAgregarServicio) {
             activo: true
         };
 
-        const mensajeConfirmacion = `øDesea guardar este servicio?\n\n` +
-            `?? Nombre: ${nuevoServicio.nombre}\n` +
-            `?? DescripciÛn: ${nuevoServicio.descripcion.substring(0, 50)}...\n` +
-            `?? Precio: ${formatearPrecio(nuevoServicio.precio)}\n` +
-            `?? TamaÒo imagen: ${tamaÒoKB} KB (comprimida)`;
+        const mensajeConfirmacion = `¬øDesea guardar este servicio?\n\n` +
+            `üìã Nombre: ${nuevoServicio.nombre}\n` +
+            `üìù Descripci√≥n: ${nuevoServicio.descripcion.substring(0, 50)}...\n` +
+            `üí∞ Precio: ${formatearPrecio(nuevoServicio.precio)}\n` +
+            `üì∑ Tama√±o imagen: ${tama√±oKB} KB (comprimida)`;
 
         if (!confirm(mensajeConfirmacion)) {
             return;
@@ -911,7 +899,7 @@ if (!modoCatalogo && formularioAgregarServicio) {
         // Verificar espacio antes de guardar
         const espacio = verificarEspacioStorage();
         if (espacio.porcentaje > 80) {
-            Swal.fire({text: '?? El almacenamiento est· casi lleno. Se limpiar·n im·genes antiguas.', confirmButtonText: "Aceptar"});
+            alert('‚ö†Ô∏è El almacenamiento est√° casi lleno. Se limpiar√°n im√°genes antiguas.');
             limpiarImagenesAntiguas();
         }
 
@@ -920,7 +908,7 @@ if (!modoCatalogo && formularioAgregarServicio) {
 
         const mensaje = document.getElementById("mensajeAgregar");
         if (mensaje) {
-            mensaje.textContent = `? Servicio guardado correctamente (Imagen: ${tamaÒoKB} KB)`;
+            mensaje.textContent = `‚úÖ Servicio guardado correctamente (Imagen: ${tama√±oKB} KB)`;
             mensaje.className = "exito";
             mensaje.style.display = "block";
         }
@@ -1000,7 +988,7 @@ if (!modoCatalogo && cerrarModalEditar) {
 }
 
 // =========================
-// GUARDAR EDICI”N (MODIFICADO CON COMPRESI”N)
+// GUARDAR EDICI√ìN (MODIFICADO CON COMPRESI√ìN)
 // =========================
 if (!modoCatalogo && formularioEditarServicio) {
     formularioEditarServicio.addEventListener("submit", async function(evento) {
@@ -1011,7 +999,7 @@ if (!modoCatalogo && formularioEditarServicio) {
         if (!validarFormularioEditar()) {
             const mensaje = document.getElementById("mensajeEditar");
             if (mensaje) {
-                mensaje.textContent = "? Por favor, corrija los campos marcados en rojo";
+                mensaje.textContent = "‚ùå Por favor, corrija los campos marcados en rojo";
                 mensaje.className = "error";
                 mensaje.style.display = "block";
             }
@@ -1031,10 +1019,10 @@ if (!modoCatalogo && formularioEditarServicio) {
             servicio.imagen = imagenBase64;
         }
 
-        const mensajeConfirmacion = `øDesea guardar los cambios del servicio?\n\n` +
-            `?? Nombre: ${servicio.nombre}\n` +
-            `?? DescripciÛn: ${servicio.descripcion.substring(0, 50)}...\n` +
-            `?? Precio: ${formatearPrecio(servicio.precio)}`;
+        const mensajeConfirmacion = `¬øDesea guardar los cambios del servicio?\n\n` +
+            `üìã Nombre: ${servicio.nombre}\n` +
+            `üìù Descripci√≥n: ${servicio.descripcion.substring(0, 50)}...\n` +
+            `üí∞ Precio: ${formatearPrecio(servicio.precio)}`;
 
         if (!confirm(mensajeConfirmacion)) {
             return;
@@ -1044,7 +1032,7 @@ if (!modoCatalogo && formularioEditarServicio) {
 
         const mensaje = document.getElementById("mensajeEditar");
         if (mensaje) {
-            mensaje.textContent = "? Servicio actualizado correctamente";
+            mensaje.textContent = "‚úÖ Servicio actualizado correctamente";
             mensaje.className = "exito";
             mensaje.style.display = "block";
         }
@@ -1124,14 +1112,14 @@ window.cambiarEstadoServicio = function(idServicio) {
     const estadoActual = servicio.activo ? "Activo" : "Inactivo";
     const nuevoEstado = servicio.activo ? "Inactivo" : "Activo";
 
-    if (confirm(`?? øDesea cambiar el estado del servicio "${servicio.nombre}"?\n\n` +
+    if (confirm(`‚ö†Ô∏è ¬øDesea cambiar el estado del servicio "${servicio.nombre}"?\n\n` +
             `Estado actual: ${estadoActual}\n` +
             `Nuevo estado: ${nuevoEstado}`)) {
 
         servicio.activo = !servicio.activo;
         localStorage.setItem("listaServicios", JSON.stringify(listaServicios));
         
-        Swal.fire({text: `? Servicio "${servicio.nombre}" ahora est· ${servicio.activo ? "Activo" : "Inactivo"}`, confirmButtonText: "Aceptar"});
+        alert(`‚úÖ Servicio "${servicio.nombre}" ahora est√° ${servicio.activo ? "Activo" : "Inactivo"}`);
         renderizarServicios();
     }
 };
@@ -1151,10 +1139,10 @@ if (!modoCatalogo) {
 }
 
 // =========================
-// INICIALIZACI”N
+// INICIALIZACI√ìN
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
-    // Configurar modo cat·logo si es necesario
+    // Configurar modo cat√°logo si es necesario
     configurarModoCatalogo();
     
     if (!modoCatalogo) {
@@ -1179,22 +1167,22 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarServicios();
     actualizarContadores();
     
-    // Mostrar informaciÛn de almacenamiento
+    // Mostrar informaci√≥n de almacenamiento
     if (!modoCatalogo) {
         const espacio = verificarEspacioStorage();
-        console.log(`? Sistema de servicios inicializado - Modo: ADMINISTRACI”N`);
-        console.log(`?? Total de servicios: ${listaServicios.length}`);
-        console.log(`?? Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
-        console.log(`?? Espacio usado: ${Math.round(espacio.usado / 1024 / 1024)} MB de 5 MB`);
-        console.log(`?? Porcentaje: ${Math.round(espacio.porcentaje)}%`);
+        console.log(`‚úÖ Sistema de servicios inicializado - Modo: ADMINISTRACI√ìN`);
+        console.log(`üìä Total de servicios: ${listaServicios.length}`);
+        console.log(`üìä Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
+        console.log(`üíæ Espacio usado: ${Math.round(espacio.usado / 1024 / 1024)} MB de 5 MB`);
+        console.log(`üíæ Porcentaje: ${Math.round(espacio.porcentaje)}%`);
         
         if (espacio.porcentaje > 80) {
-            console.warn('?? Almacenamiento casi lleno!');
+            console.warn('‚ö†Ô∏è Almacenamiento casi lleno!');
         }
     } else {
-        console.log(`? Sistema de servicios inicializado - Modo: CAT¡LOGO`);
-        console.log(`?? Total de servicios: ${listaServicios.length}`);
-        console.log(`?? Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
+        console.log(`‚úÖ Sistema de servicios inicializado - Modo: CAT√ÅLOGO`);
+        console.log(`üìä Total de servicios: ${listaServicios.length}`);
+        console.log(`üìä Servicios activos: ${listaServicios.filter(s => s.activo).length}`);
     }
 });
 
@@ -1205,4 +1193,3 @@ window.abrirModalEditarServicio = abrirModalEditarServicio;
 window.cambiarEstadoServicio = cambiarEstadoServicio;
 window.comprimirImagen = comprimirImagen;
 window.verificarEspacioStorage = verificarEspacioStorage;
-

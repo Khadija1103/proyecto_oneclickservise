@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function() {
     cargarListaCitas();
 });
@@ -54,7 +42,7 @@ function cargarCitaSeleccionada() {
     document.getElementById("cardPago").style.display = "block";
     mostrarFormularioPago();
     
-    // ?? ESPERAR UN POCO PARA QUE EL DOM SE ACTUALICE Y LUEGO CALCULAR EL TOTAL
+    // 🔥 ESPERAR UN POCO PARA QUE EL DOM SE ACTUALICE Y LUEGO CALCULAR EL TOTAL
     setTimeout(function() {
         calcularTotal();
     }, 100);
@@ -128,7 +116,7 @@ function seleccionarMetodo(metodo) {
     document.querySelector('.btn-metodo[data-metodo="' + metodo + '"]').classList.add("active");
     mostrarFormularioPago();
     
-    // ?? ACTUALIZAR TOTAL DESPU�S DE CAMBIAR EL M�TODO
+    // 🔥 ACTUALIZAR TOTAL DESPUÉS DE CAMBIAR EL MÉTODO
     setTimeout(function() {
         calcularTotal();
     }, 100);
@@ -144,19 +132,19 @@ function mostrarFormularioPago() {
         case "efectivo":
             html = `
                 <div class="campo">
-                    <label>?? Monto en efectivo</label>
+                    <label>💰 Monto en efectivo</label>
                     <input type="text" id="montoEfectivo" value="${precioTexto}" readonly style="background:#f5f5f5;">
                 </div>
                 <div class="campo">
-                    <label>?? Con cuanto paga</label>
+                    <label>💵 Con cuanto paga</label>
                     <input type="number" id="conCuantoPaga" placeholder="Ingrese el monto con el que paga" min="0" step="1000">
                 </div>
                 <div class="campo" id="cambioContainer" style="display:none;">
-                    <label>?? Cambio</label>
+                    <label>🔄 Cambio</label>
                     <input type="text" id="cambioMostrar" readonly style="background:#f5f5f5; color:#28a745; font-weight:bold;">
                 </div>
                 <div class="campo">
-                    <label>?? Recibe</label>
+                    <label>👤 Recibe</label>
                     <input type="text" id="nombreRecibe" placeholder="Nombre de quien recibe el pago">
                 </div>
             `;
@@ -165,25 +153,25 @@ function mostrarFormularioPago() {
         case "tarjeta":
             html = `
                 <div class="campo">
-                    <label>?? N�mero de tarjeta</label>
+                    <label>💳 Número de tarjeta</label>
                     <input type="text" id="numTarjeta" placeholder="1234 5678 9012 3456" maxlength="19">
                 </div>
                 <div class="row">
                     <div class="campo">
-                        <label>?? Fecha expiraci�n</label>
+                        <label>📅 Fecha expiración</label>
                         <input type="text" id="fechaExp" placeholder="MM/AA" maxlength="5">
                     </div>
                     <div class="campo">
-                        <label>?? CVV</label>
+                        <label>🔒 CVV</label>
                         <input type="password" id="cvv" placeholder="***" maxlength="4">
                     </div>
                 </div>
                 <div class="campo">
-                    <label>?? Titular</label>
+                    <label>👤 Titular</label>
                     <input type="text" id="titular" placeholder="Nombre del titular">
                 </div>
                 <div class="campo">
-                    <label>?? Banco emisor</label>
+                    <label>🏦 Banco emisor</label>
                     <select id="bancoEmisor">
                         <option value="">Seleccionar banco</option>
                         <option value="bancolombia">Bancolombia</option>
@@ -196,7 +184,7 @@ function mostrarFormularioPago() {
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? Cuotas</label>
+                    <label>📝 Cuotas</label>
                     <select id="cuotas">
                         <option value="1">1 cuota</option>
                         <option value="3">3 cuotas</option>
@@ -210,7 +198,7 @@ function mostrarFormularioPago() {
         case "transferencia":
             html = `
                 <div class="campo">
-                    <label>?? Banco destino</label>
+                    <label>🏦 Banco destino</label>
                     <select id="bancoTransferencia">
                         <option value="">Seleccionar banco</option>
                         <option value="bancolombia">Bancolombia</option>
@@ -221,19 +209,19 @@ function mostrarFormularioPago() {
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? N�mero de cuenta</label>
-                    <input type="text" id="numCuenta" placeholder="N�mero de cuenta">
+                    <label>📋 Número de cuenta</label>
+                    <input type="text" id="numCuenta" placeholder="Número de cuenta">
                 </div>
                 <div class="campo">
-                    <label>?? Titular de la cuenta</label>
+                    <label>👤 Titular de la cuenta</label>
                     <input type="text" id="titularCuenta" placeholder="Nombre del titular">
                 </div>
                 <div class="campo">
-                    <label>?? Comprobante de pago</label>
-                    <input type="text" id="comprobante" placeholder="N�mero de comprobante">
+                    <label>📝 Comprobante de pago</label>
+                    <input type="text" id="comprobante" placeholder="Número de comprobante">
                 </div>
                 <div class="campo">
-                    <label>?? Fecha de transferencia</label>
+                    <label>📅 Fecha de transferencia</label>
                     <input type="date" id="fechaTransferencia">
                 </div>
             `;
@@ -242,16 +230,16 @@ function mostrarFormularioPago() {
         case "nequi":
             html = `
                 <div class="campo">
-                    <label>?? N�mero de Nequi</label>
+                    <label>📱 Número de Nequi</label>
                     <input type="text" id="numNequi" placeholder="300 123 4567" maxlength="10">
                 </div>
                 <div class="campo">
-                    <label>?? Nombre del titular</label>
+                    <label>👤 Nombre del titular</label>
                     <input type="text" id="titularNequi" placeholder="Nombre completo">
                 </div>
                 <div class="campo">
-                    <label>?? C�digo de verificaci�n</label>
-                    <input type="text" id="codigoNequi" placeholder="C�digo de 6 d�gitos" maxlength="6">
+                    <label>💳 Código de verificación</label>
+                    <input type="text" id="codigoNequi" placeholder="Código de 6 dígitos" maxlength="6">
                 </div>
             `;
             break;
@@ -259,16 +247,16 @@ function mostrarFormularioPago() {
         case "daviplata":
             html = `
                 <div class="campo">
-                    <label>?? N�mero de Daviplata</label>
+                    <label>📱 Número de Daviplata</label>
                     <input type="text" id="numDaviplata" placeholder="300 123 4567" maxlength="10">
                 </div>
                 <div class="campo">
-                    <label>?? Nombre del titular</label>
+                    <label>👤 Nombre del titular</label>
                     <input type="text" id="titularDaviplata" placeholder="Nombre completo">
                 </div>
                 <div class="campo">
-                    <label>?? C�digo de verificaci�n</label>
-                    <input type="text" id="codigoDaviplata" placeholder="C�digo de 6 d�gitos" maxlength="6">
+                    <label>💳 Código de verificación</label>
+                    <input type="text" id="codigoDaviplata" placeholder="Código de 6 dígitos" maxlength="6">
                 </div>
             `;
             break;
@@ -276,7 +264,7 @@ function mostrarFormularioPago() {
         case "pse":
             html = `
                 <div class="campo">
-                    <label>?? Banco</label>
+                    <label>🏦 Banco</label>
                     <select id="bancoPSE">
                         <option value="">Seleccionar banco</option>
                         <option value="bancolombia">Bancolombia</option>
@@ -290,22 +278,22 @@ function mostrarFormularioPago() {
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? N�mero de cuenta</label>
-                    <input type="text" id="numCuentaPSE" placeholder="N�mero de cuenta">
+                    <label>📋 Número de cuenta</label>
+                    <input type="text" id="numCuentaPSE" placeholder="Número de cuenta">
                 </div>
                 <div class="campo">
-                    <label>?? Titular</label>
+                    <label>👤 Titular</label>
                     <input type="text" id="titularPSE" placeholder="Nombre del titular">
                 </div>
                 <div class="campo">
-                    <label>?? Tipo de cuenta</label>
+                    <label>📝 Tipo de cuenta</label>
                     <select id="tipoCuentaPSE">
                         <option value="ahorros">Cuenta de ahorros</option>
                         <option value="corriente">Cuenta corriente</option>
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? Fecha de pago</label>
+                    <label>📅 Fecha de pago</label>
                     <input type="date" id="fechaPSE">
                 </div>
             `;
@@ -314,27 +302,27 @@ function mostrarFormularioPago() {
         case "efecty":
             html = `
                 <div class="campo">
-                    <label>?? Punto Efecty</label>
+                    <label>📍 Punto Efecty</label>
                     <select id="puntoEfecty">
                         <option value="">Seleccionar punto</option>
-                        <option value="exito">�xito</option>
+                        <option value="exito">Éxito</option>
                         <option value="carulla">Carulla</option>
                         <option value="surtimax">Surtimax</option>
-                        <option value="olimpica">Ol�mpica</option>
+                        <option value="olimpica">Olímpica</option>
                         <option value="ara">ARA</option>
                         <option value="d1">D1</option>
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? C�digo de referencia</label>
-                    <input type="text" id="codigoEfecty" placeholder="C�digo de referencia Efecty">
+                    <label>📋 Código de referencia</label>
+                    <input type="text" id="codigoEfecty" placeholder="Código de referencia Efecty">
                 </div>
                 <div class="campo">
-                    <label>?? Persona que realiza el pago</label>
+                    <label>👤 Persona que realiza el pago</label>
                     <input type="text" id="nombreEfecty" placeholder="Nombre completo">
                 </div>
                 <div class="campo">
-                    <label>?? Fecha de pago</label>
+                    <label>📅 Fecha de pago</label>
                     <input type="date" id="fechaEfecty">
                 </div>
             `;
@@ -343,26 +331,26 @@ function mostrarFormularioPago() {
         case "bancolombia":
             html = `
                 <div class="campo">
-                    <label>?? Tipo de cuenta</label>
+                    <label>🏦 Tipo de cuenta</label>
                     <select id="tipoCuentaBancolombia">
                         <option value="ahorros">Cuenta de ahorros</option>
                         <option value="corriente">Cuenta corriente</option>
                     </select>
                 </div>
                 <div class="campo">
-                    <label>?? N�mero de cuenta</label>
-                    <input type="text" id="numCuentaBancolombia" placeholder="N�mero de cuenta">
+                    <label>📋 Número de cuenta</label>
+                    <input type="text" id="numCuentaBancolombia" placeholder="Número de cuenta">
                 </div>
                 <div class="campo">
-                    <label>?? Titular</label>
+                    <label>👤 Titular</label>
                     <input type="text" id="titularBancolombia" placeholder="Nombre del titular">
                 </div>
                 <div class="campo">
-                    <label>?? Comprobante</label>
-                    <input type="text" id="comprobanteBancolombia" placeholder="N�mero de comprobante">
+                    <label>📝 Comprobante</label>
+                    <input type="text" id="comprobanteBancolombia" placeholder="Número de comprobante">
                 </div>
                 <div class="campo">
-                    <label>?? Fecha de pago</label>
+                    <label>📅 Fecha de pago</label>
                     <input type="date" id="fechaBancolombia">
                 </div>
             `;
@@ -371,7 +359,7 @@ function mostrarFormularioPago() {
 
     container.innerHTML = html;
 
-    // Eventos espec�ficos
+    // Eventos específicos
     if (metodoSeleccionado === "efectivo") {
         var conCuanto = document.getElementById("conCuantoPaga");
         if (conCuanto) {
@@ -417,7 +405,7 @@ function mostrarFormularioPago() {
         }
     }
 
-    // Solo n�meros para tel�fonos
+    // Solo números para teléfonos
     var camposTelefono = ["numNequi", "numDaviplata"];
     for (var i = 0; i < camposTelefono.length; i++) {
         var input = document.getElementById(camposTelefono[i]);
@@ -431,7 +419,7 @@ function mostrarFormularioPago() {
         }
     }
 
-    // Solo n�meros para c�digos
+    // Solo números para códigos
     var camposCodigo = ["codigoNequi", "codigoDaviplata", "codigoEfecty"];
     for (var i = 0; i < camposCodigo.length; i++) {
         var input = document.getElementById(camposCodigo[i]);
@@ -450,17 +438,17 @@ function calcularTotal() {
     var precioMostrar = document.getElementById("precioMostrar");
     var montoTotal = document.getElementById("montoTotal");
     
-    console.log("?? Calculando total...");
-    console.log("?? precioMostrar:", precioMostrar);
-    console.log("?? montoTotal:", montoTotal);
+    console.log("🔍 Calculando total...");
+    console.log("🔍 precioMostrar:", precioMostrar);
+    console.log("🔍 montoTotal:", montoTotal);
     
     if (precioMostrar && montoTotal) {
         var precioTexto = precioMostrar.textContent;
-        console.log("?? precioTexto:", precioTexto);
+        console.log("🔍 precioTexto:", precioTexto);
         montoTotal.textContent = precioTexto;
-        console.log("?? Total actualizado:", montoTotal.textContent);
+        console.log("🔍 Total actualizado:", montoTotal.textContent);
     } else {
-        console.log("? Elementos no encontrados");
+        console.log("❌ Elementos no encontrados");
     }
 }
 
@@ -487,7 +475,7 @@ function calcularCambio() {
 function getNombreMetodo(metodo) {
     var nombres = {
         "efectivo": "Efectivo",
-        "tarjeta": "Tarjeta de Cr�dito/D�bito",
+        "tarjeta": "Tarjeta de Crédito/Débito",
         "transferencia": "Transferencia Bancaria",
         "nequi": "Nequi",
         "daviplata": "Daviplata",
@@ -510,12 +498,12 @@ function validarCamposPago() {
             var paga = parseFloat(conCuanto.value);
 
             if (!conCuanto.value || conCuanto.value <= 0) {
-                errores.push("?? Ingrese el monto con el que paga");
+                errores.push("💰 Ingrese el monto con el que paga");
             } else if (paga < total) {
-                errores.push("?? El monto es insuficiente. Faltan $" + (total - paga).toLocaleString("es-CO"));
+                errores.push("💰 El monto es insuficiente. Faltan $" + (total - paga).toLocaleString("es-CO"));
             }
             if (!nombreRecibe || nombreRecibe.value.trim() === "") {
-                errores.push("?? Ingrese el nombre de quien recibe el pago");
+                errores.push("👤 Ingrese el nombre de quien recibe el pago");
             }
             break;
 
@@ -527,19 +515,19 @@ function validarCamposPago() {
             var bancoEmisor = document.getElementById("bancoEmisor");
 
             if (!numTarjeta.value || numTarjeta.value.replace(/\s/g, '').length < 16) {
-                errores.push("?? Ingrese un n�mero de tarjeta v�lido (16 d�gitos)");
+                errores.push("💳 Ingrese un número de tarjeta válido (16 dígitos)");
             }
             if (!fechaExp.value || fechaExp.value.length < 5) {
-                errores.push("?? Ingrese una fecha de expiraci�n v�lida (MM/AA)");
+                errores.push("📅 Ingrese una fecha de expiración válida (MM/AA)");
             }
             if (!cvv.value || cvv.value.length < 3) {
-                errores.push("?? Ingrese el CVV de la tarjeta");
+                errores.push("🔒 Ingrese el CVV de la tarjeta");
             }
             if (!titular.value || titular.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular");
+                errores.push("👤 Ingrese el nombre del titular");
             }
             if (!bancoEmisor.value) {
-                errores.push("?? Seleccione el banco emisor");
+                errores.push("🏦 Seleccione el banco emisor");
             }
             break;
 
@@ -551,19 +539,19 @@ function validarCamposPago() {
             var fechaTransferencia = document.getElementById("fechaTransferencia");
 
             if (!banco.value) {
-                errores.push("?? Seleccione un banco");
+                errores.push("🏦 Seleccione un banco");
             }
             if (!numCuenta.value || numCuenta.value.length < 5) {
-                errores.push("?? Ingrese un n�mero de cuenta v�lido");
+                errores.push("📋 Ingrese un número de cuenta válido");
             }
             if (!titularCuenta.value || titularCuenta.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular de la cuenta");
+                errores.push("👤 Ingrese el nombre del titular de la cuenta");
             }
             if (!comprobante.value || comprobante.value.length < 5) {
-                errores.push("?? Ingrese el n�mero de comprobante");
+                errores.push("📝 Ingrese el número de comprobante");
             }
             if (!fechaTransferencia.value) {
-                errores.push("?? Seleccione la fecha de transferencia");
+                errores.push("📅 Seleccione la fecha de transferencia");
             }
             break;
 
@@ -573,13 +561,13 @@ function validarCamposPago() {
             var codigoNequi = document.getElementById("codigoNequi");
 
             if (!numNequi.value || numNequi.value.length < 10) {
-                errores.push("?? Ingrese un n�mero de Nequi v�lido (10 d�gitos)");
+                errores.push("📱 Ingrese un número de Nequi válido (10 dígitos)");
             }
             if (!titularNequi.value || titularNequi.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular");
+                errores.push("👤 Ingrese el nombre del titular");
             }
             if (!codigoNequi.value || codigoNequi.value.length < 6) {
-                errores.push("?? Ingrese el c�digo de verificaci�n (6 d�gitos)");
+                errores.push("💳 Ingrese el código de verificación (6 dígitos)");
             }
             break;
 
@@ -589,13 +577,13 @@ function validarCamposPago() {
             var codigoDaviplata = document.getElementById("codigoDaviplata");
 
             if (!numDaviplata.value || numDaviplata.value.length < 10) {
-                errores.push("?? Ingrese un n�mero de Daviplata v�lido (10 d�gitos)");
+                errores.push("📱 Ingrese un número de Daviplata válido (10 dígitos)");
             }
             if (!titularDaviplata.value || titularDaviplata.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular");
+                errores.push("👤 Ingrese el nombre del titular");
             }
             if (!codigoDaviplata.value || codigoDaviplata.value.length < 6) {
-                errores.push("?? Ingrese el c�digo de verificaci�n (6 d�gitos)");
+                errores.push("💳 Ingrese el código de verificación (6 dígitos)");
             }
             break;
 
@@ -606,16 +594,16 @@ function validarCamposPago() {
             var fechaPSE = document.getElementById("fechaPSE");
 
             if (!bancoPSE.value) {
-                errores.push("?? Seleccione un banco");
+                errores.push("🏦 Seleccione un banco");
             }
             if (!numCuentaPSE.value || numCuentaPSE.value.length < 5) {
-                errores.push("?? Ingrese un n�mero de cuenta v�lido");
+                errores.push("📋 Ingrese un número de cuenta válido");
             }
             if (!titularPSE.value || titularPSE.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular");
+                errores.push("👤 Ingrese el nombre del titular");
             }
             if (!fechaPSE.value) {
-                errores.push("?? Seleccione la fecha de pago");
+                errores.push("📅 Seleccione la fecha de pago");
             }
             break;
 
@@ -626,16 +614,16 @@ function validarCamposPago() {
             var fechaEfecty = document.getElementById("fechaEfecty");
 
             if (!puntoEfecty.value) {
-                errores.push("?? Seleccione un punto Efecty");
+                errores.push("📍 Seleccione un punto Efecty");
             }
             if (!codigoEfecty.value || codigoEfecty.value.length < 5) {
-                errores.push("?? Ingrese el c�digo de referencia Efecty");
+                errores.push("📋 Ingrese el código de referencia Efecty");
             }
             if (!nombreEfecty.value || nombreEfecty.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre de quien realiza el pago");
+                errores.push("👤 Ingrese el nombre de quien realiza el pago");
             }
             if (!fechaEfecty.value) {
-                errores.push("?? Seleccione la fecha de pago");
+                errores.push("📅 Seleccione la fecha de pago");
             }
             break;
 
@@ -646,16 +634,16 @@ function validarCamposPago() {
             var fechaBancolombia = document.getElementById("fechaBancolombia");
 
             if (!numCuentaBancolombia.value || numCuentaBancolombia.value.length < 5) {
-                errores.push("?? Ingrese un n�mero de cuenta v�lido");
+                errores.push("📋 Ingrese un número de cuenta válido");
             }
             if (!titularBancolombia.value || titularBancolombia.value.trim().length < 3) {
-                errores.push("?? Ingrese el nombre del titular");
+                errores.push("👤 Ingrese el nombre del titular");
             }
             if (!comprobanteBancolombia.value || comprobanteBancolombia.value.length < 5) {
-                errores.push("?? Ingrese el n�mero de comprobante");
+                errores.push("📝 Ingrese el número de comprobante");
             }
             if (!fechaBancolombia.value) {
-                errores.push("?? Seleccione la fecha de pago");
+                errores.push("📅 Seleccione la fecha de pago");
             }
             break;
     }
@@ -665,50 +653,50 @@ function validarCamposPago() {
 
 function procesarPago() {
     if (!citaActual) {
-        Swal.fire({text: "? Seleccione una cita primero", confirmButtonText: "Aceptar"});
+        alert("❌ Seleccione una cita primero");
         return;
     }
 
     if (citaActual.estado === "Confirmada") {
-        Swal.fire({text: "?? Esta cita ya fue pagada", confirmButtonText: "Aceptar"});
+        alert("⚠️ Esta cita ya fue pagada");
         return;
     }
 
     var errores = validarCamposPago();
     if (errores.length > 0) {
-        Swal.fire({text: "? " + errores.join("\n"), confirmButtonText: "Aceptar"});
+        alert("❌ " + errores.join("\n"));
         return;
     }
 
     var total = document.getElementById("montoTotal").textContent;
     var metodoNombre = getNombreMetodo(metodoSeleccionado);
 
-    var comprador = prompt("?? �Qui�n realiza el pago? (Nombre completo)");
+    var comprador = prompt("👤 ¿Quién realiza el pago? (Nombre completo)");
     if (!comprador || comprador.trim() === "") {
-        Swal.fire({text: "? Debe ingresar el nombre del comprador", confirmButtonText: "Aceptar"});
+        alert("❌ Debe ingresar el nombre del comprador");
         return;
     }
 
-    var email = prompt("?? Correo electr�nico del comprador:");
+    var email = prompt("📧 Correo electrónico del comprador:");
     if (!email || email.trim() === "" || !email.includes("@")) {
-        Swal.fire({text: "? Debe ingresar un correo electr�nico v�lido", confirmButtonText: "Aceptar"});
+        alert("❌ Debe ingresar un correo electrónico válido");
         return;
     }
 
-    var telefono = prompt("?? Tel�fono del comprador:");
+    var telefono = prompt("📱 Teléfono del comprador:");
     if (!telefono || telefono.trim() === "" || telefono.replace(/\D/g, '').length < 7) {
-        Swal.fire({text: "? Debe ingresar un tel�fono v�lido (m�nimo 7 d�gitos)", confirmButtonText: "Aceptar"});
+        alert("❌ Debe ingresar un teléfono válido (mínimo 7 dígitos)");
         return;
     }
 
     var confirmar = confirm(
-        "?? Confirmar transacci�n\n\n" +
+        "💳 Confirmar transacción\n\n" +
         "Comprador: " + comprador + "\n" +
         "Email: " + email + "\n" +
-        "Tel�fono: " + telefono + "\n" +
+        "Teléfono: " + telefono + "\n" +
         "Monto: " + total + "\n" +
-        "M�todo: " + metodoNombre + "\n\n" +
-        "�Desea confirmar el pago?"
+        "Método: " + metodoNombre + "\n\n" +
+        "¿Desea confirmar el pago?"
     );
 
     if (!confirmar) return;
@@ -736,13 +724,13 @@ function mostrarModalExito(comprador, email, telefono) {
         <p><strong>Cliente:</strong> ${citaActual.nombre} ${citaActual.apellido}</p>
         <p><strong>Servicio:</strong> ${citaActual.servicio}</p>
         <p><strong>Monto:</strong> ${total}</p>
-        <p><strong>M�todo de pago:</strong> ${metodoNombre}</p>
+        <p><strong>Método de pago:</strong> ${metodoNombre}</p>
         <p><strong>Comprador:</strong> ${comprador}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Tel�fono:</strong> ${telefono}</p>
+        <p><strong>Teléfono:</strong> ${telefono}</p>
         <p><strong>Fecha de pago:</strong> ${new Date().toLocaleString()}</p>
         <hr>
-        <p style="color:#28a745; font-weight:bold;">? Transacci�n exitosa</p>
+        <p style="color:#28a745; font-weight:bold;">✅ Transacción exitosa</p>
     `;
 
     modal.style.display = "flex";
@@ -753,4 +741,3 @@ function cerrarModal() {
     modal.style.display = "none";
     window.location.href = "GestionarCitas.html";
 }
-

@@ -341,47 +341,39 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", () => {
+document.getElementById("btnCerrarSesion")
+    .addEventListener("click", function () {
 
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+        Swal.fire({
+            title: "¿Cerrar sesión?",
+            text: "Vas a salir del panel administrativo.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Sí, cerrar sesión",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true
+        }).then(function (resultado) {
 
-    if (usuario) {
+            if (resultado.isConfirmed) {
 
-        const nombre = document.getElementById("nombreAdministrador");
+                // Eliminar completamente la sesión
+                localStorage.removeItem("usuario");
+                localStorage.removeItem("usuarioLogueado");
+                localStorage.removeItem("token");
 
-        if (nombre) {
-            nombre.textContent = usuario.nombre || "Administrador";
-        }
-
-    }
-
-    document.getElementById("btnCerrarSesion")
-        .addEventListener("click", () => {
-
-            Swal.fire({
-                title: "¿Cerrar sesión?",
-                text: "Vas a salir del panel administrativo.",
-                icon: "question",
-                showCancelButton: true,
-                confirmButtonText: "Sí, cerrar sesión",
-                cancelButtonText: "Cancelar"
-            }).then((resultado) => {
-
-                if (resultado.isConfirmed) {
-
-                    localStorage.removeItem("usuario");
-
-                    window.location.href = "../../login/login.html";
-
-                }
-
-            });
+                // Ir al inicio general
+                window.location.replace(
+                    "../../inicio/index.html"
+                );
+            }
 
         });
 
-});
+    });
 
 </script>
 
 </body>
 </html>
+
+

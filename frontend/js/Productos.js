@@ -1,17 +1,5 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 // ============================================
-// CAT¡LOGO DE PRODUCTOS
+// CAT√ÅLOGO DE PRODUCTOS
 // ============================================
 
 let contenedorProductos;
@@ -95,9 +83,9 @@ function renderizarProductos() {
 
         <div class="no-results">
 
-            <h3>?? No hay productos disponibles.</h3>
+            <h3>üì¶ No hay productos disponibles.</h3>
 
-            <p>Agrega productos desde el panel de administraciÛn.</p>
+            <p>Agrega productos desde el panel de administraci√≥n.</p>
 
         </div>
 
@@ -216,9 +204,9 @@ function agregarAlCarrito(idProducto) {
         JSON.stringify(carrito)
     );
 
-    Swal.fire({text: "? Producto agregado al carrito.", confirmButtonText: "Aceptar"});
+    alert("‚úÖ Producto agregado al carrito.");
 
-    // Si deseas ir directamente al carrito, descomenta la siguiente lÌnea:
+    // Si deseas ir directamente al carrito, descomenta la siguiente l√≠nea:
     // window.location.href = "../carrito/carrito.html";
 
 }
@@ -240,4 +228,3 @@ window.addEventListener("storage", function () {
 // EXPONER FUNCIONES
 // ============================================
 window.agregarAlCarrito = agregarAlCarrito;
-

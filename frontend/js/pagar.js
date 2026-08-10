@@ -1,22 +1,10 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 document.addEventListener("DOMContentLoaded", function () {
 
     const usuario = localStorage.getItem("usuarioLogueado");
 
     if (!usuario) {
 
-        Swal.fire({text: "Debes iniciar sesión para realizar la compra.", confirmButtonText: "Aceptar"});
+        alert("Debes iniciar sesiÃ³n para realizar la compra.");
 
         window.location.href = "../inicio/login.html";
 
@@ -99,7 +87,7 @@ function validarNombre(){
 let input=document.getElementById("nombre");
 let valor=input.value;
 
-valor=valor.replace(/[^a-zA-ZÁÉÍÓÚáéíóúñÑ ]/g,"");
+valor=valor.replace(/[^a-zA-ZÃÃ‰ÃÃ“ÃšÃ¡Ã©Ã­Ã³ÃºÃ±Ã‘ ]/g,"");
 
 input.value=valor.trimStart();
 
@@ -107,7 +95,7 @@ if(valor.trim().length>=3 && valor.trim().length<=100){
 
 input.style.border="2px solid green";
 
-mostrarMensaje("errorNombre","? Nombre válido",true);
+mostrarMensaje("errorNombre","âœ” Nombre vÃ¡lido",true);
 
 return true;
 
@@ -115,7 +103,7 @@ return true;
 
 input.style.border="2px solid red";
 
-mostrarMensaje("errorNombre","? Solo letras mínimo 3 caracteres",false);
+mostrarMensaje("errorNombre","âœ– Solo letras mÃ­nimo 3 caracteres",false);
 
 return false;
 
@@ -134,7 +122,7 @@ if(valido){
 
 input.style.border="2px solid green";
 
-mostrarMensaje("errorCorreo","? Correo válido",true);
+mostrarMensaje("errorCorreo","âœ” Correo vÃ¡lido",true);
 
 return true;
 
@@ -142,7 +130,7 @@ return true;
 
 input.style.border="2px solid red";
 
-mostrarMensaje("errorCorreo","? Correo inválido ejemplo@gmail.com",false);
+mostrarMensaje("errorCorreo","âœ– Correo invÃ¡lido ejemplo@gmail.com",false);
 
 return false;
 
@@ -158,7 +146,7 @@ if(metodo.value===""){
 
 metodo.style.border="2px solid red";
 
-mostrarMensaje("errorMetodo","? Seleccione método de pago",false);
+mostrarMensaje("errorMetodo","âœ– Seleccione mÃ©todo de pago",false);
 
 return false;
 
@@ -166,7 +154,7 @@ return false;
 
 metodo.style.border="2px solid green";
 
-mostrarMensaje("errorMetodo","? Método seleccionado",true);
+mostrarMensaje("errorMetodo","âœ” MÃ©todo seleccionado",true);
 
 return true;
 
@@ -198,7 +186,7 @@ if(!nombre||!correo||!metodo){
 return;
 }
 
-if(confirm("? Datos validados correctamente\n\n¿Desea continuar con el pago?")){
+if(confirm("âœ” Datos validados correctamente\n\nÂ¿Desea continuar con el pago?")){
 
 abrirDatosBancarios();
 
@@ -282,7 +270,7 @@ let numero=document.getElementById("numeroCuenta").value.trim();
 
 if(banco===""){
 
-Swal.fire({text: "Ingrese el banco", confirmButtonText: "Aceptar"});
+alert("Ingrese el banco");
 return;
 
 }
@@ -290,7 +278,7 @@ return;
 
 if(cuenta===""){
 
-Swal.fire({text: "Seleccione tipo de cuenta", confirmButtonText: "Aceptar"});
+alert("Seleccione tipo de cuenta");
 return;
 
 }
@@ -298,7 +286,7 @@ return;
 
 if(numero.length<5){
 
-Swal.fire({text: "Número de cuenta inválido", confirmButtonText: "Aceptar"});
+alert("NÃºmero de cuenta invÃ¡lido");
 return;
 
 }
@@ -306,7 +294,7 @@ return;
 }
 
 
-if(confirm("¿Confirma realizar el pago?")){
+if(confirm("Â¿Confirma realizar el pago?")){
 
 
 localStorage.setItem("estadoPago","Pagado");
@@ -340,4 +328,3 @@ window.location.href="../catalogo/productos.html";
 });
 
 }
-

@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 // ================= VARIABLES =================
 
 const formulario = document.getElementById("formulario");
@@ -29,7 +17,7 @@ const errorArchivo = document.getElementById("errorArchivo");
 const mensajeFormulario =
     document.getElementById("mensajeFormulario");
 
-// ================= MEN⁄ =================
+// ================= MEN√ö =================
 
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
@@ -38,7 +26,7 @@ menuBtn.addEventListener("click", () => {
     menu.classList.toggle("activo");
 });
 
-// ================= VALIDACI”N =================
+// ================= VALIDACI√ìN =================
 
 formulario.addEventListener("submit", function (e) {
 
@@ -70,32 +58,32 @@ formulario.addEventListener("submit", function (e) {
     const nombreValor = nombre.value.trim();
 
     if (nombreValor === "") {
-        errorNombre.textContent = "? El nombre es obligatorio";
+        errorNombre.textContent = "‚ùå El nombre es obligatorio";
         nombre.classList.add("errorInput");
         valido = false;
 
     } else if (nombreValor.length < 10) {
-        errorNombre.textContent = "? MÌnimo 10 caracteres";
+        errorNombre.textContent = "‚ùå M√≠nimo 10 caracteres";
         nombre.classList.add("errorInput");
         valido = false;
 
     } else if (nombreValor.length > 50) {
-        errorNombre.textContent = "? M·ximo 50 caracteres";
+        errorNombre.textContent = "‚ùå M√°ximo 50 caracteres";
         nombre.classList.add("errorInput");
         valido = false;
 
-    } else if (!/^[A-Za-z¡…Õ”⁄·ÈÌÛ˙—Ò\s]+$/.test(nombreValor)) {
-        errorNombre.textContent = "? Solo letras y espacios";
+    } else if (!/^[A-Za-z√Å√â√ç√ì√ö√°√©√≠√≥√∫√ë√±\s]+$/.test(nombreValor)) {
+        errorNombre.textContent = "‚ùå Solo letras y espacios";
         nombre.classList.add("errorInput");
         valido = false;
 
     } else if (!/(?=.*[a-z])(?=.*[A-Z])/.test(nombreValor)) {
-        errorNombre.textContent = "? Debe contener may˙sculas y min˙sculas";
+        errorNombre.textContent = "‚ùå Debe contener may√∫sculas y min√∫sculas";
         nombre.classList.add("errorInput");
         valido = false;
 
     } else {
-        errorNombre.textContent = "? Nombre v·lido";
+        errorNombre.textContent = "‚úî Nombre v√°lido";
         nombre.classList.add("successInput");
     }
 
@@ -107,52 +95,52 @@ formulario.addEventListener("submit", function (e) {
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co|org|net|edu|gov|info|biz)$/i;
 
     if (correoValor === "") {
-        errorCorreo.textContent = "? El correo es obligatorio";
+        errorCorreo.textContent = "‚ùå El correo es obligatorio";
         correo.classList.add("errorInput");
         valido = false;
 
     } else if (!correoValor.includes("@")) {
-        errorCorreo.textContent = "? Debe contener el sÌmbolo @";
+        errorCorreo.textContent = "‚ùå Debe contener el s√≠mbolo @";
         correo.classList.add("errorInput");
         valido = false;
 
     } else if (!regexCorreo.test(correoValor)) {
         errorCorreo.textContent =
-            "? Ingrese un correo v·lido (ejemplo@gmail.com)";
+            "‚ùå Ingrese un correo v√°lido (ejemplo@gmail.com)";
         correo.classList.add("errorInput");
         valido = false;
 
     } else {
-        errorCorreo.textContent = "? Correo v·lido";
+        errorCorreo.textContent = "‚úî Correo v√°lido";
         correo.classList.add("successInput");
     }
 
-    // ================= TEL…FONO =================
+    // ================= TEL√âFONO =================
 
     const telefonoValor = telefono.value.trim();
 
     if (telefonoValor === "") {
-        errorTelefono.textContent = "? El telÈfono es obligatorio";
+        errorTelefono.textContent = "‚ùå El tel√©fono es obligatorio";
         telefono.classList.add("errorInput");
         valido = false;
 
     } else if (!/^\d+$/.test(telefonoValor)) {
-        errorTelefono.textContent = "? Solo se permiten n˙meros";
+        errorTelefono.textContent = "‚ùå Solo se permiten n√∫meros";
         telefono.classList.add("errorInput");
         valido = false;
 
     } else if (telefonoValor.length < 7) {
-        errorTelefono.textContent = "? MÌnimo 7 dÌgitos";
+        errorTelefono.textContent = "‚ùå M√≠nimo 7 d√≠gitos";
         telefono.classList.add("errorInput");
         valido = false;
 
     } else if (telefonoValor.length > 10) {
-        errorTelefono.textContent = "? M·ximo 10 dÌgitos";
+        errorTelefono.textContent = "‚ùå M√°ximo 10 d√≠gitos";
         telefono.classList.add("errorInput");
         valido = false;
 
     } else {
-        errorTelefono.textContent = "? TelÈfono v·lido";
+        errorTelefono.textContent = "‚úî Tel√©fono v√°lido";
         telefono.classList.add("successInput");
     }
 
@@ -161,22 +149,22 @@ formulario.addEventListener("submit", function (e) {
     const mensajeValor = mensaje.value.trim();
 
     if (mensajeValor === "") {
-        errorMensaje.textContent = "? El mensaje es obligatorio";
+        errorMensaje.textContent = "‚ùå El mensaje es obligatorio";
         mensaje.classList.add("errorInput");
         valido = false;
 
     } else if (mensajeValor.length < 15) {
-        errorMensaje.textContent = "? MÌnimo 15 caracteres";
+        errorMensaje.textContent = "‚ùå M√≠nimo 15 caracteres";
         mensaje.classList.add("errorInput");
         valido = false;
 
     } else if (mensajeValor.length > 100) {
-        errorMensaje.textContent = "? M·ximo 100 caracteres";
+        errorMensaje.textContent = "‚ùå M√°ximo 100 caracteres";
         mensaje.classList.add("errorInput");
         valido = false;
 
     } else {
-        errorMensaje.textContent = "? Mensaje v·lido";
+        errorMensaje.textContent = "‚úî Mensaje v√°lido";
         mensaje.classList.add("successInput");
     }
 
@@ -189,39 +177,38 @@ formulario.addEventListener("submit", function (e) {
             const pdf = archivo.files[0];
 
             if (pdf.type !== "application/pdf") {
-                errorArchivo.textContent = "? Solo PDF";
+                errorArchivo.textContent = "‚ùå Solo PDF";
                 archivo.classList.add("errorInput");
                 valido = false;
 
             } else if (pdf.size > 5000000) {
-                errorArchivo.textContent = "? M·x 5MB";
+                errorArchivo.textContent = "‚ùå M√°x 5MB";
                 archivo.classList.add("errorInput");
                 valido = false;
 
             } else {
-                errorArchivo.textContent = "? PDF v·lido";
+                errorArchivo.textContent = "‚úî PDF v√°lido";
                 archivo.classList.add("successInput");
             }
         }
     }
 
-    // ================= ENVÕO FORMSPREE =================
+    // ================= ENV√çO FORMSPREE =================
 
     if (!valido) {
 
         mensajeFormulario.textContent =
-            "? Corrija los campos marcados en rojo.";
+            "‚ùå Corrija los campos marcados en rojo.";
 
         mensajeFormulario.classList.add("mensajeError");
         return;
     }
 
-    // ? SI TODO EST¡ BIEN ? ENVIAR A FORMSPREE
-    mensajeFormulario.textContent = "? Enviando mensaje...";
+    // ‚úî SI TODO EST√Å BIEN ‚Üí ENVIAR A FORMSPREE
+    mensajeFormulario.textContent = "‚úî Enviando mensaje...";
     mensajeFormulario.classList.add("mensajeExito");
 
-    // permitir envÌo real
+    // permitir env√≠o real
     formulario.submit();
 
 });
-

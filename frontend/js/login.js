@@ -99,9 +99,15 @@ function iniciarSesion(e) {
 
         console.log("USUARIO RECIBIDO:", usuario); console.log("GUARDANDO USUARIO EN LOCALSTORAGE");
 
-        localStorage.setItem("usuarioLogueado", JSON.stringify({...usuario, fotoPerfil: null}));
+    localStorage.setItem(
+    "usuarioLogueado",
+    JSON.stringify(usuario)
+);
 
-    localStorage.setItem("usuario", JSON.stringify({...usuario, fotoPerfil: null}));
+localStorage.setItem(
+    "usuario",
+    JSON.stringify(usuario)
+);
 
         Swal.fire({
     text: "? Bienvenido " + usuario.nombre,
@@ -235,9 +241,15 @@ function validarLoginSocial(correo, red) {
 
         if (usuario) {
 
-            localStorage.setItem("usuarioLogueado", JSON.stringify({...usuario, fotoPerfil: null}));
+       localStorage.setItem(
+    "usuarioLogueado",
+    JSON.stringify(usuario)
+);
 
-    localStorage.setItem("usuario", JSON.stringify({...usuario, fotoPerfil: null}));
+localStorage.setItem(
+    "usuario",
+    JSON.stringify(usuario)
+);
 
             Swal.fire({text: "? Inicio con " + red +
                 "\n\nBienvenido " +
@@ -260,15 +272,3 @@ function validarLoginSocial(correo, red) {
     });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

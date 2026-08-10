@@ -1,15 +1,3 @@
-/* =====================================================
-   SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
-   ===================================================== */
-if (typeof Swal !== "undefined") {
-    window.alert = function(mensaje) {
-        Swal.fire({
-            text: mensaje,
-            icon: "info",
-            confirmButtonText: "Aceptar"
-        });
-    };
-}
 // Selecciona todos los elementos de preguntas
 
 const items = document.querySelectorAll(".item");
@@ -36,7 +24,7 @@ items.forEach(item => {
 
 
 
-// Menú lateral
+// MenÃº lateral
 
 const menuBtn = document.getElementById("menuBtn");
 
@@ -47,4 +35,3 @@ menuBtn.addEventListener("click", () => {
     menu.classList.toggle("activo");
 
 });
-
