@@ -1,4 +1,4 @@
-/* =====================================================
+﻿/* =====================================================
    SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
    ===================================================== */
 if (typeof Swal !== "undefined") {
@@ -25,9 +25,9 @@ const contador=document.getElementById("contadorDescripcion");
 const mensajeExito=document.getElementById("mensajeExito");
 const mensajeError=document.getElementById("mensajeError");
 
-const API_URL="http://localhost:8080/api/postulaciones";
+const API_URL = "https://oneclickservice-backend-production.up.railway.app/api/postulaciones";
 
-// CONTADOR DESCRIPCIÓN
+// CONTADOR DESCRIPCIÃ“N
 
 if(descripcion && contador){
 
@@ -122,7 +122,7 @@ if(!seleccionado){
 
 mostrarError(
 "error-dias",
-"Seleccione mínimo un día disponible"
+"Seleccione mÃ­nimo un dÃ­a disponible"
 );
 
 return false;
@@ -375,7 +375,7 @@ body:formData
 if(!respuesta.ok){
 
 throw new Error(
-"Error enviando información"
+"Error enviando informaciÃ³n"
 );
 
 }
@@ -443,7 +443,7 @@ boton.disabled=false;
 boton.innerHTML=
 `
 <i class="bi bi-send-fill"></i>
-Enviar postulación
+Enviar postulaciÃ³n
 `;
 
 }
@@ -457,6 +457,10 @@ Enviar postulación
 
 
 });
+
+
+
+
 
 
 

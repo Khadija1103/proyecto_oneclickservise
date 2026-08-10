@@ -10,7 +10,7 @@ if (typeof Swal !== "undefined") {
         });
     };
 }
-const API_URL = "http://localhost:8080"
+const API_URL = "https://oneclickservice-backend-production.up.railway.app"
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -272,3 +272,6 @@ localStorage.setItem(
     });
 
 }
+
+
+

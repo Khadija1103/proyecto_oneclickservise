@@ -1,4 +1,4 @@
-/* =====================================================
+﻿/* =====================================================
    SWEETALERT2 - REEMPLAZO DE ALERT NATIVO
    ===================================================== */
 
@@ -17,7 +17,7 @@ if (typeof Swal !== "undefined") {
    PERFIL - ONE CLICK SERVICE
    ===================================================== */
 
-const API_URL = "http://localhost:8080/usuarios";
+const API_URL = "https://oneclickservice-backend-production.up.railway.app/usuarios";
 
 
 /* =====================================================
@@ -71,7 +71,7 @@ function obtenerUsuario() {
 
 
 /* =====================================================
-   OBTENER CLAVE ÚNICA DE FOTO
+   OBTENER CLAVE ÃšNICA DE FOTO
    Cada usuario conserva su propia foto
    ===================================================== */
 
@@ -264,12 +264,12 @@ function cargarPerfil() {
         ) {
 
             descripcion.textContent =
-                "Gestiona tu información profesional y tus servicios.";
+                "Gestiona tu informaciÃ³n profesional y tus servicios.";
 
         } else {
 
             descripcion.textContent =
-                "Gestiona tu información personal y servicios.";
+                "Gestiona tu informaciÃ³n personal y servicios.";
         }
     }
 
@@ -443,7 +443,7 @@ function configurarFotoPerfil() {
             }
 
 
-            /* VALIDAR TAMAÑO */
+            /* VALIDAR TAMAÃ‘O */
 
             if (
                 archivo.size >
@@ -569,7 +569,7 @@ function configurarFormulario() {
             if (!usuarioActual) {
 
                 alert(
-                    "No se encontró la sesión del usuario."
+                    "No se encontrÃ³ la sesiÃ³n del usuario."
                 );
 
                 return;
@@ -737,7 +737,7 @@ function configurarFormulario() {
                 Swal.fire({
 
                     text:
-                        "Error de conexión con el servidor.",
+                        "Error de conexiÃ³n con el servidor.",
 
                     icon:
                         "error",
@@ -783,7 +783,7 @@ function configurarSolicitarServicio() {
 
 
 /* =====================================================
-   VOLVER AL INICIO SEGÚN EL ROL
+   VOLVER AL INICIO SEGÃšN EL ROL
    ===================================================== */
 
 function configurarVolverInicio() {
@@ -866,7 +866,7 @@ function configurarVolverInicio() {
 
 
 /* =====================================================
-   CERRAR SESIÓN
+   CERRAR SESIÃ“N
    ===================================================== */
 
 function configurarCerrarSesion() {
@@ -913,7 +913,7 @@ function configurarCerrarSesion() {
                 Swal.fire({
 
                     title:
-                        "¿Cerrar sesión?",
+                        "Â¿Cerrar sesiÃ³n?",
 
                     text:
                         "Vas a salir de tu cuenta.",
@@ -925,7 +925,7 @@ function configurarCerrarSesion() {
                         true,
 
                     confirmButtonText:
-                        "Sí, cerrar sesión",
+                        "SÃ­, cerrar sesiÃ³n",
 
                     cancelButtonText:
                         "Cancelar",
@@ -949,7 +949,7 @@ function configurarCerrarSesion() {
 
                 if (
                     confirm(
-                        "¿Está seguro de que desea cerrar sesión?"
+                        "Â¿EstÃ¡ seguro de que desea cerrar sesiÃ³n?"
                     )
                 ) {
 
@@ -973,4 +973,8 @@ window.configurarVolverInicio =
 
 window.configurarFotoPerfil =
     configurarFotoPerfil;
+
+
+
+
 
